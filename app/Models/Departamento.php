@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Empleados;
 
 class Departamento extends Model
 {
@@ -11,9 +12,8 @@ class Departamento extends Model
 
     protected $fillable = ['nombre', 'descripcion'];
 
-    // Relación con Empleados
     public function empleados()
     {
-        return $this->hasMany(Empleado::class);
+        return $this->hasMany(Empleados::class);
     }
 }

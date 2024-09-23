@@ -61,7 +61,7 @@
             <label for="curriculum">Curriculum</label>
             <input type="file" class="form-control" id="curriculum" name="curriculum">
             @if ($empleados->curriculum)
-                <p>Archivo actual: <a href="{{ asset('storage/' . $empleados->curriculum) }}" target="_blank">Ver Curriculum</a></p>
+                <p>Archivo actual: <a href="{{ asset('storage/public/' . $empleados->curriculum) }}" target="_blank">Ver Curriculum</a></p>
             @endif
         </div>
 
@@ -69,7 +69,7 @@
             <label for="contrato">Contrato Escaneado</label>
             <input type="file" class="form-control" id="contrato" name="contrato">
             @if ($empleados->contrato)
-                <p>Archivo actual: <a href="{{ asset('storage/' . $empleados->contrato) }}" target="_blank">Ver Contrato</a></p>
+                <p>Archivo actual: <a href="{{ asset('storage/public/' . $empleados->contrato) }}" target="_blank">Ver Contrato</a></p>
             @endif
         </div>
 

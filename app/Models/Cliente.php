@@ -28,4 +28,9 @@ class Cliente extends Model
     {
         return $this->hasMany(Actividades::class);
     }
+
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto');
+    }
 }

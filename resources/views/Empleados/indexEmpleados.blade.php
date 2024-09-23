@@ -11,6 +11,8 @@
                 <th>Apellidos</th>
                 <th>Correo Institucional</th>
                 <th>Departamento</th>
+                <th>Curriculum</th>
+                <th>Contrato</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -21,6 +23,21 @@
                     <td>{{ $empleados->apellido1 }}</td>
                     <td>{{ $empleados->correo_institucional }}</td>
                     <td>{{ $empleados->departamento->nombre }}</td>
+                    <td>
+                        @if($empleados->curriculum)
+                            <a href="{{ asset('storage/'.$empleados->curriculum) }}" class="btn btn-info btn-sm">Ver Curriculum</a>
+                        @else
+                            <span class="text-danger">No tiene curriculum</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($empleados->contrato)
+                            <a href="{{ asset('storage/'.$empleados->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
+                        @else
+                            <span class="text-danger">No tiene contrato</span>
+                        @endif
+                    </td>
+                    
                     <td>
                         <a href="{{ route('empleados.show', $empleados) }}" class="btn btn-info btn-sm">Ver</a>
                         <a href="{{ route('empleados.edit', $empleados) }}" class="btn btn-warning btn-sm">Editar</a>

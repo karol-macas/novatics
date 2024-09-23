@@ -37,14 +37,21 @@
                             @foreach ($clientes as $cliente)
                                 <tr>
                                     <td>{{ $cliente->id }}</td>
-                                    <td>{{ $cliente->id_producto }}</td>
+                                    <td>{{ $cliente->producto->nombre }}</td>
                                     <td>{{ $cliente->nombre }}</td>
                                     <td>{{ $cliente->direccion }}</td>
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->email }}</td>
                                     <td>{{ $cliente->contacto }}</td>
                                     <td>{{ $cliente->precio }}</td>
-                                    <td>{{ $cliente->contrato }}</td>
+                                    <td>
+                                        @if($cliente->contrato)
+                                            <a href="{{ asset('storage/'.$cliente->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
+                                        @else
+                                            <span class="text-danger">No tiene contrato</span>
+                                        @endif
+                                    </td>
+                                    
                                     <td>{{ $cliente->estado }}</td>
                                     <td>
                                         <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info btn" title="Ver">

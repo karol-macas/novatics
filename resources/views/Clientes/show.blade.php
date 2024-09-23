@@ -17,9 +17,8 @@
                                 <td>{{ $cliente->id }}</td>
                             </tr>
                             <tr>
-                                <th>Producto ID</th>
-                                <td>{{ $cliente->id_producto }}</td>
-                            </tr>
+                                <th>Producto</th>
+                                <td>{{ $cliente->producto->nombre }}</td>
                             <tr>
                                 <th>Nombre</th>
                                 <td>{{ $cliente->nombre }}</td>
@@ -46,10 +45,14 @@
                             </tr>
                             <tr>
                                 <th>Contrato</th>
-                                <td>{{ $cliente->contrato }}</td>
-
+                                <td>
+                                    @if($cliente->contrato)
+                                        <a href="{{ asset('storage/'.$cliente->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
+                                    @else
+                                        <span class="text-danger">No tiene contrato</span>
+                                    @endif
+                                </td>
                             </tr>
-
                             <tr>
                                 <th>Estado</th>
                                 <td>{{ $cliente->estado }}</td>

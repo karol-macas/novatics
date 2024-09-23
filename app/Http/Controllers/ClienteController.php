@@ -6,18 +6,20 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Producto;
 
 class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Cliente::all();
+        $clientes = Cliente::with('producto')->get();
         return view('clientes.index', compact('clientes'));
     }
 
     public function create()
     {
-        return view('clientes.createCliente');
+        $productos = Producto::all();
+        return view('clientes.createCliente', compact('productos'));
     }
 
     public function store(Request $request)
@@ -30,7 +32,7 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'required|string|max:255',
             'precio' => 'required|numeric',
-            'contrato' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
@@ -45,6 +47,11 @@ class ClienteController extends Controller
         ]);
 
         $cliente->user_id = $user->id;
+
+        if ($request->hasFile('contrato')) {
+            $cliente->contrato = $request->file('contrato')->store('contratos_clientes');
+        }
+        
         $cliente->save();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente creado con éxito.');
@@ -52,14 +59,15 @@ class ClienteController extends Controller
 
     public function show($id)
     {
-        $cliente = Cliente::findOrFail($id);
+        $cliente = Cliente::with('producto')->findOrFail($id);
         return view('clientes.show', compact('cliente'));
     }
 
     public function edit($id)
     {
         $cliente = Cliente::findOrFail($id);
-        return view('clientes.edit', compact('cliente'));
+        $productos = Producto::all();
+        return view('clientes.edit', compact('cliente', 'productos'));
     }
 
     public function update(Request $request, $id)
@@ -72,7 +80,7 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
             'precio' => 'required|numeric',
-            'contrato' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato' => 'nullable|file|mimes:pdf,doc,docx',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 

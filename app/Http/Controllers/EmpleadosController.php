@@ -98,7 +98,7 @@ class EmpleadosController extends Controller
             'correo_institucional' => 'required|string|email|max:255|unique:empleados,correo_institucional,' . $id,
             'departamento_id' => 'required|exists:departamentos,id',
             'curriculum' => 'nullable|file|mimes:pdf,doc,docx',
-            'contrato' => 'nullable|file|mimes:pdf,doc,docx',
+            'contrato' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
         ]);
 
@@ -110,7 +110,7 @@ class EmpleadosController extends Controller
         }
 
         if ($request->hasFile('contrato')) {
-            $empleados->contrato = $request->file('contrato')->store('contratos');
+            $empleados->contrato = $request->file('contrato')->store('contratos_empledos');
         }
 
         $empleados->save();

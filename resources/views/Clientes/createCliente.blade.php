@@ -17,14 +17,19 @@
                     </div>
                 @endif
 
-                <form action="{{ route('clientes.store') }}" method="POST">
+                <form action="{{ route('clientes.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-
-                    <!-- Campo Producto ID -->
-                    <div class="form-group
-                    ">
-                        <label for="id_producto">Producto ID</label>
-                        <input type="text" name="id_producto" class="form-control" value="{{ old('id_producto') }}" required>
+                    <div class="form-group ">
+                        <label for="id_producto">Producto</label>
+                        <select name="id_producto" class="form-control" required>
+                            <option value="">Seleccione un producto</option>
+                            @foreach ($productos as $producto)
+                                <option value="{{ $producto->id }}"
+                                    {{ old('id_producto') == $producto->id ? 'selected' : '' }}>
+                                    {{ $producto->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Campo Nombre -->
@@ -71,10 +76,9 @@
                     </div>
 
                     <!-- Campo Contrato -->
-                    <div class="form-group
-                    ">
+                    <div class="form-group">
                         <label for="contrato">Contrato</label>
-                        <input type="file" name="contrato" class="form-control" value="{{ old('contrato') }}">
+                        <input type="file" name="contrato" class="form-control">
                     </div>
 
                     <!-- Campo Estado -->
@@ -95,9 +99,3 @@
         </div>
     </div>
 @endsection
-
-
-                   
-
-
-
