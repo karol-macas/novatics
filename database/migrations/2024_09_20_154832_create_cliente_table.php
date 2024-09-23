@@ -10,7 +10,8 @@ class CreateClienteTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_producto');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
             $table->string('telefono');
@@ -18,11 +19,9 @@ class CreateClienteTable extends Migration
             $table->string('contacto');
             $table->decimal('precio', 10, 2);
             $table->string('contrato')->nullable();
-            $table->string('estado');
+            $table->enum('estado', ['ACTIVO', 'INACTIVO']);
             $table->timestamps();
 
-            // Si tienes una relación con la tabla productos
-            $table->foreign('id_producto')->references('id')->on('productos')->onDelete('cascade');
         });
     }
 

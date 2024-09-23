@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empleados;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Departamento;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class EmpleadosController extends Controller
 {
@@ -17,6 +19,7 @@ class EmpleadosController extends Controller
     }
     public function create()
     {
+
         $departamentos = Departamento::all();
         return view('empleados.createEmpleados', compact('departamentos'));
     }
@@ -38,7 +41,18 @@ class EmpleadosController extends Controller
             'contrato' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
         ]);
+
         $empleados = new Empleados($validated);
+
+        //crear el usuario asociado al empleado
+        $user = User::create([
+            'name' => $validated['nombre1'] . ' ' . $validated['apellido1'],
+            'email' => $validated['correo_institucional'],
+            'password' => Hash::make($validated['cedula']),
+            'role' => 'empleado',
+        ]);
+
+        $empleados->user_id = $user->id;
 
         if ($request->hasFile('curriculum')) {
             $empleados->curriculum = $request->file('curriculum')->store('curriculums');

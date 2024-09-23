@@ -20,7 +20,8 @@ class ActividadesController extends Controller
     {
         $empleados = Empleados::all();
         $departamentos = Departamento::all();
-        return view('Actividades.createActividades', compact('empleados', 'departamentos'));
+        $clientes = Cliente::all();
+        return view('Actividades.createActividades', compact('empleados', 'departamentos', 'clientes'));
     }
 
     public function store(Request $request)

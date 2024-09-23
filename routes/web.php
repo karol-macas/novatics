@@ -7,6 +7,7 @@ use App\Http\Controllers\ActividadesController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DepartamentoController;
+use Illuminate\Support\Facades\Auth;
 
 Route::resource('empleados', EmpleadosController::class)->names([
     'index' => 'empleados.indexEmpleados',
@@ -48,6 +49,11 @@ Route::resource('departamentos', DepartamentoController::class)->names([
     'destroy' => 'departamentos.destroy',
 ]);
 
+//Rutas para los roles
+Route::get('/admin',['AdminController::class, index'])->middleware('role:admin');
+Route::get('/empleado',['EmpleadoController::class, index'])->middleware('role:empleado', 'role:admin');
+Route::get('/cliente',['ClienteController::class, index'])->middleware('role:cliente', 'role:admin');
+    
 // Ruta para el home
 Route::get('/', [AuthController::class, 'index'])->name('home');
 Route::post('/custom-login', [AuthController::class, 'login'])->name('custom-login');

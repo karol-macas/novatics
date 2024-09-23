@@ -3,12 +3,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departamento;
-use App\Models\Rol;
-use App\Models\Usuario;
-use App\Models\Empleado;
-use App\Models\Cliente;
-use App\Models\Producto;
-use App\Models\Actividades;
 
 
 class DepartamentoController extends Controller
@@ -31,7 +25,8 @@ class DepartamentoController extends Controller
             'descripcion' => 'required|string|max:255',
         ]);
 
-        Departamento::create($validated);
+        $departamento = new Departamento($validated);
+        $departamento->save();
 
         return redirect()->route('departamentos.index')->with('success', 'Departamento creado con éxito.');
     }
@@ -50,20 +45,26 @@ class DepartamentoController extends Controller
 
     public function update(Request $request, $id)
     {
+        $departamento = Departamento::findOrFail($id);
+
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
         ]);
 
-        Departamento::findOrFail($id)->update($validated);
+        $departamento->fill($validated);
+        $departamento->save();
 
         return redirect()->route('departamentos.index')->with('success', 'Departamento actualizado con éxito.');
     }
 
     public function destroy($id)
     {
-        Departamento::findOrFail($id)->delete();
+        $departamento = Departamento::findOrFail($id);
+        $departamento->delete();
+
         return redirect()->route('departamentos.index')->with('success', 'Departamento eliminado con éxito.');
     }
+    
 }
 

@@ -29,6 +29,7 @@
             <label for="apellido2">Segundo Apellido</label>
             <input type="text" name="apellido2" class="form-control" required>
         </div>
+        
         <div class="form-group">
             <label for="cedula">Cédula</label>
             <input type="text" class="form-control" id="cedula" name="cedula" value="{{ old('cedula') }}">

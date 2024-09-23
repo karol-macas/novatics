@@ -60,6 +60,18 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+                       
+                        <div class="row mb-3">
+                            <label for="rol" class="col-md-4 col-form-label text-md-end">{{ __('Rol') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="role" class="form-select" name="role" required>
+                                    <option value="">Seleccione un rol</option>
+                                    <option value="admin">Administrador</option>
+                                    <option value="empleado">Empleado</option>
+                                    <option value="cliente">Cliente</option>
+                                </select>
+                            </div>
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">

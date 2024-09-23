@@ -33,6 +33,7 @@ class AuthController extends Controller
 	    $request->validate([
 	        'email' => 'required',
 	        'password' => 'required',
+			
 	    ]);
 	
 	    // Almacenamos las credenciales de email y contraseña

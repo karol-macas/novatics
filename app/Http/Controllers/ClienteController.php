@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class ClienteController extends Controller
 {
@@ -32,7 +34,18 @@ class ClienteController extends Controller
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
-        Cliente::create($validated);
+        $cliente = new Cliente($validated);
+
+        //crear el usuario asociado al cliente
+        $user = User::create([
+            'name' => $validated['nombre'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['telefono']),
+            'role' => 'cliente',
+        ]);
+
+        $cliente->user_id = $user->id;
+        $cliente->save();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente creado con éxito.');
     }

@@ -15,6 +15,7 @@ class CreateEmpleadosTable extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nombre1');
             $table->string('apellido1');
             $table->string('nombre2')->nullable();
@@ -24,12 +25,7 @@ class CreateEmpleadosTable extends Migration
             $table->string('telefono');
             $table->string('celular');
             $table->string('correo_institucional')->unique();
-            // Verifica si la tabla departamentos existe antes de agregar la clave foránea
-            if (Schema::hasTable('departamentos')) {
-                $table->foreignId('departamento_id')->constrained('departamentos')->onDelete('cascade');
-            } else {
-                $table->unsignedBigInteger('departamento_id')->nullable(); // Asegura que la columna exista aunque la FK no se agregue
-            }
+            $table->foreignId('departamento_id')->constrained('departamentos')->onDelete('cascade');
             $table->string('curriculum')->nullable();
             $table->string('contrato')->nullable();
             $table->date('fecha_ingreso');
