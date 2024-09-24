@@ -46,7 +46,7 @@
                                     <td>{{ $cliente->precio }}</td>
                                     <td>
                                         @if($cliente->contrato)
-                                            <a href="{{ asset('storage/'.$cliente->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
+                                            <a href="{{ asset('storage/public/'.$cliente->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
                                         @else
                                             <span class="text-danger">No tiene contrato</span>
                                         @endif

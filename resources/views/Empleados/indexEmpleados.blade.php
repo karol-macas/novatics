@@ -25,14 +25,14 @@
                     <td>{{ $empleados->departamento->nombre }}</td>
                     <td>
                         @if($empleados->curriculum)
-                            <a href="{{ asset('storage/'.$empleados->curriculum) }}" class="btn btn-info btn-sm">Ver Curriculum</a>
+                            <a href="{{ asset('storage/'.$empleados->curriculum) }}" class="btn btn-info btn-sm" target="_blank">Ver Curriculum</a>
                         @else
                             <span class="text-danger">No tiene curriculum</span>
                         @endif
                     </td>
                     <td>
                         @if($empleados->contrato)
-                            <a href="{{ asset('storage/'.$empleados->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
+                            <a href="{{ asset('storage/'.$empleados->contrato) }}" class="btn btn-info btn-sm" target="_blank">Ver Contrato</a>
                         @else
                             <span class="text-danger">No tiene contrato</span>
                         @endif

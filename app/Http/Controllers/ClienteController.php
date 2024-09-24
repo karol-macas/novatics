@@ -30,9 +30,9 @@ class ClienteController extends Controller
             'direccion' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
             'email' => 'required|email|max:255',
-            'contacto' => 'required|string|max:255',
             'precio' => 'required|numeric',
-            'contrato' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento_licencia,documento_otros', 
+            'documento' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
@@ -48,9 +48,22 @@ class ClienteController extends Controller
 
         $cliente->user_id = $user->id;
 
-        if ($request->hasFile('contrato')) {
-            $cliente->contrato = $request->file('contrato')->store('contratos_clientes');
+        if ($request->hasFile('documento')) {
+            $filePath = $request->file('documento')->store('documentos_clientes');
+            
+            switch ($request->document_type) {
+                case 'orden_trabajo':
+                    $cliente->orden_trabajo = $filePath;
+                    break;
+                case 'contrato_mantenimiento_licencia':
+                    $cliente->contrato_mantenimiento = $filePath;
+                    break;
+                case 'documento_otros':
+                    $cliente->documento_otros = $filePath;
+                    break;
+            }
         }
+
         
         $cliente->save();
 
@@ -80,7 +93,8 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
             'precio' => 'required|numeric',
-            'contrato' => 'nullable|file|mimes:pdf,doc,docx',
+            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento,contrato_licencia,otros', 
+            'documento' => 'nullable|file|mimes:pdf,jpg,png|max:2048', 
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 

@@ -28,6 +28,8 @@ class CreateEmpleadosTable extends Migration
             $table->foreignId('departamento_id')->constrained('departamentos')->onDelete('cascade');
             $table->string('curriculum')->nullable();
             $table->string('contrato')->nullable();
+            $table->string('contrato_confidencialidad')->nullable();
+            $table->string('contrato_consentimiento')->nullable();
             $table->date('fecha_ingreso');
             $table->timestamps();
         });
