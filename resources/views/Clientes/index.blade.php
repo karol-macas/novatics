@@ -27,8 +27,8 @@
                                 <th>Teléfono</th>
                                 <th>Email</th>
                                 <th>Contacto</th>
+                                <th>Tipo de Documento</th>
                                 <th>Precio</th>
-                                <th>Contrato</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -43,14 +43,8 @@
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->email }}</td>
                                     <td>{{ $cliente->contacto }}</td>
+                                    <td>{{ ucfirst(str_replace('_', ' ', $cliente->document_type)) }}</td>
                                     <td>{{ $cliente->precio }}</td>
-                                    <td>
-                                        @if($cliente->contrato)
-                                            <a href="{{ asset('storage/public/'.$cliente->contrato) }}" class="btn btn-info btn-sm">Ver Contrato</a>
-                                        @else
-                                            <span class="text-danger">No tiene contrato</span>
-                                        @endif
-                                    </td>
                                     
                                     <td>{{ $cliente->estado }}</td>
                                     <td>

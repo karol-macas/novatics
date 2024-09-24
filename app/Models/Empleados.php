@@ -22,6 +22,8 @@ class Empleados extends Model
         'departamento_id',
         'curriculum',
         'contrato',
+        'contrato_confidencialidad',
+        'contrato_consentimiento',
         'fecha_ingreso'
     ];
 

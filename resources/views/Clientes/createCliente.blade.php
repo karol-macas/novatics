@@ -68,6 +68,9 @@
 
                     </div>
 
+                    <!-- Campo Tipo de Documento -->
+                   
+
                     <!-- Campo Precio -->
                     <div class="form-group
                     ">
@@ -75,11 +78,6 @@
                         <input type="number" name="precio" class="form-control" value="{{ old('precio') }}" required>
                     </div>
 
-                    <!-- Campo Contrato -->
-                    <div class="form-group">
-                        <label for="contrato">Contrato</label>
-                        <input type="file" name="contrato" class="form-control">
-                    </div>
 
                     <!-- Campo Estado -->
                     <div class="form-group

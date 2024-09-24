@@ -19,8 +19,9 @@ class Cliente extends Model
         'telefono',
         'email',
         'contacto',
+        'document_type',
+        'documento',
         'precio',
-        'contrato',
         'estado'
     ];
 

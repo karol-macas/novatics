@@ -13,6 +13,8 @@
                 <th>Departamento</th>
                 <th>Curriculum</th>
                 <th>Contrato</th>
+                <th>Contrato de Confidencialidad</th>
+                <th>Contrato de Consentimiento</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -37,7 +39,20 @@
                             <span class="text-danger">No tiene contrato</span>
                         @endif
                     </td>
-                    
+                    <td>
+                        @if($empleados->contrato_confidencialidad)
+                            <a href="{{ asset('storage/'.$empleados->contrato_confidencialidad) }}" class="btn btn-info btn-sm" target="_blank">Ver Contrato de Confidencialidad</a>
+                        @else
+                            <span class="text-danger">No tiene contrato de confidencialidad</span>
+                        @endif
+                    </td>
+                    <td>
+                        @if($empleados->contrato_consentimiento)
+                            <a href="{{ asset('storage/'.$empleados->contrato_consentimiento) }}" class="btn btn-info btn-sm" target="_blank">Ver Contrato de Consentimiento</a>
+                        @else
+                            <span class="text-danger">No tiene contrato de consentimiento</span>
+                        @endif
+                    </td>
                     <td>
                         <a href="{{ route('empleados.show', $empleados) }}" class="btn btn-info btn-sm">Ver</a>
                         <a href="{{ route('empleados.edit', $empleados) }}" class="btn btn-warning btn-sm">Editar</a>
@@ -49,7 +64,7 @@
                         <form action="{{ route('empleados.destroy', $empleados->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de querer eliminar este cliente?')>Eliminar</button>
                         </form>
                     </td>
                 </tr>

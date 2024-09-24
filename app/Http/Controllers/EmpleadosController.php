@@ -39,6 +39,8 @@ class EmpleadosController extends Controller
             'departamento_id' => 'required|exists:departamentos,id',
             'curriculum' => 'nullable|file|mimes:pdf,doc,docx',
             'contrato' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
         ]);
 
@@ -59,7 +61,15 @@ class EmpleadosController extends Controller
         }
 
         if ($request->hasFile('contrato')) {
-            $empleados->contrato = $request->file('contrato')->store('contratos');
+            $empleados->contrato = $request->file('contrato')->store('contratos_empleados');
+        }
+
+        if ($request->hasFile('contrato_confidencialidad')) {
+            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_confidencialidad');
+        }
+
+        if ($request->hasFile('contrato_consentimiento')) {
+            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_consentimiento');
         }
 
         $empleados->save();
@@ -99,6 +109,8 @@ class EmpleadosController extends Controller
             'departamento_id' => 'required|exists:departamentos,id',
             'curriculum' => 'nullable|file|mimes:pdf,doc,docx',
             'contrato' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
+            'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
         ]);
 
@@ -112,6 +124,15 @@ class EmpleadosController extends Controller
         if ($request->hasFile('contrato')) {
             $empleados->contrato = $request->file('contrato')->store('contratos_empledos');
         }
+
+        if ($request->hasFile('contrato_confidencialidad')) {
+            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_empleados');
+        }
+
+        if ($request->hasFile('contrato_consentimiento')) {
+            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_empleados');
+        }
+
 
         $empleados->save();
 

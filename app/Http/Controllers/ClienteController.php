@@ -93,13 +93,32 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
             'precio' => 'required|numeric',
-            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento,contrato_licencia,otros', 
+            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento_licencia,documentos_otros', 
             'documento' => 'nullable|file|mimes:pdf,jpg,png|max:2048', 
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
         $cliente = Cliente::findOrFail($id);
+    
         $cliente->update($validated);
+
+        if ($request->hasFile('documento')) {
+            $filePath = $request->file('documento')->store('documentos_clientes');
+            
+            switch ($request->document_type) {
+                case 'orden_trabajo':
+                    $cliente->orden_trabajo = $filePath;
+                    break;
+                case 'contrato_mantenimiento_licencia':
+                    $cliente->contrato_mantenimiento = $filePath;
+                    break;
+                case 'documentos_otros':
+                    $cliente->documento_otros = $filePath;
+                    break;
+            }
+        }
+
+        $cliente->save();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente actualizado con éxito.');
     }

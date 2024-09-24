@@ -16,11 +16,11 @@ class CreateClienteTable extends Migration
             $table->string('direccion');
             $table->string('telefono');
             $table->string('email');
+            $table->string('contacto');
             $table->string('orden_trabajo')->nullable(); 
             $table->string('contrato_mantenimiento_licencia')->nullable(); 
             $table->string('documento_otros')->nullable(); 
             $table->decimal('precio', 10, 2);
-            $table->string('contrato')->nullable();
             $table->enum('estado', ['ACTIVO', 'INACTIVO']);
             $table->timestamps();
 
