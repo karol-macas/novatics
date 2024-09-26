@@ -6,24 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateClienteTable extends Migration
 {
-        public function up()
+    public function up()
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
             $table->string('telefono');
             $table->string('email');
-            $table->string('contacto');
-            $table->string('orden_trabajo')->nullable(); 
-            $table->string('contrato_mantenimiento_licencia')->nullable(); 
-            $table->string('documento_otros')->nullable(); 
+            $table->string('contacto')->default('Sin contacto');
+            $table->string('orden_trabajo')->nullable();
+            $table->string('contrato_mantenimiento_licencia')->nullable();
+            $table->string('documento_otros')->nullable();
             $table->decimal('precio', 10, 2);
             $table->enum('estado', ['ACTIVO', 'INACTIVO']);
             $table->timestamps();
-
         });
     }
 

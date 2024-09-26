@@ -19,6 +19,13 @@
             @if ($empleados->contrato)
                 <p class="card-text"><strong>Contrato:</strong> <a href="{{ asset('storage/' . $empleados->contrato) }}" target="_blank">Ver Contrato</a></p>
             @endif
+            @if ($empleados->contrato_confidencialidad)
+                <p class="card-text"><strong>Contrato de Confidencialidad:</strong> <a href="{{ asset('storage/' . $empleados->contrato_confidencialidad) }}" target="_blank">Ver Contrato de Confidencialidad</a></p>
+            @endif
+            @if ($empleados->contrato_consentimiento)
+                <p class="card-text"><strong>Contrato de Consentimiento de Datos:</strong> <a href="{{ asset('storage/' . $empleados->contrato_consentimiento) }}" target="_blank">Ver Contrato de Consentimiento de Datos</a></p>
+            @endif
+
             <a href="{{ route('empleados.indexEmpleados') }}" class="btn btn-primary">Volver</a>
         </div>
     </div>

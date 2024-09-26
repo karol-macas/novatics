@@ -75,7 +75,38 @@
                             value="{{ old('contacto', $cliente->contacto) }}">
                     </div>
 
+                    <!-- Campo Orden de Trabajo -->
 
+
+                    <div class="form-group
+                    ">
+                        <label for="orden_trabajo">Orden de Trabajo</label>
+                        <input type="file" name="orden_trabajo" class="form-control">
+                        @if ($cliente->orden_trabajo)
+                            <p>Archivo actual: <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}" target="_blank">Ver Orden de Trabajo</a></p>
+                        @endif
+                    </div>
+
+                    <!-- Campo Contrato Mantenimiento -->
+                    <div class="form-group
+                    ">
+                        <label for="contrato_mantenimiento_licencia">Contrato de Mantenimiento</label>
+                        <input type="file" name="contrato_mantenimiento_licencia" class="form-control">
+                        @if ($cliente->contrato_mantenimiento_licencia)
+                            <p>Archivo actual: <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}" target="_blank">Ver Contrato de Mantenimiento</a></p>
+                        @endif
+                    </div>
+
+                    <!-- Campo Documentos Otros -->
+
+                    <div class="form-group
+                    ">
+                        <label for="documento_otros">Documentos Otros</label>
+                        <input type="file" name="documento_otros" class="form-control">
+                        @if ($cliente->documentos_otros)
+                            <p>Archivo actual: <a href="{{ asset('storage/' . $cliente->documento_otros) }}" target="_blank">Ver Documentos Otros</a></p>
+                        @endif
+                    </div>
 
                     <!-- Campo Precio -->
                     <div class="form-group
@@ -85,13 +116,6 @@
                             value="{{ old('precio', $cliente->precio) }}" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="contrato">Contrato </label>
-                        <input type="file" class="form-control" id="contrato" name="contrato">
-                        @if ($cliente->contrato)
-                            <p>Archivo actual: <a href="{{ asset('storage/' . $cliente->contrato) }}" target="_blank">Ver Contrato</a></p>
-                        @endif
-                    </div>
 
                     <!-- Campo Estado -->
                     <div class="form-group

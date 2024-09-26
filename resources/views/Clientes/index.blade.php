@@ -27,7 +27,9 @@
                                 <th>Teléfono</th>
                                 <th>Email</th>
                                 <th>Contacto</th>
-                                <th>Tipo de Documento</th>
+                                <th>Orden de Trabajo</th>
+                                <th>Contrato de Mantenimiento</th>
+                                <th>Documentos Otros</th>
                                 <th>Precio</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
@@ -43,8 +45,36 @@
                                     <td>{{ $cliente->telefono }}</td>
                                     <td>{{ $cliente->email }}</td>
                                     <td>{{ $cliente->contacto }}</td>
-                                    <td>{{ ucfirst(str_replace('_', ' ', $cliente->document_type)) }}</td>
+                                    <td>
+                                        @if ($cliente->orden_trabajo)
+                                            <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}"
+                                                class="btn btn-info btn-sm" target="_blank">Ver Orden de Trabajo</a>
+                                        @else
+                                            <span class="text-danger">No tiene orden de trabajo</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if ($cliente->contrato_mantenimiento_licencia)
+                                            <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
+                                                class="btn btn-info btn-sm" target="_blank">Ver Contrato de Mantenimiento</a>
+                                        @else
+                                            <span class="text-danger">No tiene contrato de mantenimiento</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        @if ($cliente->documento_otros)
+                                            <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
+                                                class="btn btn-info btn-sm" target="_blank">Ver Documentos Otros</a>
+                                        @else
+                                            <span class="text-danger">No tiene documentos otros</span>
+                                        @endif
+                                    </td>
+
+                                    
                                     <td>{{ $cliente->precio }}</td>
+                                    
                                     
                                     <td>{{ $cliente->estado }}</td>
                                     <td>

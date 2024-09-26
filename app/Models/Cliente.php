@@ -19,8 +19,9 @@ class Cliente extends Model
         'telefono',
         'email',
         'contacto',
-        'document_type',
-        'documento',
+        'orden_trabajo',
+        'contrato_mantenimiento_licencia',
+        'documento_otros',
         'precio',
         'estado'
     ];

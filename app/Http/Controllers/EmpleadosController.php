@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -8,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\Departamento;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class EmpleadosController extends Controller
 {
@@ -15,11 +15,10 @@ class EmpleadosController extends Controller
     {
         $empleados = Empleados::with('departamento')->get();
         return view('Empleados.indexEmpleados', compact('empleados'));
-        // Asegúrate de crear esta vista
     }
+
     public function create()
     {
-
         $departamentos = Departamento::all();
         return view('empleados.createEmpleados', compact('departamentos'));
     }
@@ -46,7 +45,7 @@ class EmpleadosController extends Controller
 
         $empleados = new Empleados($validated);
 
-        //crear el usuario asociado al empleado
+        // Crear el usuario asociado al empleado
         $user = User::create([
             'name' => $validated['nombre1'] . ' ' . $validated['apellido1'],
             'email' => $validated['correo_institucional'],
@@ -56,20 +55,21 @@ class EmpleadosController extends Controller
 
         $empleados->user_id = $user->id;
 
+        // Subir archivos al disco 'public'
         if ($request->hasFile('curriculum')) {
-            $empleados->curriculum = $request->file('curriculum')->store('curriculums');
+            $empleados->curriculum = $request->file('curriculum')->store('curriculums', 'public');
         }
 
         if ($request->hasFile('contrato')) {
-            $empleados->contrato = $request->file('contrato')->store('contratos_empleados');
+            $empleados->contrato = $request->file('contrato')->store('contratos_empleados', 'public');
         }
 
         if ($request->hasFile('contrato_confidencialidad')) {
-            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_confidencialidad');
+            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_confidencialidad', 'public');
         }
 
         if ($request->hasFile('contrato_consentimiento')) {
-            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_consentimiento');
+            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_consentimiento', 'public');
         }
 
         $empleados->save();
@@ -98,10 +98,11 @@ class EmpleadosController extends Controller
             'nombre2' => 'required|string|max:255',
             'apellido2' => 'required|string|max:255',
             'cedula' => [
-            'required',
-            'string',
-            'max:10',
-            Rule::unique('empleados')->ignore($id),   ],// Excluye la cédula del registro
+                'required',
+                'string',
+                'max:10',
+                Rule::unique('empleados')->ignore($id),
+            ], // Excluye la cédula del registro
             'fecha_nacimiento' => 'required|date',
             'telefono' => 'nullable|string|max:20',
             'celular' => 'required|string|max:20',
@@ -117,22 +118,34 @@ class EmpleadosController extends Controller
         $empleados = Empleados::findOrFail($id);
         $empleados->fill($validated);
 
+        // Subir nuevos archivos y eliminar los antiguos si existen
         if ($request->hasFile('curriculum')) {
-            $empleados->curriculum = $request->file('curriculum')->store('curriculums');
+            if ($empleados->curriculum) {
+                Storage::disk('public')->delete($empleados->curriculum);
+            }
+            $empleados->curriculum = $request->file('curriculum')->store('curriculums', 'public');
         }
 
         if ($request->hasFile('contrato')) {
-            $empleados->contrato = $request->file('contrato')->store('contratos_empledos');
+            if ($empleados->contrato) {
+                Storage::disk('public')->delete($empleados->contrato);
+            }
+            $empleados->contrato = $request->file('contrato')->store('contratos_empleados', 'public');
         }
 
         if ($request->hasFile('contrato_confidencialidad')) {
-            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_empleados');
+            if ($empleados->contrato_confidencialidad) {
+                Storage::disk('public')->delete($empleados->contrato_confidencialidad);
+            }
+            $empleados->contrato_confidencialidad = $request->file('contrato_confidencialidad')->store('contratos_confidencialidad', 'public');
         }
 
         if ($request->hasFile('contrato_consentimiento')) {
-            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_empleados');
+            if ($empleados->contrato_consentimiento) {
+                Storage::disk('public')->delete($empleados->contrato_consentimiento);
+            }
+            $empleados->contrato_consentimiento = $request->file('contrato_consentimiento')->store('contratos_consentimiento', 'public');
         }
-
 
         $empleados->save();
 
@@ -142,9 +155,26 @@ class EmpleadosController extends Controller
     public function destroy($id)
     {
         $empleados = Empleados::findOrFail($id);
+
+        // Eliminar los archivos asociados antes de eliminar el empleado
+        if ($empleados->curriculum) {
+            Storage::disk('public')->delete($empleados->curriculum);
+        }
+
+        if ($empleados->contrato) {
+            Storage::disk('public')->delete($empleados->contrato);
+        }
+
+        if ($empleados->contrato_confidencialidad) {
+            Storage::disk('public')->delete($empleados->contrato_confidencialidad);
+        }
+
+        if ($empleados->contrato_consentimiento) {
+            Storage::disk('public')->delete($empleados->contrato_consentimiento);
+        }
+
         $empleados->delete();
 
-        return redirect()->route('empleados.index')->with('success', 'Empleado eliminado con éxito.');
+        return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado eliminado con éxito.');
     }
-
 }

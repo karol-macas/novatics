@@ -64,12 +64,29 @@
                     <div class="form-group
                     ">
                         <label for="contacto">Contacto</label>
-                        <input type="text" name="contacto" class="form-control" value="{{ old('contacto') }}">
-
+                        <input type="text" name="contacto" class="form-control" value="{{ old('contacto') }}" required>
                     </div>
 
-                    <!-- Campo Tipo de Documento -->
-                   
+                    <!-- Campo Orden de Trabajo -->
+
+                    <div class="form-group">
+                        <label for="curriculum">Orden de Trabajo</label>
+                        <input type="file" name="orden_trabajo" class="form-control">
+                    </div>
+
+
+                    <div class="form-group
+                    ">
+                        <label for="contrato_mantenimiento_licencia">Contrato de Mantenimiento</label>
+                        <input type="file" name="contrato_mantenimiento_licencia" class="form-control">
+                    </div>
+
+                    <div class="form-group
+                    ">
+                        <label for="documento_otros">Documentos Otros</label>
+                        <input type="file" name="documento_otros" class="form-control">
+                    </div>
+
 
                     <!-- Campo Precio -->
                     <div class="form-group

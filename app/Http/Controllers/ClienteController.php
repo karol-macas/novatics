@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Storage;
 
 class ClienteController extends Controller
 {
@@ -30,41 +31,38 @@ class ClienteController extends Controller
             'direccion' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
             'email' => 'required|email|max:255',
+            'contacto' => 'nullable|string|max:255',
+            'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'documento_otros' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'precio' => 'required|numeric',
-            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento_licencia,documento_otros', 
-            'documento' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
         $cliente = new Cliente($validated);
 
-        //crear el usuario asociado al cliente
+        /*crear el usuario asociado al cliente
         $user = User::create([
             'name' => $validated['nombre'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['telefono']),
             'role' => 'cliente',
-        ]);
+        ]);*/
 
-        $cliente->user_id = $user->id;
+        //$cliente->user_id = $user->id;
 
-        if ($request->hasFile('documento')) {
-            $filePath = $request->file('documento')->store('documentos_clientes');
-            
-            switch ($request->document_type) {
-                case 'orden_trabajo':
-                    $cliente->orden_trabajo = $filePath;
-                    break;
-                case 'contrato_mantenimiento_licencia':
-                    $cliente->contrato_mantenimiento = $filePath;
-                    break;
-                case 'documento_otros':
-                    $cliente->documento_otros = $filePath;
-                    break;
-            }
+        if ($request->hasFile('orden_trabajo')) {
+            $cliente->orden_trabajo = $request->file('orden_trabajo')->store('contratos_orden_trabajo', 'public');
         }
 
-        
+        if ($request->hasFile('contrato_mantenimiento_licencia')) {
+            $cliente->contrato_mantenimiento_licencia = $request->file('contrato_mantenimiento_licencia')->store('contratos_mantenimiento_licencia', 'public');
+        }
+
+        if ($request->hasFile('documento_otros')) {
+            $cliente->documento_otros = $request->file('documento_otros')->store('documentos_otros', 'public');
+        }
+
         $cliente->save();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente creado con éxito.');
@@ -93,30 +91,39 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
             'precio' => 'required|numeric',
-            'document_type' => 'required|string|in:orden_trabajo,contrato_mantenimiento_licencia,documentos_otros', 
-            'documento' => 'nullable|file|mimes:pdf,jpg,png|max:2048', 
+            'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'documento_otros' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
         $cliente = Cliente::findOrFail($id);
-    
-        $cliente->update($validated);
+        $cliente->fill($validated);
 
-        if ($request->hasFile('documento')) {
-            $filePath = $request->file('documento')->store('documentos_clientes');
-            
-            switch ($request->document_type) {
-                case 'orden_trabajo':
-                    $cliente->orden_trabajo = $filePath;
-                    break;
-                case 'contrato_mantenimiento_licencia':
-                    $cliente->contrato_mantenimiento = $filePath;
-                    break;
-                case 'documentos_otros':
-                    $cliente->documento_otros = $filePath;
-                    break;
+        // Subir archivos al disco 'public' y eliminar los anteriores
+
+        if ($request->hasFile('orden_trabajo')) {
+            if ($cliente->orden_trabajo) {
+                Storage::disk('public')->delete($cliente->orden_trabajo);
             }
+            $cliente->orden_trabajo = $request->file('orden_trabajo')->store('contratos_orden_trabajo', 'public');
         }
+
+        if ($request->hasFile('contrato_mantenimiento_licencia')) {
+            if ($cliente->contrato_mantenimiento_licencia) {
+                Storage::disk('public')->delete($cliente->contrato_mantenimiento_licencia);
+            }
+            $cliente->contrato_mantenimiento_licencia = $request->file('contrato_mantenimiento_licencia')->store('contratos_mantenimiento_licencia', 'public');
+        }
+
+        if ($request->hasFile('documento_otros')) {
+            if ($cliente->documento_otros) {
+                Storage::disk('public')->delete($cliente->documento_otros);
+            }
+            $cliente->documento_otros = $request->file('documento_otros')->store('documentos_otros', 'public');
+        }
+
+
 
         $cliente->save();
 
@@ -126,7 +133,21 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         $cliente = Cliente::findOrFail($id);
-        $cliente->delete();
+
+        //Eliminar los archivos asociados antes de eliminar el cliente
+
+        if ($cliente->orden_trabajo) {
+            Storage::disk('public')->delete($cliente->orden_trabajo);
+        }
+
+        if ($cliente->contrato_mantenimiento) {
+            Storage::disk('public')->delete($cliente->contrato_mantenimiento);
+        }
+
+        if ($cliente->documento_otros) {
+            Storage::disk('public')->delete($cliente->documento_otros);
+        }
+
 
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado con éxito.');
     }
