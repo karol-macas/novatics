@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class AuthController extends Controller
 {
      /**
@@ -33,7 +34,6 @@ class AuthController extends Controller
 	    $request->validate([
 	        'email' => 'required',
 	        'password' => 'required',
-			
 	    ]);
 	
 	    // Almacenamos las credenciales de email y contraseña

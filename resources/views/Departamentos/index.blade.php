@@ -25,7 +25,8 @@
                                 <td>{{ $departamento->nombre }}</td>
                                 <td>{{ $departamento->descripcion }}</td>
                                 <td>
-                                    <a href="{{ route('departamentos.edit', $departamento->id) }}" class="btn btn-warning">Editar</a>
+                                    <a href="{{ route('departamentos.edit', $departamento->id) }}" class="btn btn-info">Editar</a>
+
                                     <form action="{{ route('departamentos.destroy', $departamento->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')

@@ -1,0 +1,256 @@
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    color: #6a6f8c;
+    background: #25258f;
+    background-image: url('/images/fondoERP-8.jpg');
+    background-size: cover; /* Hace que la imagen cubra el 100% */
+    background-position: center; /* Centra la imagen en la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    font: 600 16px/18px 'Open Sans', sans-serif;
+   
+}
+/* Overlay para la imagen de notificación */
+.overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 1000;
+}
+
+/* Contenedor de la imagen con padding para que la imagen no sobresalga */
+.overlay-content {
+position: relative;
+background-color: white;
+padding: 20px; /* Añade un espacio alrededor de la imagen dentro del borde blanco */
+border-radius: 10px;
+max-width: 80%;
+max-height: 80%;
+box-sizing: border-box; /* Asegura que el padding se aplique correctamente */
+}
+
+/* Imagen que será mostrada como notificación */
+.overlay-content img {
+width: 100%;  /* Ajusta la imagen para ocupar todo el ancho del contenedor */
+height: 100%; /* Mantiene la proporción de la imagen */
+border-radius: 10px; /* Opcional: le da bordes redondeados a la imagen */
+}
+
+/* Botón "X" para cerrar la notificación */
+.close-btn {
+position: absolute;
+top: 10px;
+right: 15px;
+background-color: #000f96;
+color: white;
+font-size: 18px;
+padding: 5px 10px;
+border: none;
+cursor: pointer;
+}
+
+
+
+*,:after,:before{box-sizing:border-box}
+.clearfix:after,.clearfix:before{content:'';display:table}
+.clearfix:after{clear:both;display:block}
+a{color:inherit;text-decoration:none}
+
+.login-wrap{
+width: 100%;
+margin-left: 700px; /* Esto empuja el cuadro a la derecha */
+max-width: 525px;
+min-height: 670px;
+position: relative;
+background: #25258f;
+background: url('/images/fondoLogin.jpg') no-repeat center;
+box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+}
+.login-html{
+width:100%;
+height:100%;
+position:absolute;
+padding:90px 70px 50px 70px;
+background:rgba(40,57,101,.9);
+}
+.login-html .sign-in-htm,
+.login-html .sign-up-htm{
+top:0;
+left:0;
+right:0;
+bottom:0;
+position:absolute;
+transform:rotateY(180deg);
+backface-visibility:hidden;
+transition:all .4s linear;
+}
+.login-html .sign-in,
+.login-html .sign-up,
+.login-form .group .check{
+display:none;
+}
+.login-html .tab,
+.login-form .group .label,
+.login-form .group .button{
+text-transform:uppercase;
+}
+.login-html .tab{
+font-size:22px;
+margin-right:15px;
+padding-bottom:5px;
+margin:0 15px 10px 0;
+display:inline-block;
+border-bottom:2px solid transparent;
+}
+.login-html .sign-in:checked + .tab,
+.login-html .sign-up:checked + .tab{
+color:#fff;
+border-color:#1161ee;
+}
+.login-form{
+min-height:345px;
+position:relative;
+perspective:1000px;
+transform-style:preserve-3d;
+}
+.login-form .group{
+margin-bottom:15px;
+}
+.login-form .group .label,
+.login-form .group .input,
+.login-form .group .button{
+width:100%;
+color:#fff;
+display:block;
+}
+.login-form .group .input,
+.login-form .group .button{
+border:none;
+padding:15px 20px;
+border-radius:25px;
+background:rgba(255,255,255,.1);
+}
+.login-form .group input[data-type="password"]{
+-webkit-text-security:circle;
+}
+.login-form .group .label{
+color:#aaa;
+font-size:12px;
+}
+.login-form .group .button{
+background-color: #1161ee; /* Color del botón */
+border: none;
+color: white;
+padding: 10px 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin: 4px 2px;
+cursor: pointer;
+border-radius: 50px;
+transition: background-color 0.3s, transform 0.1s;
+}
+.login-form .group .button:hover {
+    background-color: #45a049; /* Color cuando se pasa el mouse */
+}
+
+/* Efecto al hacer clic */
+.login-form .group .button:active {
+    transform: scale(0.95); /* Efecto de presión */
+    background-color: #3e8e41; /* Color cuando se hace clic */
+}
+.login-form .group label .icon{
+width:15px;
+height:15px;
+border-radius:2px;
+position:relative;
+display:inline-block;
+background:rgba(255,255,255,.1);
+}
+.login-form .group label .icon:before,
+.login-form .group label .icon:after{
+content:'';
+width:10px;
+height:2px;
+background:#fff;
+position:absolute;
+transition:all .2s ease-in-out 0s;
+}
+.login-form .group label .icon:before{
+left:3px;
+width:5px;
+bottom:6px;
+transform:scale(0) rotate(0);
+}
+.login-form .group label .icon:after{
+top:6px;
+right:0;
+transform:scale(0) rotate(0);
+}
+.login-form .group .check:checked + label{
+color:#fff;
+}
+.login-form .group .check:checked + label .icon{
+background:#1161ee;
+}
+.login-form .group .check:checked + label .icon:before{
+transform:scale(1) rotate(45deg);
+}
+.login-form .group .check:checked + label .icon:after{
+transform:scale(1) rotate(-45deg);
+}
+.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
+transform:rotate(0);
+}
+.login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
+transform:rotate(0);
+}
+
+.hr{
+height:2px;
+margin:60px 0 50px 0;
+background:rgba(255,255,255,.2);
+}
+.foot-lnk{
+text-align:center;
+}
+/* Estilo para cambiar el color del texto de "Recordar Contraseña" */
+.remember-label1 {
+color: #d3d3d3; /* Color más claro */
+}
+.remember-label {
+color: #d3d3d3; /* Color más claro */
+}
+
+/* Opcional: Si quieres que el texto cambie de color al pasar el mouse */
+.remember-label:hover {
+color: #ffffff; /* Cambia el color al pasar el mouse, si lo deseas */
+}
+.messageRegister {
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.messageRegister a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.messageRegister a:hover {
+    text-decoration: underline;
+}

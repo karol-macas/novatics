@@ -131,52 +131,70 @@
     </body>
 </html> --}}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pantalla Principal</title>
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-        }
-
-        .bg {
-            background-image: url('/images/fondo-2.jpg'); /* Asegúrate de que esta sea la ruta correcta */
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        .content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .content a {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            text-decoration: none;
-            font-size: 20px;
-            border-radius: 5px;
-        }
-
-        .content a:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-        }
-    </style>
+    <title>Webcoopes System</title>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 <body>
-    <div class="bg"></div>
+    <div class="login-wrap">
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="login-html">
+                <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Iniciar Sesión</label>
+                <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Registrarse</label>
+                <div class="login-form">
+                    <div class="sign-in-htm">
+                        <div class="group">
+                            <label for="email" class="label">Usuario</label>
+                            <input id="email" type="text" class="input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="group">
+                            <label for="password" class="label">Contraseña</label>
+                            <input id="password" type="password" class="input @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" data-type="password">
+                            @error('password')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="group">
+                            <input id="check" type="checkbox" class="check" checked>
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <label for="check" class="remember-label1"> Recordar Contraseña</label>
+                        </div>
+                        <div class="group">
+                            <input type="submit" class="button" value="Ingresar">
+                        </div>
+                        <div class="hr"></div>
+                        <div class="foot-lnk">
+                            <a class="remember-label" href="{{ route('password.request') }}">Olvidé mi Contraseña</a>
+                        </div>
+                    </div>
+                     <div class="sign-up-htm">
+            <div class="group">
+                <p class="messageRegister">
+                    Por favor, comuníquese con el área de Seguridad de la Información para proceder con su registro o enviar su solicitud al correo: 
+                    <a href="mailto:santiagog@webcoopec.com">santiagog@webcoopec.com</a>
+                </p>
+            </div>
+        </div>
+                </div>
+            </div>
+            
+        </form>
+       
+        
+</div>
+    {{-- <div class="bg"></div>
 
     <div class="content">
         @if (Route::has('login'))
@@ -187,11 +205,31 @@
                     <a href="{{ route('login') }}">Login</a>
 
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
+                        <a href="{{ route('register') }}">Registrarse</a>
                     @endif
                 @endauth
             </div>
         @endif
+    </div> --}}
+    <div class="overlay" id="overlay">
+        <div class="overlay-content">
+            <button class="close-btn" id="closeBtn">X</button>
+            <img width=50% height=50% src="/images/cumpleaños-santhy-2024.jpg" alt="Notificación de actualización">
+        </div>
     </div>
+    
+    <script>
+        // Cierra el overlay cuando el usuario hace clic en la "X"
+        document.getElementById("closeBtn").addEventListener("click", function() {
+            document.getElementById("overlay").style.display = "none";
+        });
+    
+        // Cierra el overlay automáticamente después de 5 segundos
+        // setTimeout(function() {
+        //     document.getElementById("overlay").style.display = "none";
+        // }, 5000); // 5000 milisegundos = 5 segundos
+    </script>
+    
+    </body>
 </body>
 </html>
