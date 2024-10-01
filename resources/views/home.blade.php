@@ -29,7 +29,6 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Dashboard</div>
-
                     <div class="card-body">
                         <div class="row">
                             @if (Auth::user()->isAdmin())
@@ -177,23 +176,33 @@
                                         </div>
                                     </div>
                                 </div>
-
                             @elseif (Auth::user()->isEmpleado())
                                 <!-- Dashboard para Empleado-->
-                
+
                                 <div class="col-md-4">
                                     <div class="card text-center">
                                         <div class="card-body">
                                             <a href="{{ route('empleados.indexEmpleados') }}">
                                                 <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
                                                     style="width: 50px; height: 50px;">
-                                                <h5 class="card-title
-
-                                                ">RRHH</h5>
+                                                <h5 class="card-title">RRHH</h5>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <div class="card text-center">
+                                        <div class="card-body">
+                                            <a href="{{ route('actividades.indexActividades') }}">
+                                                <img src="{{ asset('images/actividades.png') }}" alt="Empleados"
+                                                    style="width: 50px; height: 50px;">
+                                                <h5 class="card-title">Actividades</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-md-4">
                                     <div class="card text-center">
                                         <div class="card-body">
@@ -205,40 +214,7 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @elseif(Auth::user()->isCliente())
-                                <!-- Dashboard para Cliente-->
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title
-
-                                                ">RRHH</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/activos.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Activos</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                
-
-
                             @endif
-
-
 
                         </div>
                     </div>
