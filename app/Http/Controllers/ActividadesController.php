@@ -12,7 +12,7 @@ class ActividadesController extends Controller
 {
     public function index()
     {
-        $actividades = Actividades::with('empleados')->get();
+        $actividades = Actividades::with(['empleados','cliente','departamento'])->get();
         return view('Actividades.indexActividades', compact('actividades'));
     }
 
@@ -63,6 +63,7 @@ class ActividadesController extends Controller
         $departamentos = Departamento::all();
         $clientes = Cliente::all(); 
         return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes'));
+        
     }
 
     public function update(Request $request, $id)

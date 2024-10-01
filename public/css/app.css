@@ -11968,3 +11968,17 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.bg-pastel-morado {
+  background-color: #b590e6; /* Morado pastel */
+  color: #000; /* Texto oscuro */
+}
+
+.bg-pastel-verde {
+  background-color: #b5f581; /* Verde pastel */
+  color: #000; /* Texto oscuro */
+}
+
+.bg-pastel-naranja {
+  background-color: #eeb76e; /* Naranja pastel */
+  color: #000; /* Texto oscuro */
+}

@@ -254,3 +254,18 @@ color: #ffffff; /* Cambia el color al pasar el mouse, si lo deseas */
 .messageRegister a:hover {
     text-decoration: underline;
 }
+
+.bg-pastel-morado {
+    background-color: #843fdf; /* Morado pastel */
+    color: #c74f4f; /* Texto oscuro para contraste */
+}
+
+.bg-pastel-verde {
+    background-color: #0dc425; /* Verde pastel */
+    color: #b13e3e; /* Texto oscuro */
+}
+
+.bg-pastel-naranja {
+    background-color: #d1831d; /* Naranja pastel */
+    color: #d85151; /* Texto oscuro */
+}
