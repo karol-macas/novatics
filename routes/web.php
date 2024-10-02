@@ -53,6 +53,8 @@ Route::resource('departamentos', DepartamentoController::class)->names([
 Route::get('/admin',['AdminController::class, index'])->middleware('role:admin');
 Route::get('/empleado',['EmpleadoController::class, index'])->middleware('role:empleado', 'role:admin');
     
+
+
 // Ruta para el home
 Route::get('/', [AuthController::class, 'index'])->name('home');
 Route::post('/custom-login', [AuthController::class, 'login'])->name('custom-login');

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container mt-4">
         <h1>Listado de Actividades</h1>
@@ -42,57 +41,62 @@
                                 @if (isset($actividad->empleados['nombre1']))
                                     {{ $actividad->empleados['nombre1'] }}
                                     {{ $actividad->empleados['apellido1'] }}
-                                @else
                                 @endif
                             </td>
                             <td>{{ $actividad->descripcion }}</td>
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>
                             <td>{{ $actividad->fecha_inicio }}</td>
-                            @if (auth()->user()->isEmpleado())
-                                <td>
-                                    <div class="progress" style="height: 25px;"> <!-- Altura pequeña -->
-                                        <div class="progress-bar" role="progressbar"
-                                            style="width: {{ $actividad->avance }}%;"
-                                            aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
-                                            {{ $actividad->avance }}%
-                                        </div>
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $actividad->avance }}%;"
+                                        aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ $actividad->avance }}%
                                     </div>
-                                </td>
-                                <td>{{ $actividad->observaciones }}</td>
-                                @if (auth()->user()->isEmpleado())
-                                    <td>
-                                        <span
-                                            class="
-                                    {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
-                                    {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
-                                    {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
-                                            {{ $actividad->estado }}
-                                        </span>
-                                    </td>
+                                </div>
+                                @if (Auth::user()->isEmpleado())
+                                    <form action="{{ route('actividades.update', $actividad->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
 
-                                    <td>{{ $actividad->tiempo }}</td>
-                                    <td>{{ $actividad->fecha_fin }}</td>
-                                    <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
-                                    <td>
-                                        <span
-                                            class="
-                                    {{ $actividad->prioridad == 'ALTA' ? 'badge bg-danger text-dark' : '' }}
-                                    {{ $actividad->prioridad == 'MEDIA' ? 'badge bg-warning text-dark' : '' }}
-                                    {{ $actividad->prioridad == 'BAJA' ? 'badge bg-success text-dark' : '' }}">
-                                            {{ $actividad->prioridad }}
-                                        </span>
-                                    </td>
-                                @else
+                                        <input type="number" name="avance" class="form-control form-control-sm mt-2" placeholder="Avance" min="0" max="100" required>
+
+                                        <button type="submit" class="btn btn-primary btn-sm mt-2">Actualizar Avance</button>
+                                        
+                                    </form>
                                 @endif
-                                <td>
-                                    @if (isset($actividad->departamento['nombre']))
-                                        {{ $actividad->departamento['nombre'] }}
-                                    @else
-                                    @endif
-                                </td>
-                                <td>{{ $actividad->error }}</td>
-                                <td>
+                            </td>
+
+                            <td>{{ $actividad->observaciones }}</td>
+                            <td>
+                                <span
+                                    class="
+                                {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
+                                {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
+                                {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
+                                    {{ $actividad->estado }}
+                                </span>
+                            </td>
+                            <td>{{ $actividad->tiempo }}</td>
+                            <td>{{ $actividad->fecha_fin }}</td>
+                            <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
+                            <td>
+                                <span
+                                    class="
+                                {{ $actividad->prioridad == 'ALTA' ? 'badge bg-danger text-dark' : '' }}
+                                {{ $actividad->prioridad == 'MEDIA' ? 'badge bg-warning text-dark' : '' }}
+                                {{ $actividad->prioridad == 'BAJA' ? 'badge bg-success text-dark' : '' }}">
+                                    {{ $actividad->prioridad }}
+                                </span>
+                            </td>
+                            <td>
+                                @if (isset($actividad->departamento['nombre']))
+                                    {{ $actividad->departamento['nombre'] }}
+                                @endif
+                            </td>
+                            <td>{{ $actividad->error }}</td>
+                            <td>
+                                @if (Auth::user()->isAdmin())
                                     <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
                                         title="Ver">
                                         <i class="fas fa-eye fa-lg"></i>
@@ -109,7 +113,18 @@
                                             <i class="fas fa-trash fa-lg"></i>
                                         </button>
                                     </form>
-                                </td>
+                                @else
+                                    <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
+                                        title="Ver">
+                                        <i class="fas fa-eye fa-lg"></i>
+                                    </a>
+
+                                    <a href="{{ route('actividades.edit', $actividad->id) }}"
+                                        class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="fas fa-edit fa-lg"></i>
+                                    </a>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -118,8 +133,4 @@
 
         <a href="{{ route('actividades.create') }}" class="btn btn-primary">Crear Actividad</a>
     </div>
-@endsection
-
-@section('scripts')
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 @endsection

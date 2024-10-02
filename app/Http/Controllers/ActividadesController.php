@@ -12,7 +12,7 @@ class ActividadesController extends Controller
 {
     public function index()
     {
-        $actividades = Actividades::with(['empleados','cliente','departamento'])->get();
+        $actividades = Actividades::with(['empleados', 'cliente', 'departamento'])->get();
         return view('Actividades.indexActividades', compact('actividades'));
     }
 
@@ -61,13 +61,14 @@ class ActividadesController extends Controller
         $actividades = Actividades::findOrFail($id);
         $empleados = Empleados::all();
         $departamentos = Departamento::all();
-        $clientes = Cliente::all(); 
+        $clientes = Cliente::all();
         return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes'));
-        
     }
 
     public function update(Request $request, $id)
     {
+       
+        
         $validated = $request->validate([
             'cliente_id' => 'required|string|max:255',
             'empleado_id' => 'required|exists:empleados,id',
@@ -86,12 +87,19 @@ class ActividadesController extends Controller
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO',
         ]);
 
+        
         $actividades = Actividades::findOrFail($id);
+
         $actividades->fill($validated);
+
         $actividades->save();
 
         return redirect()->route('actividades.indexActividades')->with('success', 'Actividad actualizada con éxito.');
     }
+
+    
+
+
 
     public function destroy($id)
     {
