@@ -47,25 +47,38 @@
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>
                             <td>{{ $actividad->fecha_inicio }}</td>
-                            <td>
-                                <div class="progress" style="height: 25px;">
-                                    <div class="progress-bar" role="progressbar" style="width: {{ $actividad->avance }}%;"
-                                        aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
-                                        {{ $actividad->avance }}%
+                            @if (Auth::user()->isEmpleado())
+                                <td>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ $actividad->avance }}%;"
+                                            aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ $actividad->avance }}%
+                                        </div>
                                     </div>
-                                </div>
-                                @if (Auth::user()->isEmpleado())
-                                    <form action="{{ route('actividades.update', $actividad->id) }}" method="POST">
+                                    <form action="{{ route('actividades.updateAvance', $actividad->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
 
-                                        <input type="number" name="avance" class="form-control form-control-sm mt-2" placeholder="Avance" min="0" max="100" required>
-
-                                        <button type="submit" class="btn btn-primary btn-sm mt-2">Actualizar Avance</button>
-                                        
+                                        <input type="number" name="avance" class="form-control form-control-sm mt-2"
+                                            placeholder="Avance" min="0" max="100"
+                                            value="{{ $actividad->avance }}" required>
+                                        <button type="submit" class="btn btn-primary btn-sm mt-2">Actualizar
+                                            Avance</button>
                                     </form>
-                                @endif
-                            </td>
+                                </td>
+                            @else
+                                <!-- Si es administrador, puede editar todos los campos -->
+                                <td>
+                                    <div class="progress" style="height: 25px;">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ $actividad->avance }}%;"
+                                            aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                            {{ $actividad->avance }}%
+                                        </div>
+                                    </div>
+                                </td>
+                            @endif
 
                             <td>{{ $actividad->observaciones }}</td>
                             <td>

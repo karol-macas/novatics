@@ -54,6 +54,7 @@ Route::get('/admin',['AdminController::class, index'])->middleware('role:admin')
 Route::get('/empleado',['EmpleadoController::class, index'])->middleware('role:empleado', 'role:admin');
     
 
+Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');
 
 // Ruta para el home
 Route::get('/', [AuthController::class, 'index'])->name('home');

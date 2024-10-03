@@ -67,8 +67,8 @@ class ActividadesController extends Controller
 
     public function update(Request $request, $id)
     {
-       
-        
+
+
         $validated = $request->validate([
             'cliente_id' => 'required|string|max:255',
             'empleado_id' => 'required|exists:empleados,id',
@@ -87,7 +87,7 @@ class ActividadesController extends Controller
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO',
         ]);
 
-        
+
         $actividades = Actividades::findOrFail($id);
 
         $actividades->fill($validated);
@@ -97,7 +97,18 @@ class ActividadesController extends Controller
         return redirect()->route('actividades.indexActividades')->with('success', 'Actividad actualizada con éxito.');
     }
 
-    
+    public function updateAvance(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'avance' => 'required|numeric|min:0|max:100',
+        ]);
+
+        $actividad = Actividades::findOrFail($id);
+        $actividad->avance = $validated['avance'];
+        $actividad->save();
+
+        return redirect()->route('actividades.indexActividades')->with('success', 'Avance actualizado con éxito.');
+    }
 
 
 
