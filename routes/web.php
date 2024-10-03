@@ -55,7 +55,8 @@ Route::get('/empleado',['EmpleadoController::class, index'])->middleware('role:e
     
 
 Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');
-
+Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
+Route::put('actividades/{id}/tiempo', [ActividadesController::class, 'updateTiempo'])->name('actividades.updateTiempo');
 // Ruta para el home
 Route::get('/', [AuthController::class, 'index'])->name('home');
 Route::post('/custom-login', [AuthController::class, 'login'])->name('custom-login');

@@ -23,7 +23,8 @@
                         <th scope="col">Avance (%)</th>
                         <th scope="col">Observaciones</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Tiempo (minutos)</th>
+                        <th scope="col">Tiempo Estimado (horas)</th>
+                        <th scope="col">Tiempo Real (horas)</th>
                         <th scope="col">Fecha de Fin</th>
                         <th scope="col">Repetitivo</th>
                         <th scope="col">Prioridad</th>
@@ -36,7 +37,11 @@
                     @foreach ($actividades as $actividad)
                         <tr>
                             <td>{{ $actividad->id }}</td>
-                            <td>{{ $actividad->Cliente->nombre }}</td>
+                            <td>
+                                @if (isset($actividad->clientes['nombre']))
+                                    {{ $actividad->clientes['nombre'] }}
+                                @endif
+                            </td>
                             <td>
                                 @if (isset($actividad->empleados['nombre1']))
                                     {{ $actividad->empleados['nombre1'] }}
@@ -46,7 +51,7 @@
                             <td>{{ $actividad->descripcion }}</td>
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>
-                            <td>{{ $actividad->fecha_inicio }}</td>
+                            <td>{{ $actividad->fecha_inicio->format('d-m-Y') }}</td>
                             @if (Auth::user()->isEmpleado())
                                 <td>
                                     <div class="progress" style="height: 25px;">
@@ -63,12 +68,11 @@
                                         <input type="number" name="avance" class="form-control form-control-sm mt-2"
                                             placeholder="Avance" min="0" max="100"
                                             value="{{ $actividad->avance }}" required>
-                                        <button type="submit" class="btn btn-primary btn-sm mt-2">Actualizar
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
                                             Avance</button>
                                     </form>
                                 </td>
                             @else
-                                <!-- Si es administrador, puede editar todos los campos -->
                                 <td>
                                     <div class="progress" style="height: 25px;">
                                         <div class="progress-bar" role="progressbar"
@@ -81,17 +85,57 @@
                             @endif
 
                             <td>{{ $actividad->observaciones }}</td>
-                            <td>
-                                <span
-                                    class="
+                            @if (Auth::user()->isEmpleado())
+                                <td>
+
+                                    <div>
+                                        <span
+                                            class="
+                                                {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
+                                                {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
+                                                {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
+                                            {{ $actividad->estado }}
+                                        </span>
+
+                                    </div>
+
+                                    <form action="{{ route('actividades.updateEstado', $actividad->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <select name="estado" class="form-select form-select-sm mt-2" required>
+                                            <option value="EN CURSO"
+                                                {{ $actividad->estado == 'EN CURSO' ? 'selected' : '' }}>EN CURSO
+                                            </option>
+                                            <option value="FINALIZADO"
+                                                {{ $actividad->estado == 'FINALIZADO' ? 'selected' : '' }}>FINALIZADO
+                                            </option>
+                                            <option value="PENDIENTE"
+                                                {{ $actividad->estado == 'PENDIENTE' ? 'selected' : '' }}>PENDIENTE
+                                            </option>
+                                        </select>
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2 ">Actualizar
+                                            Estado</button>
+                                    </form>
+                                </td>
+                            @else
+                                <td>
+                                    <span
+                                        class="
                                 {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
                                 {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
                                 {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
-                                    {{ $actividad->estado }}
-                                </span>
-                            </td>
-                            <td>{{ $actividad->tiempo }}</td>
-                            <td>{{ $actividad->fecha_fin }}</td>
+                                        {{ $actividad->estado }}
+                                    </span>
+                                </td>
+                            @endif
+                            
+                            <td>{{ $actividad->tiempo_estimado }}</td>
+                            <td>{{ $actividad->tiempo_real }}</td>
+
+                            <td>{{ $actividad->fecha_fin ? $actividad->fecha_fin->format('d-m-Y') : '' }}</td>
+
+                            
                             <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
                             <td>
                                 <span
@@ -130,11 +174,6 @@
                                     <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
                                         title="Ver">
                                         <i class="fas fa-eye fa-lg"></i>
-                                    </a>
-
-                                    <a href="{{ route('actividades.edit', $actividad->id) }}"
-                                        class="btn btn-warning btn-sm" title="Editar">
-                                        <i class="fas fa-edit fa-lg"></i>
                                     </a>
                                 @endif
                             </td>

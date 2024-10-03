@@ -15,21 +15,22 @@ class CreateActividadesTabla extends Migration
     {
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id');
+            $table->unsignedBigInteger('cliente_id')->nullable();
             $table->unsignedBigInteger('empleado_id');
             $table->string('descripcion');
-            $table->string('codigo_osticket');
+            $table->string('codigo_osticket')->nullable();
             $table->string('semanal_diaria');
             $table->date('fecha_inicio');
             $table->integer('avance');
             $table->text('observaciones')->nullable();
             $table->string('estado');
-            $table->integer('tiempo');
-            $table->date('fecha_fin');
+            $table->integer('tiempo_estimado');
+            $table->integer('tiempo_real')->nullable();
+            $table->date('fecha_fin')->nullable();
             $table->boolean('repetitivo');
             $table->string('prioridad');
             $table->unsignedBigInteger('departamento_id');
-            $table->string('error')->nullable();
+            $table->string('error');
             $table->timestamps();
         });
     }      

@@ -25,7 +25,7 @@
                             <div class="form-group row mb-2 ">
                                 <label for="cliente_id" class="col-md-4 col-form-label text-md-right">Clientes</label>
                                 <div class="col-md-6">
-                                    <select name="cliente_id" class="form-select" required>
+                                    <select name="cliente_id" class="form-select">
                                         <option value="">Seleccione un cliente</option>
                                         @foreach ($clientes as $cliente)
                                             <option value="{{ $cliente->id }}"
@@ -38,7 +38,8 @@
                             </div>
                             <!-- Seleccion del Empleado-->
                             <div class="form-group row mb-2">
-                                <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados</label>
+                                <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados<span
+                                        class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="empleado_id" class="form-select" required>
                                         <option value="">Seleccione un empleado</option>
@@ -54,24 +55,26 @@
                             <!-- Descripcion-->
                             <div class="form-group row mb-2">
 
-                                <label for="descripcion" class="col-md-4 col-form-label text-md-right">Descripción</label>
+                                <label for="descripcion" class="col-md-4 col-form-label text-md-right">Descripción<span
+                                        class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <textarea name="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
                                 </div>
                             </div>
+
                             <!-- Codigo OSTicket-->
                             <div class="form-group row mb-2">
                                 <label for="codigo_osticket" class="col-md-4 col-form-label text-md-right">Código
                                     OSTicket</label>
                                 <div class="col-md-6">
-                                    <input type="number" name="codigo_osticket" class="form-control"
-                                        value="{{ old('codigo_osticket') }}" required>
+                                    <input type="text" name="codigo_osticket" class="form-control"
+                                        value="{{ old('codigo_osticket') }}">
                                 </div>
                             </div>
-
+                            <!-- Semanal o Diario-->
                             <div class="form-group row mb-2">
                                 <label for="semanal_diaria" class="col-md-4 col-form-label text-md-right">Semanal o
-                                    Diaria</label>
+                                    Diaria<span class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="semanal_diaria" class="form-select" required>
                                         <option value="SEMANAL" {{ old('semanal_diaria') == 'SEMANAL' ? 'selected' : '' }}>
@@ -82,25 +85,25 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <!-- Fecha de Inicio-->
                             <div class="form-group row mb-2">
                                 <label for="fecha_inicio" class="col-md-4 col-form-label text-md-right">Fecha de
                                     Inicio</label>
                                 <div class="col-md-6">
                                     <input type="date" name="fecha_inicio" class="form-control"
-                                        value="{{ old('fecha_inicio') }}" required>
+                                        value="{{ old('fecha_inicio', now()->format('Y-m-d')) }}" readonly>
                                 </div>
                             </div>
-
+                            <!-- Avance -->
                             <div class="form-group row mb-2">
                                 <label for="avance" class="col-md-4 col-form-label text-md-right">Avance
-                                    (%)</label>
+                                    (%)<span class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <input type="number" name="avance" class="form-control" value="{{ old('avance') }}"
                                         min="0" max="100" required>
                                 </div>
                             </div>
-
+                            <!-- Observaciones-->
                             <div class="form-group row mb-2">
                                 <label for="observaciones"
                                     class="col-md-4 col-form-label text-md-right">Observaciones</label>
@@ -108,9 +111,10 @@
                                     <textarea name="observaciones" class="form-control">{{ old('observaciones') }}</textarea>
                                 </div>
                             </div>
-
+                            <!-- Estado-->
                             <div class="form-group row mb-2">
-                                <label for="estado" class="col-md-4 col-form-label text-md-right">Estado</label>
+                                <label for="estado" class="col-md-4 col-form-label text-md-right">Estado<span
+                                        class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="estado" id="estado" class="form-select" required>
                                         <option value="EN CURSO" {{ old('estado') == 'EN CURSO' ? 'selected' : '' }}>En
@@ -122,27 +126,44 @@
                                     </select>
                                 </div>
                             </div>
-
-                            <div class="form-group row mb-2">
-                                <label for="tiempo" class="col-md-4 col-form-label text-md-right">Tiempo
-                                    (minutos)</label>
+                            
+                            <!-- Tiempo Estimado-->
+                            <div class="form-group
+                                row mb-2">
+                                <label for="tiempo_estimado" class="col-md-4 col-form-label text-md-right">Tiempo
+                                    Estimado (minutos)</label>
                                 <div class="col-md-6">
-                                    <input type="number" name="tiempo" class="form-control" value="{{ old('tiempo') }}"
-                                        required>
+                                    <input type="number" name="tiempo_estimado" class="form-control"
+                                        value="{{ old('tiempo_estimado') }}" required>
+                                </div>
+                            </div>
+                            <!-- Tiempo Real-->
+                            <div class="form-group
+                                row mb-2">
+                                <label for="tiempo_real" class="col-md-4 col-form-label text-md-right">Tiempo
+                                    Real (minutos)</label>
+                                <div class="col-md-6">
+                                    <input type="number" name="tiempo_real" class="form-control"
+                                        value="{{ old('tiempo_real') }}" >
                                 </div>
                             </div>
 
-                            <div class="form-group row mb-2">
+
+                            <!-- Fecha de Fin-->
+                            <div class="form-group
+                                row mb-2">
                                 <label for="fecha_fin" class="col-md-4 col-form-label text-md-right">Fecha de
                                     Fin</label>
                                 <div class="col-md-6">
                                     <input type="date" name="fecha_fin" class="form-control"
-                                        value="{{ old('fecha_fin') }}" required>
+                                        value="{{ old('fecha_fin', now()->format('Y-m-d')) }}" readonly>
                                 </div>
                             </div>
-
+                            
+                            <!-- Repetitivo-->
                             <div class="form-group row mb-2">
-                                <label for="repetitivo" class="col-md-4 col-form-label text-md-right">Repetitivo</label>
+                                <label for="repetitivo" class="col-md-4 col-form-label text-md-right">Repetitivo<span
+                                        class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="repetitivo" class="form-select" required>
                                         <option value="1" {{ old('repetitivo') == '1' ? 'selected' : '' }}>Sí
@@ -152,9 +173,10 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <!-- Proridad -->
                             <div class="form-group row mb-2">
-                                <label for="prioridad" class="col-md-4 col-form-label text-md-right">Prioridad</label>
+                                <label for="prioridad" class="col-md-4 col-form-label text-md-right">Prioridad<span
+                                        class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="prioridad" id="prioridad" class="form-select" required>
                                         <option value="ALTA" {{ old('prioridad') == 'ALTA' ? 'selected' : '' }}>Alta
@@ -166,12 +188,11 @@
                                     </select>
                                 </div>
                             </div>
-
-
-
+                            <!-- Departamentos -->
                             <div class="form-group row mb-2">
                                 <label for="departamento_id"
-                                    class="col-md-4 col-form-label text-md-right">Departamento</label>
+                                    class="col-md-4 col-form-label text-md-right">Departamento<span class="text-danger">
+                                        *</span></label>
                                 <div class="col-md-6">
                                     <select name="departamento_id" class="form-select" required>
                                         <option value="">Seleccione un departamento</option>
@@ -184,10 +205,10 @@
                                     </select>
                                 </div>
                             </div>
-
+                            <!-- Tipo de Error -->
                             <div class="form-group row mb-2">
                                 <label for="error" class="col-md-4 col-form-label text-md-right">Tipo de
-                                    Error</label>
+                                    Error<span class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <select name="error" class="form-select" required>
                                         <option value="CLIENTE" {{ old('error') == 'CLIENTE' ? 'selected' : '' }}>
@@ -209,6 +230,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <!-- Tipo de Actividad -->
 
                             <button type="submit" class="btn btn-success mt-2">Guardar</button>
                             <a href="{{ route('actividades.indexActividades') }}" class="btn btn-primary mt-2">Volver</a>
@@ -218,6 +240,8 @@
             </div>
 
         </div>
+
     </div>
-    </div>
+
+   
 @endsection

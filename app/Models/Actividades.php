@@ -20,7 +20,8 @@ class Actividades extends Model
         'avance',  // Avance como porcentaje entre 0 y 100
         'observaciones',  // Comentario (opcional)
         'estado',  // Estado
-        'tiempo',  // El campo "tiempo" debe ser un número entero
+        'tiempo_estimado',
+        'tiempo_real',
         'fecha_fin',  // Fecha final
         'repetitivo',  // Repetitivo (NO/SÍ)
         'prioridad',  // Prioridad
