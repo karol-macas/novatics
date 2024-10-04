@@ -41,9 +41,7 @@ class ProductoController extends Controller
         $producto = Producto::findOrFail($id);
         return view('productos.edit', compact('producto'));
     }
-
-   
-
+    
     public function update(Request $request, $id)
     {
         $validated = $request->validate([

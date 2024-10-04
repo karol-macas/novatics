@@ -54,7 +54,6 @@
                             </div>
                             <!-- Descripcion-->
                             <div class="form-group row mb-2">
-
                                 <label for="descripcion" class="col-md-4 col-form-label text-md-right">Descripción<span
                                         class="text-danger"> *</span></label>
                                 <div class="col-md-6">

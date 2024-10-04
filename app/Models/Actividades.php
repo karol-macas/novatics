@@ -21,7 +21,8 @@ class Actividades extends Model
         'observaciones',  // Comentario (opcional)
         'estado',  // Estado
         'tiempo_estimado',
-        'tiempo_real',
+        'tiempo_real_horas',  // Tiempo real en horas
+        'tiempo_real_minutos',  // Tiempo real en minutos
         'fecha_fin',  // Fecha final
         'repetitivo',  // Repetitivo (NO/SÍ)
         'prioridad',  // Prioridad

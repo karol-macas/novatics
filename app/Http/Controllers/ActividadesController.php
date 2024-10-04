@@ -39,7 +39,8 @@ class ActividadesController extends Controller
             'observaciones' => 'nullable|string|max:255',
             'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
             'tiempo_estimado' => 'required|integer',
-            'tiempo_real' => 'nullable|integer',
+
+
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
@@ -71,8 +72,6 @@ class ActividadesController extends Controller
 
     public function update(Request $request, $id)
     {
-
-
         $validated = $request->validate([
             'cliente_id' => 'nullable|string|max:255',
             'empleado_id' => 'required|exists:empleados,id',
@@ -84,14 +83,14 @@ class ActividadesController extends Controller
             'observaciones' => 'nullable|string|max:255',
             'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
             'tiempo_estimado' => 'required|integer',
-            'tiempo_real' => 'nullable|integer',
-            'fecha_fin' => 'required|date',
+            'tiempo_real_horas' => 'nullable|integer',
+            'tiempo_real_minutos' => 'nullable|integer',
+            'fecha_fin' => 'nullable|date',
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO',
         ]);
-
 
         $actividades = Actividades::findOrFail($id);
 
@@ -116,57 +115,41 @@ class ActividadesController extends Controller
     }
 
     public function updateEstado(Request $request, $id)
-{
-    $validated = $request->validate([
-        'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
-    ]);
-
-    $actividad = Actividades::findOrFail($id);
-
-    // Actualizar el estado
-    $actividad->estado = $validated['estado'];
-
-    // Si el estado es FINALIZADO, actualizar la fecha_fin y el tiempo_real
-    if ($actividad->estado === 'FINALIZADO') {
-        $actividad->fecha_fin = now(); // Establecer la fecha de finalización
-
-        // Calcular el tiempo real en minutos
-        $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio);
-        $fin = \Carbon\Carbon::now();
-        $duracionMinutos = $fin->diffInMinutes($inicio); // Duración en minutos
-
-        // Convertir a horas y minutos
-        $horas = floor($duracionMinutos / 60); // Obtener horas
-        $minutos = $duracionMinutos % 60; // Obtener minutos restantes
-
-        // Puedes almacenar el tiempo real como un string o como dos campos diferentes
-        $actividad->tiempo_real = sprintf('%d horas y %d minutos', $horas, $minutos);
-        // O almacenar como enteros separados si prefieres
-        // $actividad->tiempo_real_horas = $horas;
-        // $actividad->tiempo_real_minutos = $minutos;
-    }
-
-    $actividad->save();
-
-    return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado con éxito.');
-}
-
-
-    public function updateTiempo(Request $request, $id)
     {
         $validated = $request->validate([
-            'tiempo' => 'required|integer',
+            'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
         ]);
 
         $actividad = Actividades::findOrFail($id);
-        $actividad->tiempo = $validated['tiempo'];
+
+        $actividad->estado = $validated['estado'];
+
+        if ($actividad->estado === 'FINALIZADO') {
+            $actividad->fecha_fin = now(); // Establecer la fecha de finalización
+
+            // Verificar que fecha_inicio no es nula
+            if ($actividad->fecha_inicio) {
+                // Calcular el tiempo real en minutos
+                $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio);
+                $fin = \Carbon\Carbon::now();
+                $duracionMinutos = $fin->diffInMinutes($inicio);
+
+                // Convertir a horas y minutos
+                $horas = floor($duracionMinutos / 60);
+                $minutos = $duracionMinutos % 60;
+
+                // Guardar como valores numéricos separados
+                $actividad->tiempo_real_horas = $horas;
+                $actividad->tiempo_real_minutos = $minutos;
+            } else {
+                return redirect()->route('actividades.indexActividades')->with('error', 'La fecha de inicio no está definida.');
+            }
+        }
+
         $actividad->save();
 
-        return redirect()->route('actividades.indexActividades')->with('success', 'Tiempo actualizado con éxito.');
+        return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado con éxito.');
     }
-
-
-
 
     public function destroy($id)
     {

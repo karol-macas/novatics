@@ -123,8 +123,6 @@ class ClienteController extends Controller
             $cliente->documento_otros = $request->file('documento_otros')->store('documentos_otros', 'public');
         }
 
-
-
         $cliente->save();
 
         return redirect()->route('clientes.index')->with('success', 'Cliente actualizado con éxito.');
@@ -147,8 +145,7 @@ class ClienteController extends Controller
         if ($cliente->documento_otros) {
             Storage::disk('public')->delete($cliente->documento_otros);
         }
-
-
+        
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado con éxito.');
     }
 }

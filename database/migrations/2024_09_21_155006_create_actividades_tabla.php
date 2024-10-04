@@ -25,7 +25,8 @@ class CreateActividadesTabla extends Migration
             $table->text('observaciones')->nullable();
             $table->string('estado');
             $table->integer('tiempo_estimado');
-            $table->integer('tiempo_real')->nullable();
+            $table->integer('tiempo_real_horas')->nullable();
+            $table->integer('tiempo_real_minutos')->nullable();
             $table->date('fecha_fin')->nullable();
             $table->boolean('repetitivo');
             $table->string('prioridad');
@@ -33,7 +34,7 @@ class CreateActividadesTabla extends Migration
             $table->string('error');
             $table->timestamps();
         });
-    }      
+    }
 
     /**
      * Reverse the migrations.
