@@ -36,7 +36,7 @@ class Actividades extends Model
     {
         return $this->belongsTo(Empleados::class, 'empleado_id');
     }
-
+ 
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');

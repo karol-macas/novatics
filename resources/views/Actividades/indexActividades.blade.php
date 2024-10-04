@@ -129,11 +129,12 @@
                                     </span>
                                 </td>
                             @endif
-                            
+
                             <td>{{ $actividad->tiempo_estimado }}</td>
                             <td>
-                                @if($actividad->estado === 'FINALIZADO')
-                                    {{ $actividad->tiempo_real_horas ?? 0 }} horas y {{ $actividad->tiempo_real_minutos ?? 0 }} minutos
+                                @if ($actividad->estado === 'FINALIZADO')
+                                    {{ $actividad->tiempo_real_horas ?? 0 }} horas y
+                                    {{ $actividad->tiempo_real_minutos ?? 0 }} minutos
                                 @else
                                     N/A
                                 @endif
@@ -141,7 +142,7 @@
 
                             <td>{{ $actividad->fecha_fin ? $actividad->fecha_fin->format('d-m-Y') : '' }}</td>
 
-                            
+
                             <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
                             <td>
                                 <span
