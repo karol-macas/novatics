@@ -17,14 +17,14 @@
                         <th scope="col">Cliente</th>
                         <th scope="col">Empleado</th>
                         <th scope="col">Descripción</th>
-                        <th scope="col">Código OSTicket</th>
+                        <th scope="col">Código Osticket</th>
                         <th scope="col">Semanal/Diaria</th>
                         <th scope="col">Fecha de Inicio</th>
                         <th scope="col">Avance (%)</th>
                         <th scope="col">Observaciones</th>
                         <th scope="col">Estado</th>
-                        <th scope="col">Tiempo Estimado (horas)</th>
-                        <th scope="col">Tiempo Real (horas)</th>
+                        <th scope="col">Tiempo Estimado (min)</th>
+                        <th scope="col">Tiempo Real (h y m)</th>
                         <th scope="col">Fecha de Fin</th>
                         <th scope="col">Repetitivo</th>
                         <th scope="col">Prioridad</th>
@@ -130,11 +130,34 @@
                                 </td>
                             @endif
 
-                            <td>{{ $actividad->tiempo_estimado }}</td>
+                            <td>
+                                @if (Auth::user()->isEmpleado())
+
+                                    <div>
+                                        {{ $actividad->tiempo_estimado }} min
+                                    </div>
+                                    <form action="{{ route('actividades.updateTiempoEstimado', $actividad->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PUT')
+
+                                        <input type="number" name="tiempo_estimado" class="form-control form-control-sm"
+                                            placeholder="Tiempo Estimado" min="0"
+                                            value="{{ $actividad->tiempo_estimado }}" required>
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
+
+                                    </form>
+                                @else
+                                    {{ $actividad->tiempo_estimado }}
+
+                                @endif
+                            </td>
+
+
                             <td>
                                 @if ($actividad->estado === 'FINALIZADO')
-                                    {{ $actividad->tiempo_real_horas ?? 0 }} horas y
-                                    {{ $actividad->tiempo_real_minutos ?? 0 }} minutos
+                                    {{ $actividad->tiempo_real_horas ?? 0 }} h y
+                                    {{ $actividad->tiempo_real_minutos ?? 0 }} min
                                 @else
                                     N/A
                                 @endif

@@ -166,6 +166,19 @@ class ActividadesController extends Controller
         return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado con éxito.');
     }
 
+    public function updateTiempoEstimado(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'tiempo_estimado' => 'required|integer',
+        ]);
+
+        $actividad = Actividades::findOrFail($id);
+        $actividad->tiempo_estimado = $validated['tiempo_estimado'];
+        $actividad->save();
+
+        return redirect()->route('actividades.indexActividades')->with('success', 'Tiempo estimado actualizado con éxito.');
+    }
+
 
 
     public function destroy($id)

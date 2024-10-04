@@ -133,7 +133,7 @@
                                     Estimado (minutos)</label>
                                 <div class="col-md-6">
                                     <input type="number" name="tiempo_estimado" class="form-control"
-                                        value="{{ old('tiempo_estimado') }}" required>
+                                        value="{{ old('tiempo_estimado') }}"  min="0" required>
                                 </div>
                             </div>
                             <!-- Tiempo Real-->
