@@ -1,109 +1,127 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h1>Listado de Clientes</h1>
+    <div class="container mt-7">
+        <h1 class="text-center mb-8">Listado de Clientes</h1>
 
-                <a href="{{ route('clientes.create') }}" class="btn btn-primary">Crear Cliente</a>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
+        @endif
 
-            <div class="card-body">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ route('clientes.create') }}" class="btn btn-primary">Crear Cliente</a>
+        </div>
 
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Producto ID</th>
-                                <th>Nombre</th>
-                                <th>Dirección</th>
-                                <th>Teléfono</th>
-                                <th>Email</th>
-                                <th>Contacto</th>
-                                <th>Orden de Trabajo</th>
-                                <th>Contrato de Mantenimiento</th>
-                                <th>Documentos Otros</th>
-                                <th>Precio</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($clientes as $cliente)
-                                <tr>
-                                    <td>{{ $cliente->id }}</td>
-                                    <td>{{ $cliente->producto->nombre }}</td>
-                                    <td>{{ $cliente->nombre }}</td>
-                                    <td>{{ $cliente->direccion }}</td>
-                                    <td>{{ $cliente->telefono }}</td>
-                                    <td>{{ $cliente->email }}</td>
-                                    <td>{{ $cliente->contacto }}</td>
-                                    <td>
-                                        @if ($cliente->orden_trabajo)
-                                            <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}"
-                                                class="btn btn-info btn-sm" target="_blank">Ver Orden de Trabajo</a>
-                                        @else
-                                            <span class="text-danger">No tiene orden de trabajo</span>
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if ($cliente->contrato_mantenimiento_licencia)
-                                            <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
-                                                class="btn btn-info btn-sm" target="_blank">Ver Contrato de Mantenimiento</a>
-                                        @else
-                                            <span class="text-danger">No tiene contrato de mantenimiento</span>
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        @if ($cliente->documento_otros)
-                                            <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
-                                                class="btn btn-info btn-sm" target="_blank">Ver Documentos Otros</a>
-                                        @else
-                                            <span class="text-danger">No tiene documentos otros</span>
-                                        @endif
-                                    </td>
-
-                                    
-                                    <td>{{ $cliente->precio }}</td>
-                                    
-                                    
-                                    <td>{{ $cliente->estado }}</td>
-                                    <td>
-                                        <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info btn" title="Ver">
-                                            <i class="fas fa-eye
-                                            "></i> Ver
-                                        </a>
-                                        <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-warning btn" title="Editar">
-                                            <i class="fas fa-edit
-                                            "></i> Editar
-                                        </a>
-                                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger mt-1" title="Eliminar" onclick="return confirm('¿Estás seguro de querer eliminar este cliente?')">
-                                                <i class="fas fa-trash
-                                                "></i> Eliminar
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered w-100 table-sm">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Contacto</th>
+                        <th scope="col">Orden de Trabajo</th>
+                        <th scope="col">Contrato de Mantenimiento</th>
+                        <th scope="col">Documentos Otros</th>
+                        <th scope="col">Precio</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($clientes as $cliente)
+                        <tr>
+                            <td>{{ $cliente->id }}</td>
+                            <td>{{ $cliente->producto->nombre }}</td>
+                            <td>{{ $cliente->nombre }}</td>
+                            <td>{{ $cliente->direccion }}</td>
+                            <td>{{ $cliente->telefono }}</td>
+                            <td>{{ $cliente->email }}</td>
+                            <td>{{ $cliente->contacto }}</td>
+                            <td>
+                                @if ($cliente->orden_trabajo)
+                                    <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}" class="btn btn-info btn-sm"
+                                        target="_blank">Ver</a>
+                                @else
+                                    <span class="text-danger">No tiene orden de trabajo</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($cliente->contrato_mantenimiento_licencia)
+                                    <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
+                                        class="btn btn-info btn-sm" target="_blank">Ver</a>
+                                @else
+                                    <span class="text-danger">No tiene contrato de mantenimiento</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($cliente->documento_otros)
+                                    <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
+                                        class="btn btn-info btn-sm" target="_blank">Ver</a>
+                                @else
+                                    <span class="text-danger">No tiene documentos otros</span>
+                                @endif
+                            </td>
+                            <td>{{ $cliente->precio }}</td>
+                            <td>{{ $cliente->estado }}</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-info btn-sm"
+                                        title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-warning btn-sm"
+                                        title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST"
+                                        class="d-inline form-delete">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm btn-delete" title="Eliminar">
+                                            <i class="fas fa-trash fa-md"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center my-4">
+            {{ $clientes->links('pagination::bootstrap-4') }}
         </div>
     </div>
+    {{-- SweetAlert script --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // SweetAlert para confirmación de eliminación
+        document.querySelectorAll('.form-delete').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Esta acción no se puede deshacer",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
+        });
+    </script>
 @endsection
-
-
-

@@ -89,29 +89,6 @@
                                 </div>
                             </div>
 
-                            <!-- Codigo OSTicket-->
-                            <div class="form-group row mb-2">
-                                <label for="codigo_osticket" class="col-md-4 col-form-label text-md-right">Código
-                                    OSTicket</label>
-                                <div class="col-md-6">
-                                    <input type="text" name="codigo_osticket" class="form-control"
-                                        value="{{ old('codigo_osticket') }}">
-                                </div>
-                            </div>
-                            <!-- Semanal o Diario-->
-                            <div class="form-group row mb-2">
-                                <label for="semanal_diaria" class="col-md-4 col-form-label text-md-right">Semanal o
-                                    Diaria<span class="text-danger"> *</span></label>
-                                <div class="col-md-6">
-                                    <select name="semanal_diaria" class="form-select" required>
-                                        <option value="SEMANAL" {{ old('semanal_diaria') == 'SEMANAL' ? 'selected' : '' }}>
-                                            Semanal
-                                        </option>
-                                        <option value="DIARIO" {{ old('semanal_diaria') == 'DIARIO' ? 'selected' : '' }}>
-                                            Diario</option>
-                                    </select>
-                                </div>
-                            </div>
                             <!-- Fecha de Inicio-->
                             <div class="form-group row mb-2">
                                 <label for="fecha_inicio" class="col-md-4 col-form-label text-md-right">Fecha de
@@ -146,8 +123,6 @@
                                     <select name="estado" id="estado" class="form-select" required>
                                         <option value="EN CURSO" {{ old('estado') == 'EN CURSO' ? 'selected' : '' }}>En
                                             Curso</option>
-                                        <option value="FINALIZADO" {{ old('estado') == 'FINALIZADO' ? 'selected' : '' }}>
-                                            Finalizado</option>
                                         <option value="PENDIENTE" {{ old('estado') == 'PENDIENTE' ? 'selected' : '' }}>
                                             Pendiente</option>
                                     </select>
@@ -237,7 +212,7 @@
                                         <option value="DESARROL LOCALES"
                                             {{ old('error') == 'DESARROL LOCALES' ? 'selected' : '' }}>Desarrollo
                                         </option>
-                                        <option value="OTROS" {{ old('error') == 'OTROS' ? 'selected' : '' }}>
+                                        <option value="OTRO" {{ old('error') == 'OTRO' ? 'selected' : '' }}>
                                             Otros
                                         </option>
                                     </select>
@@ -248,7 +223,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-success">
-                                        </i<i class="fas fa-save">> Guardar
+                                        <i class="fas fa-save"></i> Guardar
                                     </button>
                                     <a href="{{ route('actividades.indexActividades') }}" class="btn btn-secondary">
                                         <i class="fas fa-arrow-left"></i> Volver

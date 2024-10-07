@@ -15,8 +15,8 @@ class ActividadesController extends Controller
     public function index()
     {
         $actividades = Actividades::with(['empleados', 'cliente', 'departamento'])
-        ->latest()
-        ->paginate(10);
+            ->latest()
+            ->paginate(10);
 
         return view('Actividades.indexActividades', compact('actividades'));
     }
@@ -43,12 +43,10 @@ class ActividadesController extends Controller
             'observaciones' => 'nullable|string|max:255',
             'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
             'tiempo_estimado' => 'required|integer',
-
-
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
-            'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO',
+            'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO,OTRO',
         ]);
 
         $validated['fecha_inicio'] = now();
@@ -60,7 +58,7 @@ class ActividadesController extends Controller
 
     public function show($id)
     {
-        $actividades = Actividades::with('empleados','cliente')->findOrFail($id);
+        $actividades = Actividades::with('empleados', 'cliente')->findOrFail($id);
 
         return view('Actividades.show', compact('actividades'));
     }
@@ -93,7 +91,7 @@ class ActividadesController extends Controller
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
-            'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO',
+            'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO,OTRO',
         ]);
 
         $actividades = Actividades::findOrFail($id);

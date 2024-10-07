@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -13,7 +14,9 @@ class EmpleadosController extends Controller
 {
     public function index()
     {
-        $empleados = Empleados::with('departamento')->get();
+        $empleados = Empleados::with('departamento')
+            ->latest()
+            ->paginate(10);
         return view('Empleados.indexEmpleados', compact('empleados'));
     }
 

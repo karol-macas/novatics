@@ -105,7 +105,7 @@
                             </div>
                         </div>
 
-                        <h5 class="mt-4">Documentos</h5>
+                        <h5 class="mt-4"><i class="fa-solid fa-file"></i> Documentos</h5>
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="curriculum" class="form-label">Currículum<span class="text-danger">

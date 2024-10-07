@@ -105,9 +105,7 @@
                         </table>
 
                         <div class="mt-3 text-center">
-                            <a href="{{ route('actividades.indexActividades') }}" class="btn btn-secondary">
-                                <i class="fas fa-arrow-left"></i> Volver
-                            </a>
+                            <a href="{{ route('actividades.indexActividades') }}" class="btn btn-primary">Volver al listado</a>
                         </div>
                     </div>
                 </div>

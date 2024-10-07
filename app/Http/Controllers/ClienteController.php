@@ -13,7 +13,9 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Cliente::with('producto')->get();
+        $clientes = Cliente::with('producto')
+        ->latest()
+        ->paginate(10);
         return view('clientes.index', compact('clientes'));
     }
 

@@ -3,44 +3,45 @@
 @section('content')
     <div class="container mt-4">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h1>Detalles de Cliente</h1>
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h1><i class="fas fa-info-circle"></i> Detalles de Cliente</h1>
                     </div>
 
                     <div class="card-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-striped table-hover">
                             <tbody>
                                 <tr>
-                                    <th>ID</th>
+                                    <th><i class="fas fa-hashtag"></i> ID</th>
                                     <td>{{ $cliente->id }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Producto</th>
+                                    <th><i class="fa-solid fa-box-open"></i> Producto</th>
                                     <td>{{ $cliente->producto->nombre }}</td>
+                                </tr>
                                 <tr>
-                                    <th>Nombre</th>
+                                    <th><i class="fas fa-user"></i> Nombre</th>
                                     <td>{{ $cliente->nombre }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Dirección</th>
+                                    <th><i class="fa-solid fa-location-dot"></i> Dirección</th>
                                     <td>{{ $cliente->direccion }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Teléfono</th>
+                                    <th><i class="fas fa-phone"></i> Teléfono</th>
                                     <td>{{ $cliente->telefono }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Email</th>
+                                    <th><i class="fas fa-envelope"></i> Email</th>
                                     <td>{{ $cliente->email }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Contacto</th>
+                                    <th><i class="fa-regular fa-address-book"></i> Contacto</th>
                                     <td>{{ $cliente->contacto }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Orden de Trabajo</th>
+                                    <th><i class="fas fa-file-pdf"></i> Orden de Trabajo</th>
                                     <td>
                                         @if ($cliente->orden_trabajo)
                                             <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}"
@@ -50,9 +51,8 @@
                                         @endif
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <th>Contrato de Mantenimiento</th>
+                                    <th><i class="fas fa-file-pdf"></i> Contrato de Mantenimiento</th>
                                     <td>
                                         @if ($cliente->contrato_mantenimiento_licencia)
                                             <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
@@ -62,9 +62,8 @@
                                         @endif
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <th>Documentos Otros</th>
+                                    <th><i class="fas fa-file-pdf"></i> Documentos Otros</th>
                                     <td>
                                         @if ($cliente->documento_otros)
                                             <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
@@ -74,32 +73,28 @@
                                         @endif
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <th>Precio</th>
+                                    <th><i class="fa-solid fa-credit-card"></i> Precio</th>
                                     <td>{{ $cliente->precio }}</td>
                                 </tr>
-
                                 <tr>
-                                    <th>Estado</th>
+                                    <th><i class="fas fa-toggle-on"></i> Estado</th>
                                     <td>{{ $cliente->estado }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Fecha de Creación</th>
-                                    <td>{{ $cliente->created_at }}</td>
+                                    <th><i class="fas fa-calendar-plus"></i> Fecha de Creación</th>
+                                    <td>{{ $cliente->created_at->format('d/m/Y H:i') }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Fecha de Actualización</th>
-                                    <td>{{ $cliente->updated_at }}</td>
+                                    <th><i class="fas fa-calendar-check"></i> Fecha de Actualización</th>
+                                    <td>{{ $cliente->updated_at->format('d/m/Y H:i') }}</td>
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="mt-4 text-center">
+                            <a href="{{ route('clientes.index') }}" class="btn btn-primary">Volver al listado</a>
+                        </div>
                     </div>
-                </div>
-
-                <div class="mt-4">
-                    <a href="{{ route('clientes.index') }}" class="btn btn-primary">Volver al listado</a>
-
                 </div>
 
             </div>

@@ -1,14 +1,15 @@
 @extends('layouts.app')
+
 @section('content')
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h1>Crear Nuevo Producto</h1>
+    <div class="container mt-4" style="max-width: 700px;">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h1 class="mb-0">Crear Nuevo Producto</h1>
             </div>
             <div class="card-body">
                 @if ($errors->any())
                     <div class="alert alert-danger">
-                        <ul>
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
@@ -21,20 +22,20 @@
 
                     <!-- Campo Nombre -->
                     <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                        <label for="nombre">Nombre <span class="text-danger">*</span></label>
+                        <input type="text" name="nombre" class="form-control" placeholder="Ingrese un nombre del Producto" value="{{ old('nombre') }}" required>
                     </div>
 
                     <!-- Campo Descripción -->
-                    <div class="form-group
-                    ">
-                        <label for="descripcion">Descripción</label>
-                        <input type="text" name="descripcion" class="form-control" value="{{ old('descripcion') }}" required>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción <span class="text-danger">*</span></label>
+                        <textarea name="descripcion" class="form-control" placeholder="Describe la actividad">{{ old('descripcion') }}</textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Guardar Producto</button>
-
-                    <a href="{{ route('productos.index') }}" class="btn btn-danger">Cancelar</a>
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-primary">Guardar Producto</button>
+                        <a href="{{ route('productos.index') }}" class="btn btn-outline-danger">Cancelar</a>
+                    </div>
                 </form>
             </div>
         </div>

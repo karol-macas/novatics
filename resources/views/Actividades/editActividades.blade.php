@@ -221,6 +221,9 @@
                                             <option value="DESARROLLO"
                                                 {{ old('error', $actividades->error) == 'DESARROLLO' ? 'selected' : '' }}>
                                                 Desarrollo</option>
+                                            <option value="OTRO"
+                                                {{ old('error', $actividades->error) == 'OTRO' ? 'selected' : '' }}>
+                                                Otros</option>
                                         </select>
                                     </div>
                                 </div>

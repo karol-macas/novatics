@@ -140,7 +140,7 @@
                             </fieldset>
 
                             <fieldset class="border p-3 mb-4">
-                                <legend class="text-primary"><i class=""></i> Documentos</legend>
+                                <legend class="text-primary"><i class="fa-solid fa-file"></i> Documentos</legend>
                                 <div class="row">
                                     <div class="form-group col-md-6">
 
