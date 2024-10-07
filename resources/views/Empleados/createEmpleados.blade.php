@@ -24,59 +24,69 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="nombre1" class="form-label">Primer Nombre</label>
+                                <label for="nombre1" class="form-label">Primer Nombre<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="nombre1" class="form-control" placeholder="Primer nombre" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="nombre2" class="form-label">Segundo Nombre</label>
+                                <label for="nombre2" class="form-label">Segundo Nombre<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="nombre2" class="form-control" placeholder="Segundo nombre" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="apellido1" class="form-label">Primer Apellido</label>
+                                <label for="apellido1" class="form-label">Primer Apellido<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="apellido1" class="form-control" placeholder="Primer apellido" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="apellido2" class="form-label">Segundo Apellido</label>
+                                <label for="apellido2" class="form-label">Segundo Apellido<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="apellido2" class="form-control" placeholder="Segundo apellido" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="cedula" class="form-label">Cédula</label>
+                                <label for="cedula" class="form-label">Cédula<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" class="form-control" id="cedula" name="cedula" placeholder="Ingrese cédula">
                                 @error('cedula')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                             <div class="col-md-6">
-                                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
+                                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento<span
+                                    class="text-danger"> *</span></label>
                                 <input type="date" name="fecha_nacimiento" class="form-control" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="telefono" class="form-label">Teléfono</label>
+                                <label for="telefono" class="form-label">Teléfono<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="telefono" class="form-control" placeholder="Teléfono">
                             </div>
                             <div class="col-md-6">
-                                <label for="celular" class="form-label">Celular</label>
+                                <label for="celular" class="form-label">Celular<span
+                                    class="text-danger"> *</span></label>
                                 <input type="text" name="celular" class="form-control" placeholder="Celular" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="correo_institucional" class="form-label">Correo Institucional</label>
+                                <label for="correo_institucional" class="form-label">Correo Institucional<span
+                                    class="text-danger"> *</span></label>
                                 <input type="email" name="correo_institucional" class="form-control" placeholder="correo@empresa.com" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="departamento" class="form-label">Departamento</label>
-                                <select name="departamento_id" id="departamento" class="form-control" required>
+                                <label for="departamento" class="form-label">Departamento<span
+                                    class="text-danger"> *</span></label>
+                                <select name="departamento_id" id="departamento" class="form-select" required>
                                     <option value="">Selecciona un Departamento</option>
                                     @foreach ($departamentos as $departamento)
                                         <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
@@ -88,28 +98,33 @@
                         <h5 class="mt-4">Documentos</h5>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="curriculum" class="form-label">Currículum</label>
+                                <label for="curriculum" class="form-label">Currículum<span
+                                    class="text-danger"> *</span></label>
                                 <input type="file" name="curriculum" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label for="contrato" class="form-label">Contrato</label>
+                                <label for="contrato" class="form-label">Contrato<span
+                                    class="text-danger"> *</span></label>
                                 <input type="file" name="contrato" class="form-control">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="contrato_confidencialidad" class="form-label">Contrato de Confidencialidad</label>
+                                <label for="contrato_confidencialidad" class="form-label">Contrato de Confidencialidad<span
+                                    class="text-danger"> *</span></label>
                                 <input type="file" name="contrato_confidencialidad" class="form-control">
                             </div>
                             <div class="col-md-6">
-                                <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento de Datos</label>
+                                <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento de Datos<span
+                                    class="text-danger"> *</span></label>
                                 <input type="file" name="contrato_consentimiento" class="form-control">
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="fecha_ingreso" class="form-label">Fecha de Ingreso</label>
+                        <div class="mb-2">
+                            <label for="fecha_ingreso" class="form-label">Fecha de Ingreso<span
+                                class="text-danger"> *</span></label>
                             <input type="date" name="fecha_ingreso" class="form-control" required>
                         </div>
 
