@@ -14,7 +14,9 @@ class ActividadesController extends Controller
 {
     public function index()
     {
-        $actividades = Actividades::with(['empleados', 'cliente', 'departamento'])->get();
+        $actividades = Actividades::with(['empleados', 'cliente', 'departamento'])
+        ->latest()
+        ->paginate(10);
 
         return view('Actividades.indexActividades', compact('actividades'));
     }
@@ -58,7 +60,7 @@ class ActividadesController extends Controller
 
     public function show($id)
     {
-        $actividades = Actividades::with('empleados')->findOrFail($id);
+        $actividades = Actividades::with('empleados','cliente')->findOrFail($id);
 
         return view('Actividades.show', compact('actividades'));
     }

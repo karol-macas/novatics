@@ -69,7 +69,6 @@
                                     <option value="">Seleccione un rol</option>
                                     <option value="admin">Administrador</option>
                                     <option value="empleado">Empleado</option>
-                                    <option value="cliente">Cliente</option>
                                 </select>
                             </div>
 

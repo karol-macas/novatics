@@ -4,9 +4,9 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h1>Crear Nueva Actividad</h1>
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h2><i class="fas fa-tasks"></i> Crear Nueva Actividad</h2>
                     </div>
                     <div class="card-body">
                         @if ($errors->any())
@@ -21,12 +21,14 @@
 
                         <form action="{{ route('actividades.store') }}" method="POST">
                             @csrf
-                            <!-- Seleccion del Cliente-->
-                            <div class="form-group row mb-2 ">
-                                <label for="cliente_id" class="col-md-4 col-form-label text-md-right">Clientes</label>
+
+                            <!-- Selección del Cliente -->
+                            <div class="form-group row mb-3">
+                                <label for="cliente_id" class="col-md-4 col-form-label text-md-right">Clientes &
+                                    Cooperativa</label>
                                 <div class="col-md-6">
                                     <select name="cliente_id" class="form-select">
-                                        <option value="">Seleccione un cliente</option>
+                                        <option value="">Seleccione un cliente & Cooperativa </option>
                                         @foreach ($clientes as $cliente)
                                             <option value="{{ $cliente->id }}"
                                                 {{ old('cliente_id') == $cliente->id ? 'selected' : '' }}>
@@ -36,10 +38,11 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Seleccion del Empleado-->
-                            <div class="form-group row mb-2">
-                                <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados<span
-                                        class="text-danger"> *</span></label>
+
+                            <!-- Selección del Empleado -->
+                            <div class="form-group row mb-3">
+                                <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados <span
+                                        class="text-danger">*</span></label>
                                 <div class="col-md-6">
                                     <select name="empleado_id" class="form-select" required>
                                         <option value="">Seleccione un empleado</option>
@@ -52,12 +55,37 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Descripcion-->
-                            <div class="form-group row mb-2">
-                                <label for="descripcion" class="col-md-4 col-form-label text-md-right">Descripción<span
-                                        class="text-danger"> *</span></label>
+
+                            <!-- Descripción -->
+                            <div class="form-group row mb-3">
+                                <label for="descripcion" class="col-md-4 col-form-label text-md-right">Descripción <span
+                                        class="text-danger">*</span></label>
                                 <div class="col-md-6">
-                                    <textarea name="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
+                                    <textarea name="descripcion" class="form-control" placeholder="Describe la actividad">{{ old('descripcion') }}</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Código OSTicket -->
+                            <div class="form-group row mb-3">
+                                <label for="codigo_osticket" class="col-md-4 col-form-label text-md-right">Código
+                                    Osticket</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="codigo_osticket" class="form-control"
+                                        value="{{ old('codigo_osticket') }}">
+                                </div>
+                            </div>
+
+                            <!-- Semanal o Diario -->
+                            <div class="form-group row mb-3">
+                                <label for="semanal_diaria" class="col-md-4 col-form-label text-md-right">Frecuencia <span
+                                        class="text-danger">*</span></label>
+                                <div class="col-md-6">
+                                    <select name="semanal_diaria" class="form-select" required>
+                                        <option value="SEMANAL" {{ old('semanal_diaria') == 'SEMANAL' ? 'selected' : '' }}>
+                                            Semanal</option>
+                                        <option value="DIARIO" {{ old('semanal_diaria') == 'DIARIO' ? 'selected' : '' }}>
+                                            Diario</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -125,32 +153,19 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <!-- Tiempo Estimado-->
-                            <div class="form-group
-                                row mb-2">
+                            <div class="form-group row mb-2">
                                 <label for="tiempo_estimado" class="col-md-4 col-form-label text-md-right">Tiempo
-                                    Estimado (minutos)</label>
+                                    Estimado (minutos)<span class="text-danger"> *</span></label>
                                 <div class="col-md-6">
                                     <input type="number" name="tiempo_estimado" class="form-control"
-                                        value="{{ old('tiempo_estimado') }}"  min="0" required>
+                                        value="{{ old('tiempo_estimado') }}" min="0" required>
                                 </div>
                             </div>
-                            <!-- Tiempo Real-->
-                            <div class="form-group
-                                row mb-2">
-                                <label for="tiempo_real" class="col-md-4 col-form-label text-md-right">Tiempo
-                                    Real (minutos)</label>
-                                <div class="col-md-6">
-                                    <input type="number" name="tiempo_real" class="form-control"
-                                        value="{{ old('tiempo_real') }}" >
-                                </div>
-                            </div>
-
 
                             <!-- Fecha de Fin-->
-                            <div class="form-group
-                                row mb-2">
+                            <div class="form-group row mb-2">
                                 <label for="fecha_fin" class="col-md-4 col-form-label text-md-right">Fecha de
                                     Fin</label>
                                 <div class="col-md-6">
@@ -158,7 +173,7 @@
                                         value="{{ old('fecha_fin', now()->format('Y-m-d')) }}" readonly>
                                 </div>
                             </div>
-                            
+
                             <!-- Repetitivo-->
                             <div class="form-group row mb-2">
                                 <label for="repetitivo" class="col-md-4 col-form-label text-md-right">Repetitivo<span
@@ -220,8 +235,7 @@
                                             Error
                                         </option>
                                         <option value="DESARROL LOCALES"
-                                            {{ old('error') == 'DESARROL LOCALES' ? 'selected' : '' }}>Desarrol
-                                            Locales
+                                            {{ old('error') == 'DESARROL LOCALES' ? 'selected' : '' }}>Desarrollo
                                         </option>
                                         <option value="OTROS" {{ old('error') == 'OTROS' ? 'selected' : '' }}>
                                             Otros
@@ -229,18 +243,23 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Tipo de Actividad -->
 
-                            <button type="submit" class="btn btn-success mt-2">Guardar</button>
-                            <a href="{{ route('actividades.indexActividades') }}" class="btn btn-primary mt-2">Volver</a>
+                            <!-- Botones -->
+                            <div class="form-group row">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save"></i> Guardar
+                                    </button>
+                                    <a href="{{ route('actividades.indexActividades') }}" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Volver
+                                    </a>
+                                </div>
+                            </div>
+
                         </form>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
-   
 @endsection

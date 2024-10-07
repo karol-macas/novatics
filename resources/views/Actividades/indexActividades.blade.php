@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container mt-4">
-        <h1>Listado de Actividades</h1>
+    <div class="container mt-7">
+        <h1 class="text-center mb-8">Listado de Actividades</h1>
 
         @if (session('success'))
             <div class="alert alert-success">
@@ -9,9 +9,13 @@
             </div>
         @endif
 
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ route('actividades.create') }}" class="btn btn-primary btn-lg">Crear Actividad</a>
+        </div>
+
         <div class="table-responsive">
-            <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
+            <table class="table table-hover table-bordered w-100 table-sm">
+                <thead class="thead-dark text-center">
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Cliente</th>
@@ -90,7 +94,7 @@
 
                                     <div>
                                         <span
-                                            class="
+                                            class="badge
                                                 {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
                                                 {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
                                                 {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
@@ -121,7 +125,7 @@
                             @else
                                 <td>
                                     <span
-                                        class="
+                                        class="badge
                                 {{ $actividad->estado == 'EN CURSO' ? 'badge bg-pastel-morado' : '' }}
                                 {{ $actividad->estado == 'FINALIZADO' ? 'badge bg-pastel-verde' : '' }}
                                 {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
@@ -132,7 +136,6 @@
 
                             <td>
                                 @if (Auth::user()->isEmpleado())
-
                                     <div>
                                         {{ $actividad->tiempo_estimado }} min
                                     </div>
@@ -149,10 +152,8 @@
                                     </form>
                                 @else
                                     {{ $actividad->tiempo_estimado }}
-
                                 @endif
                             </td>
-
 
                             <td>
                                 @if ($actividad->estado === 'FINALIZADO')
@@ -165,14 +166,13 @@
 
                             <td>{{ $actividad->fecha_fin ? $actividad->fecha_fin->format('d-m-Y') : '' }}</td>
 
-
                             <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
                             <td>
                                 <span
-                                    class="
-                                {{ $actividad->prioridad == 'ALTA' ? 'badge bg-danger text-dark' : '' }}
+                                    class="badge
+                                {{ $actividad->prioridad == 'ALTA' ? 'badge bg-danger text-light' : '' }}
                                 {{ $actividad->prioridad == 'MEDIA' ? 'badge bg-warning text-dark' : '' }}
-                                {{ $actividad->prioridad == 'BAJA' ? 'badge bg-success text-dark' : '' }}">
+                                {{ $actividad->prioridad == 'BAJA' ? 'badge bg-success text-light' : '' }}">
                                     {{ $actividad->prioridad }}
                                 </span>
                             </td>
@@ -182,28 +182,28 @@
                                 @endif
                             </td>
                             <td>{{ $actividad->error }}</td>
-                            <td>
+                            <td class="text-center">
                                 @if (Auth::user()->isAdmin())
                                     <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
                                         title="Ver">
-                                        <i class="fas fa-eye fa-lg"></i>
+                                        <i class="fas fa-eye fa-md"></i>
                                     </a>
                                     <a href="{{ route('actividades.edit', $actividad->id) }}"
                                         class="btn btn-warning btn-sm" title="Editar">
-                                        <i class="fas fa-edit fa-lg"></i>
+                                        <i class="fas fa-edit fa-md"></i>
                                     </a>
                                     <form action="{{ route('actividades.destroy', $actividad->id) }}" method="POST"
-                                        style="display:inline;">
+                                        class="d-inline form-delete">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" title="Eliminar">
-                                            <i class="fas fa-trash fa-lg"></i>
+                                        <button type="submit" class="btn btn-danger btn-sm btn-delete" title="Eliminar">
+                                            <i class="fas fa-trash fa-md"></i>
                                         </button>
                                     </form>
                                 @else
                                     <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
                                         title="Ver">
-                                        <i class="fas fa-eye fa-lg"></i>
+                                        <i class="fas fa-eye fa-md"></i>
                                     </a>
                                 @endif
                             </td>
@@ -212,7 +212,36 @@
                 </tbody>
             </table>
         </div>
+        <!-- Paginación -->
+        <div class="d-flex justify-content-center my-4">
+            {{ $actividades->links('pagination::bootstrap-4') }}
+        </div>
 
-        <a href="{{ route('actividades.create') }}" class="btn btn-primary">Crear Actividad</a>
     </div>
+
+    {{-- SweetAlert script --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // SweetAlert para confirmación de eliminación
+        document.querySelectorAll('.form-delete').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Esta acción no se puede deshacer",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                })
+            });
+        });
+    </script>
 @endsection

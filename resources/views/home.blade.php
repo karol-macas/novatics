@@ -178,19 +178,6 @@
                                 </div>
                             @elseif (Auth::user()->isEmpleado())
                                 <!-- Dashboard para Empleado-->
-
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">RRHH</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="col-md-4">
                                     <div class="card text-center">
                                         <div class="card-body">
@@ -203,17 +190,6 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/activos.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Activos</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
                             @endif
 
                         </div>
