@@ -248,7 +248,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-success">
-                                        <i class="fas fa-save"></i> Guardar
+                                        </i<i class="fas fa-save">> Guardar
                                     </button>
                                     <a href="{{ route('actividades.indexActividades') }}" class="btn btn-secondary">
                                         <i class="fas fa-arrow-left"></i> Volver

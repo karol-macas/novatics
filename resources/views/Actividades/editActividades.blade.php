@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-7">
                 <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-primary text-white text-center">
                         <h1><i class="fas fa-edit"></i> Editar Actividad</h1>
                     </div>
                     <div class="card-body">
