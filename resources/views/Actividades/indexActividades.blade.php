@@ -9,6 +9,26 @@
             </div>
         @endif
 
+        @if (Auth::user()->isAdmin())
+            <!-- Formulario estilizado para seleccionar un empleado -->
+            <form action="{{ route('actividades.indexActividades') }}" method="GET" class="mb-4 p-4 shadow bg-light rounded">
+                <div class="form-group">
+                    <label for="empleado_id" class="form-label fs-5">Seleccionar Empleado:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-primary text-white">
+                            <i class="fas fa-user"></i>
+                        </span>
+                        <select name="empleado_id" id="empleado_id" class="form-select" onchange="this.form.submit()">
+                            <option value="">-- Todos los empleados --</option>
+                            @foreach ($empleados as $empleado)
+                                
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </form>
+        @endif
+
         <div class="d-flex justify-content-between mb-3">
             <a href="{{ route('actividades.create') }}" class="btn btn-primary btn-lg">Crear Actividad</a>
         </div>
@@ -48,8 +68,7 @@
                             </td>
                             <td>
                                 @if (isset($actividad->empleados['nombre1']))
-                                    {{ $actividad->empleados['nombre1'] }}
-                                    {{ $actividad->empleados['apellido1'] }}
+                                    {{ $actividad->empleados['nombre1'] }} {{ $actividad->empleados['apellido1'] }}
                                 @endif
                             </td>
                             <td>{{ $actividad->descripcion }}</td>

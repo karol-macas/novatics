@@ -39,22 +39,29 @@
                                 </div>
                             </div>
 
-                            <!-- Selección del Empleado -->
-                            <div class="form-group row mb-3">
-                                <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados <span
-                                        class="text-danger">*</span></label>
-                                <div class="col-md-6">
-                                    <select name="empleado_id" class="form-select" required>
-                                        <option value="">Seleccione un empleado</option>
-                                        @foreach ($empleados as $empleado)
-                                            <option value="{{ $empleado->id }}"
-                                                {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
-                                                {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                            
+
+                            @if (Auth::user()->isEmpleado())
+                                <input type="hidden" name="empleado_id" value="{{ Auth::user()->id }}">
+                            @else
+                                <!-- Si el usuario es un administrador, se muestra el select con todos los empleados -->
+                                <div class="form-group row mb-3">
+                                    <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados <span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-6">
+                                        <select name="empleado_id" class="form-select" required>
+                                            <option value="">Seleccione un empleado</option>
+                                            @foreach ($empleados as $empleado)
+                                                <option value="{{ $empleado->id }}"
+                                                    {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
+                                                    {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
 
                             <!-- Descripción -->
                             <div class="form-group row mb-3">

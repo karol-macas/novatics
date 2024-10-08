@@ -49,6 +49,9 @@ Route::resource('departamentos', DepartamentoController::class)->names([
     'destroy' => 'departamentos.destroy',
 ]);
 
+Route::get('/actividades', [ActividadesController::class, 'index'])->name('actividades.indexActividades');
+
+
 //Rutas para los roles
 Route::get('/admin',['AdminController::class, index'])->middleware('role:admin');
 Route::get('/empleado',['EmpleadoController::class, index'])->middleware('role:empleado', 'role:admin');

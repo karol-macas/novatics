@@ -23,5 +23,8 @@ class RoleMiddleware
         if ($user instanceof User && !$user->isRole($role) && !$user->isAdmin()) {
             return redirect('login')->with('error', 'No tienes permisos para acceder a esta página.');
         }
+
+        // Permitir que la solicitud continúe si cumple con las condiciones
+        return $next($request);
     }
 }

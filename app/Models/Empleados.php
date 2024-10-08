@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Empleados extends Model
 {
     use HasFactory;
@@ -30,5 +31,10 @@ class Empleados extends Model
     public function departamento()
     {
         return $this->belongsTo(Departamento::class);
+    }
+
+    public function actividades()
+    {
+        return $this->hasMany(Actividades::class, 'empleado_id');
     }
 }
