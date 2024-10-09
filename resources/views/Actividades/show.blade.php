@@ -22,7 +22,7 @@
                                 </tr>
                                 <tr>
                                     <th><i class="fas fa-user"></i> Empleado</th>
-                                    <td>{{ $actividades->empleados ? $actividades->empleados->nombre1 . ' ' . $actividades->empleados->apellido1 : 'N/A' }}
+                                    <td>{{ $actividades->empleado ? $actividades->empleado->nombre1 . ' ' . $actividades->empleado->apellido1 : 'N/A' }}
                                     </td>
                                 </tr>
                                 <tr>

@@ -37,4 +37,5 @@ class Empleados extends Model
     {
         return $this->hasMany(Actividades::class, 'empleado_id');
     }
+    
 }

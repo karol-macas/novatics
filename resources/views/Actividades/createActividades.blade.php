@@ -39,15 +39,9 @@
                                 </div>
                             </div>
 
-                            
-
-                            @if (Auth::user()->isEmpleado())
-                                <input type="hidden" name="empleado_id" value="{{ Auth::user()->id }}">
-                            @else
-                                <!-- Si el usuario es un administrador, se muestra el select con todos los empleados -->
+                            @if (Auth::user()->isAdmin())
                                 <div class="form-group row mb-3">
-                                    <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleados <span
-                                            class="text-danger">*</span></label>
+                                    <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleado</label>
                                     <div class="col-md-6">
                                         <select name="empleado_id" class="form-select" required>
                                             <option value="">Seleccione un empleado</option>
@@ -58,6 +52,20 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                            @endif
+
+                            <!-- Selección Automática del Empleado para Empleados -->
+                            @if (Auth::user()->isEmpleado())
+                                <div class="form-group row mb-3">
+                                    <label for="empleado_nombre"
+                                        class="col-md-4 col-form-label text-md-right">Empleado</label>
+                                    <div class="col-md-6">
+                                        <input type="text" name="empleado_nombre" class="form-control"
+                                            value="{{ Auth::user()->empleado->nombre1 }} {{ Auth::user()->empleado->apellido1 }}"
+                                            readonly>
+                                        <input type="hidden" name="empleado_id" value="{{ Auth::user()->empleado->id }}">
                                     </div>
                                 </div>
                             @endif

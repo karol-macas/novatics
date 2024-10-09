@@ -21,13 +21,17 @@
                         <select name="empleado_id" id="empleado_id" class="form-select" onchange="this.form.submit()">
                             <option value="">-- Todos los empleados --</option>
                             @foreach ($empleados as $empleado)
-                                
+                                <option value="{{ $empleado->id }}"
+                                    {{ request('empleado_id') == $empleado->id ? 'selected' : '' }}>
+                                    {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
             </form>
         @endif
+
 
         <div class="d-flex justify-content-between mb-3">
             <a href="{{ route('actividades.create') }}" class="btn btn-primary btn-lg">Crear Actividad</a>
@@ -67,10 +71,16 @@
                                 @endif
                             </td>
                             <td>
-                                @if (isset($actividad->empleados['nombre1']))
-                                    {{ $actividad->empleados['nombre1'] }} {{ $actividad->empleados['apellido1'] }}
+                                @if ($actividad->empleado)
+                                    {{ $actividad->empleado->nombre1 }} {{ $actividad->empleado->apellido1 }}
+                                @else
+                                    No asignado
                                 @endif
                             </td>
+
+                           
+                            
+
                             <td>{{ $actividad->descripcion }}</td>
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>

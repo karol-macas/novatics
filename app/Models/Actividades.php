@@ -32,11 +32,11 @@ class Actividades extends Model
 
     protected $dates = ['fecha_inicio', 'fecha_fin']; // Asegúrate de incluir esto
 
-    public function empleados()
+    public function empleado()
     {
         return $this->belongsTo(Empleados::class, 'empleado_id');
     }
-    
+
     public function cliente()
     {
         return $this->belongsTo(Cliente::class, 'cliente_id');
