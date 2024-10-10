@@ -1,201 +1,68 @@
-{{-- @extends('layouts.app')
-
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection --}}
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container mt-4">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Dashboard</div>
+                    <div class="card-header text-center">
+                        <h2>Dashboard</h2>
+                    </div>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row text-center">
                             @if (Auth::user()->isAdmin())
-                                <!-- Dashboard para Admin-->
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">RRHH</h5>
+                                @foreach([
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'RRHH'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'activos.png', 'title' => 'Activos'],
+                                    ['route' => 'actividades.indexActividades', 'img' => 'actividades.png', 'title' => 'Actividades'],
+                                    ['route' => 'clientes.index', 'img' => 'clientes.png', 'title' => 'Clientes'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'clientes.png', 'title' => 'Empleados'],
+                                    ['route' => 'departamentos.index', 'img' => 'rrhh.png', 'title' => 'Departamentos'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'cobros.png', 'title' => 'Cobros'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'mensajeria.png', 'title' => 'Mensajería'],
+                                    ['route' => 'productos.index', 'img' => 'productos.png', 'title' => 'Productos'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'seguridad.png', 'title' => 'Seguridades'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'ventas.png', 'title' => 'Ventas'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'Usuarios'],
+                                    ['route' => 'empleados.indexEmpleados', 'img' => 'inteligencia-de-negocios.png', 'title' => 'Inteligencia de Negocios'],
+                                ] as $item)
+                                <div class="col-md-3 mb-4">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            <a href="{{ route($item['route']) }}">
+                                                <img src="{{ asset('images/' . $item['img']) }}" alt="{{ $item['title'] }}" class="img-fluid mb-2" style="width: 60px; height: 60px;">
+                                                <h5 class="card-title">{{ $item['title'] }}</h5>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/activos.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Activos</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('actividades.indexActividades') }}">
-                                                <img src="{{ asset('images/actividades.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Actividades</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('clientes.index') }}">
-                                                <img src="{{ asset('images/clientes.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Clientes</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/clientes.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Empleados</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('departamentos.index') }}">
-                                                <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Departamentos</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/cobros.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Cobros</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/mensajeria.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Mensajería</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('productos.index') }}">
-                                                <img src="{{ asset('images/productos.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Productos</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/seguridad.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Seguridades</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/ventas.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Ventas</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/rrhh.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Usuarios</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
-                                            <a href="{{ route('empleados.indexEmpleados') }}">
-                                                <img src="{{ asset('images/inteligencia-de-negocios.png') }}"
-                                                    alt="Empleados" style="width: 50px; height: 50px;">
-                                                <h5 class="card-title">Inteligencia de Negocios</h5>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             @elseif (Auth::user()->isEmpleado())
-                                <!-- Dashboard para Empleado-->
-                                <div class="col-md-4">
-                                    <div class="card text-center">
-                                        <div class="card-body">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column align-items-center">
                                             <a href="{{ route('actividades.indexActividades') }}">
-                                                <img src="{{ asset('images/actividades.png') }}" alt="Empleados"
-                                                    style="width: 50px; height: 50px;">
+                                                <img src="{{ asset('images/actividades.png') }}" alt="Actividades" class="img-fluid mb-2" style="width: 60px; height: 60px;">
                                                 <h5 class="card-title">Actividades</h5>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-
                             @endif
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .card {
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 @endsection

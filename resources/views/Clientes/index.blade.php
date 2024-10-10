@@ -19,7 +19,7 @@
                 <thead class="thead-dark text-center">
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Producto</th>
+                        <th scope="col">Productos</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Dirección</th>
                         <th scope="col">Teléfono</th>
@@ -37,7 +37,11 @@
                     @foreach ($clientes as $cliente)
                         <tr>
                             <td>{{ $cliente->id }}</td>
-                            <td>{{ $cliente->producto->nombre }}</td>
+                            <td>
+                                @foreach($cliente->productos as $producto)
+                                    <span>{{ $producto->nombre }}</span>@if(!$loop->last), @endif
+                                @endforeach
+                            </td>
                             <td>{{ $cliente->nombre }}</td>
                             <td>{{ $cliente->direccion }}</td>
                             <td>{{ $cliente->telefono }}</td>

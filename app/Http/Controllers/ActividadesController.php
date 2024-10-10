@@ -16,26 +16,34 @@ class ActividadesController extends Controller
 {
     public function index(Request $request)
     {
+
         // Obtener el usuario autenticado
         $user = Auth::user();
+
+        // Obtener el empleado seleccionado del filtro (si lo hay)
+        $empleadoId = $request->input('empleado_id');
 
         // Obtener todas las actividades basadas en el rol del usuario
         $actividades = Actividades::with('empleado', 'cliente', 'departamento')
             ->when($user->isEmpleado(), function ($query) use ($user) {
+                // Filtrar por empleado autenticado
                 return $query->where('empleado_id', $user->empleado->id);
+            }, function ($query) use ($empleadoId) {
+                // Para administradores: filtrar por empleado si está seleccionado
+                if ($empleadoId) {
+                    return $query->where('empleado_id', $empleadoId);
+                }
+                return $query;
             })
+            ->orderBy('created_at', 'desc') // Ordenar por las más recientes primero
             ->paginate(10);
-
-
 
         // Obtener la lista de empleados (solo si es necesario)
         $empleados = Empleados::all();
 
-          // Filtrar actividades por empleado si se seleccionó uno el administrador
-
-
         return view('Actividades.indexActividades', compact('actividades', 'empleados'));
     }
+
 
     public function create()
     {
@@ -68,10 +76,11 @@ class ActividadesController extends Controller
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO,OTRO',
         ]);
 
-       
+
         // Crea la actividad
         $actividad = new Actividades();
-        $actividad->empleado_id = $request->input('empleado_id'); 
+        $actividad->cliente_id = $request->input('cliente_id');
+        $actividad->empleado_id = $request->input('empleado_id');
         $actividad->descripcion = $request->input('descripcion');
         $actividad->codigo_osticket = $request->input('codigo_osticket');
         $actividad->semanal_diaria = $request->input('semanal_diaria');
@@ -96,7 +105,7 @@ class ActividadesController extends Controller
         return view('Actividades.show', compact('actividades'));
     }
 
-   
+
 
     public function edit($id)
     {
@@ -187,7 +196,9 @@ class ActividadesController extends Controller
         return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado con éxito.');
     }
 
-    public function updateTiempoEstimado(Request $request, $id)
+    //Actualizar el tiempo estimado de la actividad
+
+    /**public function updateTiempoEstimado(Request $request, $id)
     {
         $validated = $request->validate([
             'tiempo_estimado' => 'required|integer',
@@ -198,7 +209,7 @@ class ActividadesController extends Controller
         $actividad->save();
 
         return redirect()->route('actividades.indexActividades')->with('success', 'Tiempo estimado actualizado con éxito.');
-    }
+    }**/
 
     public function destroy($id)
     {

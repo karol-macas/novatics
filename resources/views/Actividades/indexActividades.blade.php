@@ -10,7 +10,7 @@
         @endif
 
         @if (Auth::user()->isAdmin())
-            <!-- Formulario estilizado para seleccionar un empleado -->
+            <!-- Formulario estilizado para seleccionar un empleado "Filtrar las Actividades por actividades"-->
             <form action="{{ route('actividades.indexActividades') }}" method="GET" class="mb-4 p-4 shadow bg-light rounded">
                 <div class="form-group">
                     <label for="empleado_id" class="form-label fs-5">Seleccionar Empleado:</label>
@@ -31,7 +31,6 @@
                 </div>
             </form>
         @endif
-
 
         <div class="d-flex justify-content-between mb-3">
             <a href="{{ route('actividades.create') }}" class="btn btn-primary btn-lg">Crear Actividad</a>
@@ -64,12 +63,17 @@
                 <tbody>
                     @foreach ($actividades as $actividad)
                         <tr>
+                            <!-- Mostrar los datos de la actividad -->
                             <td>{{ $actividad->id }}</td>
+
                             <td>
-                                @if (isset($actividad->clientes['nombre']))
-                                    {{ $actividad->clientes['nombre'] }}
+                                @if ($actividad->cliente)
+                                    {{ $actividad->cliente->nombre }}
+                                @else
+                                    No asignado
                                 @endif
                             </td>
+
                             <td>
                                 @if ($actividad->empleado)
                                     {{ $actividad->empleado->nombre1 }} {{ $actividad->empleado->apellido1 }}
@@ -78,13 +82,14 @@
                                 @endif
                             </td>
 
-                           
-                            
-
                             <td>{{ $actividad->descripcion }}</td>
+
                             <td>{{ $actividad->codigo_osticket }}</td>
+
                             <td>{{ $actividad->semanal_diaria }}</td>
+
                             <td>{{ $actividad->fecha_inicio->format('d-m-Y') }}</td>
+
                             @if (Auth::user()->isEmpleado())
                                 <td>
                                     <div class="progress" style="height: 25px;">
@@ -120,7 +125,6 @@
                             <td>{{ $actividad->observaciones }}</td>
                             @if (Auth::user()->isEmpleado())
                                 <td>
-
                                     <div>
                                         <span
                                             class="badge
@@ -129,7 +133,6 @@
                                                 {{ $actividad->estado == 'PENDIENTE' ? 'badge bg-pastel-naranja' : '' }}">
                                             {{ $actividad->estado }}
                                         </span>
-
                                     </div>
 
                                     <form action="{{ route('actividades.updateEstado', $actividad->id) }}" method="POST">
@@ -163,26 +166,7 @@
                                 </td>
                             @endif
 
-                            <td>
-                                @if (Auth::user()->isEmpleado())
-                                    <div>
-                                        {{ $actividad->tiempo_estimado }} min
-                                    </div>
-                                    <form action="{{ route('actividades.updateTiempoEstimado', $actividad->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PUT')
-
-                                        <input type="number" name="tiempo_estimado" class="form-control form-control-sm"
-                                            placeholder="Tiempo Estimado" min="0"
-                                            value="{{ $actividad->tiempo_estimado }}" required>
-                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
-
-                                    </form>
-                                @else
-                                    {{ $actividad->tiempo_estimado }}
-                                @endif
-                            </td>
+                            <td>{{ $actividad->tiempo_estimado }}</td>
 
                             <td>
                                 @if ($actividad->estado === 'FINALIZADO')
@@ -205,11 +189,9 @@
                                     {{ $actividad->prioridad }}
                                 </span>
                             </td>
-                            <td>
-                                @if (isset($actividad->departamento['nombre']))
-                                    {{ $actividad->departamento['nombre'] }}
-                                @endif
-                            </td>
+
+                            <td>{{ $actividad->departamento->nombre }}</td>
+
                             <td>{{ $actividad->error }}</td>
                             <td class="text-center">
                                 @if (Auth::user()->isAdmin())

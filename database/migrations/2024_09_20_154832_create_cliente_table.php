@@ -10,7 +10,6 @@ class CreateClienteTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
             $table->string('nombre');
             $table->string('direccion');
             $table->string('telefono');

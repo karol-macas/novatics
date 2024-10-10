@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Cliente;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Storage;
@@ -13,9 +12,7 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        $clientes = Cliente::with('producto')
-        ->latest()
-        ->paginate(10);
+        $clientes = Cliente::with('productos')->latest()->paginate(10);
         return view('clientes.index', compact('clientes'));
     }
 
@@ -28,7 +25,8 @@ class ClienteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_producto' => 'required|exists:productos,id',
+            'productos' => 'required|array',
+            'productos.*' => 'exists:productos,id',
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
@@ -36,22 +34,12 @@ class ClienteController extends Controller
             'contacto' => 'nullable|string|max:255',
             'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
-            'documento_otros' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'precio' => 'required|numeric',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
         $cliente = new Cliente($validated);
-
-        /*crear el usuario asociado al cliente
-        $user = User::create([
-            'name' => $validated['nombre'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['telefono']),
-            'role' => 'cliente',
-        ]);*/
-
-        //$cliente->user_id = $user->id;
 
         if ($request->hasFile('orden_trabajo')) {
             $cliente->orden_trabajo = $request->file('orden_trabajo')->store('contratos_orden_trabajo', 'public');
@@ -62,19 +50,31 @@ class ClienteController extends Controller
         }
 
         if ($request->hasFile('documento_otros')) {
-            $cliente->documento_otros = $request->file('documento_otros')->store('documentos_otros', 'public');
+            $rutas = [];
+            foreach ($request->file('documento_otros') as $file) {
+                $rutas[] = $file->store('documentos_otros', 'public');
+            }
+            $cliente->documento_otros = json_encode($rutas);
         }
 
         $cliente->save();
+        $cliente->productos()->attach($validated['productos']);
 
         return redirect()->route('clientes.index')->with('success', 'Cliente creado con éxito.');
     }
-
     public function show($id)
     {
-        $cliente = Cliente::with('producto')->findOrFail($id);
-        return view('clientes.show', compact('cliente'));
+        $cliente = Cliente::with('productos')->findOrFail($id);
+
+        // Decodificar los documentos
+        $documentos = json_decode($cliente->documento_otros, true) ?? [];
+
+        // Generar URLs para los documentos
+        $urls = array_map(fn($doc) => asset('storage/' . $doc), $documentos);
+
+        return view('clientes.show', compact('cliente', 'urls'));
     }
+
 
     public function edit($id)
     {
@@ -86,7 +86,8 @@ class ClienteController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'id_producto' => 'required|exists:productos,id',
+            'productos' => 'required|array',
+            'productos.*' => 'exists:productos,id',
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
@@ -95,15 +96,14 @@ class ClienteController extends Controller
             'precio' => 'required|numeric',
             'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
-            'documento_otros' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
         $cliente = Cliente::findOrFail($id);
         $cliente->fill($validated);
 
-        // Subir archivos al disco 'public' y eliminar los anteriores
-
+        // Subir archivos y eliminar los anteriores
         if ($request->hasFile('orden_trabajo')) {
             if ($cliente->orden_trabajo) {
                 Storage::disk('public')->delete($cliente->orden_trabajo);
@@ -119,13 +119,22 @@ class ClienteController extends Controller
         }
 
         if ($request->hasFile('documento_otros')) {
+            // Eliminar archivos anteriores si existen
             if ($cliente->documento_otros) {
-                Storage::disk('public')->delete($cliente->documento_otros);
+                $documentosAnteriores = json_decode($cliente->documento_otros, true);
+                foreach ($documentosAnteriores as $doc) {
+                    Storage::disk('public')->delete($doc);
+                }
             }
-            $cliente->documento_otros = $request->file('documento_otros')->store('documentos_otros', 'public');
+            $rutas = [];
+            foreach ($request->file('documento_otros') as $file) {
+                $rutas[] = $file->store('documentos_otros', 'public');
+            }
+            $cliente->documento_otros = json_encode($rutas);
         }
 
         $cliente->save();
+        $cliente->productos()->sync($validated['productos']); // Actualiza los productos
 
         return redirect()->route('clientes.index')->with('success', 'Cliente actualizado con éxito.');
     }
@@ -134,20 +143,24 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::findOrFail($id);
 
-        //Eliminar los archivos asociados antes de eliminar el cliente
-
+        // Eliminar archivos asociados antes de eliminar el cliente
         if ($cliente->orden_trabajo) {
             Storage::disk('public')->delete($cliente->orden_trabajo);
         }
 
-        if ($cliente->contrato_mantenimiento) {
-            Storage::disk('public')->delete($cliente->contrato_mantenimiento);
+        if ($cliente->contrato_mantenimiento_licencia) {
+            Storage::disk('public')->delete($cliente->contrato_mantenimiento_licencia);
         }
 
         if ($cliente->documento_otros) {
-            Storage::disk('public')->delete($cliente->documento_otros);
+            $documentosAnteriores = json_decode($cliente->documento_otros, true);
+            foreach ($documentosAnteriores as $doc) {
+                Storage::disk('public')->delete($doc);
+            }
         }
-        
+
+        $cliente->delete(); // Eliminar cliente
+
         return redirect()->route('clientes.index')->with('success', 'Cliente eliminado con éxito.');
     }
 }

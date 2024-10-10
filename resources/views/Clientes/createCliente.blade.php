@@ -24,17 +24,13 @@
 
                         <!-- Campo Producto -->
                         <div class="form-group mb-3">
-                            <label for="id_producto">Producto</label>
-                            <select name="id_producto" class="form-control" required>
-                                <option value="">Seleccione un producto</option>
+                            <label for="productos">Selecciona Productos</label>
+
+                            <select name="productos[]" id="productos" class="form-control" multiple required>
                                 @foreach ($productos as $producto)
-                                    <option value="{{ $producto->id }}"
-                                        {{ old('id_producto') == $producto->id ? 'selected' : '' }}>
-                                        {{ $producto->nombre }}
-                                    </option>
+                                    <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
                                 @endforeach
                             </select>
-
                         </div>
 
                         <!-- Campo Nombre -->
@@ -85,13 +81,14 @@
                         <!-- Campo Documentos Otros -->
                         <div class="form-group mb-3">
                             <label for="documento_otros">Documentos Otros</label>
-                            <input type="file" name="documento_otros" class="form-control">
+                            <input type="file" name="documento_otros[]" class="form-control" multiple>
                         </div>
 
                         <!-- Campo Precio -->
                         <div class="form-group mb-3">
                             <label for="precio">Precio</label>
-                            <input type="number" name="precio" class="form-control" value="{{ old('precio') }}" min="0" required>
+                            <input type="number" name="precio" class="form-control" value="{{ old('precio') }}"
+                                min="0" required>
                         </div>
 
                         <!-- Campo Estado -->
@@ -114,4 +111,13 @@
         </div>
     </div>
 
-    @endsection
+    <script>
+        $(document).ready(function() {
+            $('#productos').select2({
+                placeholder: "Selecciona productos",
+                allowClear: true
+            });
+        });
+    </script>
+
+@endsection

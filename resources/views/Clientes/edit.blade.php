@@ -31,11 +31,9 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="id_producto">Producto</label>
-                                        <select name="id_producto" class="form-control" required>
-                                            <option value="">Seleccione un producto</option>
-                                            @foreach ($productos as $producto)
-                                                <option value="{{ $producto->id }}"
-                                                    {{ old('id_producto', $cliente->id_producto) == $producto->id ? 'selected' : '' }}>
+                                        <select name="productos[]" id="productos" multiple>
+                                            @foreach($productos as $producto)
+                                                <option value="{{ $producto->id }}" {{ $cliente->productos->contains($producto->id) ? 'selected' : '' }}>
                                                     {{ $producto->nombre }}
                                                 </option>
                                             @endforeach

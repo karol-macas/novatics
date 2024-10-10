@@ -1,9 +1,10 @@
 @extends('layouts.app')
+
 @section('content')
-    <div class="container mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h1>Crear Nuevo Departamento</h1>
+    <div class="container mt-5">
+        <div class="card shadow-sm" style="max-width: 600px; margin: auto;">
+            <div class="card-header text-center bg-primary text-white">
+                <h2><i class="fa-solid fa-building"></i> Crear Nuevo Departamento</h2>
             </div>
 
             <div class="card-body">
@@ -21,23 +22,25 @@
                     @csrf
 
                     <!-- Campo Nombre -->
-                    <div class="form-group
-                    ">
+                    <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
                     </div>
 
                     <!-- Campo Descripción -->
-                    <div class="form-group
-                    ">
+                    <div class="form-group">
                         <label for="descripcion">Descripción</label>
-                        <input type="text" name="descripcion" class="form-control" value="{{ old('descripcion') }}" required>
+                        <textarea name="descripcion" class="form-control" rows="3" required>{{ old('descripcion') }}</textarea>
                     </div>
 
-                    <!-- Botón Enviar -->
-                    <div class="form-group
-                    ">
-                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    <!-- Botones Enviar -->
+                    <div class="form-group text-center mt-4">
+                        <button type="submit" class="btn btn-success me-2">
+                            <i class="fas fa-save"></i> Guardar
+                        </button>
+                        <a href="{{ route('departamentos.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
                     </div>
                 </form>
             </div>

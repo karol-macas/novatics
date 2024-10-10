@@ -192,23 +192,44 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Departamentos -->
-                            <div class="form-group row mb-2">
-                                <label for="departamento_id"
-                                    class="col-md-4 col-form-label text-md-right">Departamento<span class="text-danger">
-                                        *</span></label>
-                                <div class="col-md-6">
-                                    <select name="departamento_id" class="form-select" required>
-                                        <option value="">Seleccione un departamento</option>
-                                        @foreach ($departamentos as $departamento)
-                                            <option value="{{ $departamento->id }}"
-                                                {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
-                                                {{ $departamento->nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+
+                            <!-- Seleccion del Administrador del departamento a los empleados -->
+                            @if (Auth::user()->isAdmin())
+                                <div class="form-group row mb-2">
+                                    <label for="departamento_id"
+                                        class="col-md-4 col-form-label text-md-right">Departamento<span
+                                            class="text-danger"> *</span></label>
+                                    <div class="col-md-6">
+                                        <select name="departamento_id" class="form-select" required>
+                                            <option value="">Seleccione un departamento</option>
+                                            @foreach ($departamentos as $departamento)
+                                                <option value="{{ $departamento->id }}"
+                                                    {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
+                                                    {{ $departamento->nombre }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
+                            <!-- Se llene automatico el campo de de departamento al que corresponde al empleado -->
+                            @if (Auth::user()->isEmpleado())
+                                <div class="form-group row mb-2">
+                                    <label for="departamento_id"
+                                        class="col-md-4 col-form-label text-md-right">Departamento</label>
+                                    <div class="col-md-6">
+                                        <!-- Campo oculto para enviar el ID del departamento -->
+                                        <input type="hidden" name="departamento_id"
+                                            value="{{ Auth::user()->empleado->departamento->id }}">
+                                        <!-- Campo visible que muestra el nombre del departamento solo como lectura -->
+                                        <input type="text" class="form-control"
+                                            value="{{ Auth::user()->empleado->departamento->nombre }}" readonly>
+                                    </div>
+                                </div>
+                            @endif
+
+
                             <!-- Tipo de Error -->
                             <div class="form-group row mb-2">
                                 <label for="error" class="col-md-4 col-form-label text-md-right">Tipo de
@@ -224,9 +245,10 @@
                                             {{ old('error') == 'MEJORA ERROR' ? 'selected' : '' }}>Mejora
                                             Error
                                         </option>
-                                        <option value="DESARROL LOCALES"
-                                            {{ old('error') == 'DESARROL LOCALES' ? 'selected' : '' }}>Desarrollo
+                                        <option value="DESARROLLO" {{ old('error') == 'DESARROLLO' ? 'selected' : '' }}>
+                                            Desarrollo
                                         </option>
+                                       
                                         <option value="OTRO" {{ old('error') == 'OTRO' ? 'selected' : '' }}>
                                             Otros
                                         </option>

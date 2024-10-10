@@ -73,6 +73,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                              
                                 <tr>
                                     <th><i class="fa-solid fa-credit-card"></i> Precio</th>
                                     <td>{{ $cliente->precio }}</td>

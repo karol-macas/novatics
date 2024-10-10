@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Actividades;
-
-
 
 class Cliente extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id_producto',
         'nombre',
         'direccion',
         'telefono',
@@ -31,8 +27,8 @@ class Cliente extends Model
         return $this->hasMany(Actividades::class);
     }
 
-    public function producto()
+    public function productos()
     {
-        return $this->belongsTo(Producto::class, 'id_producto');
+        return $this->belongsToMany(Producto::class, 'cliente_producto');
     }
 }

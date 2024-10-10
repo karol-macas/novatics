@@ -13,13 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
-                                    
-        \App\Models\User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('holamundo1234')
+        
+      // si quiero crear un admin ya por defecto 
+        \App\Models\User::factory(1)->create([
+            'name' => 'admin',
+            'email' => 'karol1770@hotmail.com',
+            'password' => bcrypt('karol123'),
+            'role' => 'admin',
         ]);
+
 
         $this->call(DepartamentoSeeder::class);
 
