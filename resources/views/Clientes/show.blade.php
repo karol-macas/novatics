@@ -17,9 +17,18 @@
                                     <td>{{ $cliente->id }}</td>
                                 </tr>
                                 <tr>
-                                    <th><i class="fa-solid fa-box-open"></i> Producto</th>
-                                    <td>{{ $cliente->producto->nombre }}</td>
+                                    <th><i class="fas fa-box"></i> Productos</th>
+                                    <td>
+                                        @if ($cliente->productos->isNotEmpty())
+                                            @foreach ($cliente->productos as $producto)
+                                                {{ $producto->nombre }} <br>
+                                            @endforeach
+                                        @else
+                                            <span class="text-danger">No tiene productos asociados</span>
+                                        @endif
+                                    </td>
                                 </tr>
+                    
                                 <tr>
                                     <th><i class="fas fa-user"></i> Nombre</th>
                                     <td>{{ $cliente->nombre }}</td>
@@ -65,15 +74,17 @@
                                 <tr>
                                     <th><i class="fas fa-file-pdf"></i> Documentos Otros</th>
                                     <td>
-                                        @if ($cliente->documento_otros)
-                                            <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
-                                                class="btn btn-info btn-sm">Ver Documentos Otros</a>
+                                        @if (!empty($urls))
+                                            @foreach ($urls as $url)
+                                                <a href="{{ $url }}" class="btn btn-info btn-sm mb-2" target="_blank">Ver Documento</a><br>
+                                            @endforeach
                                         @else
                                             <span class="text-danger">No tiene documentos otros</span>
                                         @endif
                                     </td>
                                 </tr>
-                              
+                                
+
                                 <tr>
                                     <th><i class="fa-solid fa-credit-card"></i> Precio</th>
                                     <td>{{ $cliente->precio }}</td>

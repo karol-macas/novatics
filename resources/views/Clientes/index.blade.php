@@ -65,8 +65,12 @@
                             </td>
                             <td>
                                 @if ($cliente->documento_otros)
-                                    <a href="{{ asset('storage/' . $cliente->documento_otros) }}"
-                                        class="btn btn-info btn-sm" target="_blank">Ver</a>
+                                    @php
+                                        $documentos = json_decode($cliente->documento_otros, true) ?? [];
+                                    @endphp
+                                    @foreach ($documentos as $documento)
+                                        <a href="{{ asset('storage/' . $documento) }}" class="btn btn-info btn-sm mb-2" target="_blank">Ver Documento</a><br>
+                                    @endforeach
                                 @else
                                     <span class="text-danger">No tiene documentos otros</span>
                                 @endif

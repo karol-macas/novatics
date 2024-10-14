@@ -31,13 +31,15 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label for="id_producto">Producto</label>
-                                        <select name="productos[]" id="productos" multiple>
-                                            @foreach($productos as $producto)
-                                                <option value="{{ $producto->id }}" {{ $cliente->productos->contains($producto->id) ? 'selected' : '' }}>
+                                        <select name="productos[]" id="productos" class="form-control" multiple required>
+                                            @foreach ($productos as $producto)
+                                                <option value="{{ $producto->id }}" 
+                                                    @if (in_array($producto->id, $cliente->productos->pluck('id')->toArray())) selected @endif>
                                                     {{ $producto->nombre }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        
                                     </div>
 
                                     <!-- Campo Nombre -->

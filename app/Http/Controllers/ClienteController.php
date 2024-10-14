@@ -64,7 +64,7 @@ class ClienteController extends Controller
     }
     public function show($id)
     {
-        $cliente = Cliente::with('productos')->findOrFail($id);
+        $cliente = Cliente::with('productos')->findOrFail($id);  
 
         // Decodificar los documentos
         $documentos = json_decode($cliente->documento_otros, true) ?? [];

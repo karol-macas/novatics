@@ -13,6 +13,6 @@ class Producto extends Model
 
     public function clientes()
     {
-        return $this->belongsToMany(Cliente::class, 'cliente_producto');
+        return $this->belongsToMany(Cliente::class);
     }
 }
