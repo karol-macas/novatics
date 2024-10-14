@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DepartamentoController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\ChatbotController;
 
 // Ruta de Bienvenida para todos 
 Route::get('/', function () {
@@ -79,6 +80,8 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'departamentos.update',
             'destroy' => 'departamentos.destroy',
         ]);
+
+        Route::post('/chatbot', [ChatbotController::class, 'handle']);
     });
 
     // Rutas que solo puede acceder un empleado
@@ -100,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
        //Ruta de update de estado 
         Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
 
-        
+        Route::post('/chatbot', [ChatbotController::class, 'handle']);
     });
 });
 
