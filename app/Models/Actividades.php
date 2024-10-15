@@ -34,16 +34,16 @@ class Actividades extends Model
 
     public function empleado()
     {
-        return $this->belongsTo(Empleados::class, 'empleado_id');
+        return $this->belongsTo(Empleados::class);
     }
 
     public function cliente()
     {
-        return $this->belongsTo(Cliente::class, 'cliente_id');
+        return $this->belongsTo(Cliente::class);
     }
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
+        return $this->belongsTo(Departamento::class);
     }
 }

@@ -41,15 +41,36 @@
                 <thead class="thead-dark text-center">
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Empleado</th>
+                        <!-- Filtrar por Cliente -->
+                        <th scope="col">
+                            Cliente
+                            <input type="text" wire:model="cliente_filter" class="form-control form-control-sm"
+                                placeholder="Filtrar...">
+                        </th>
+                        <!-- Filtrar por Empleado -->
+                        <th scope="col">
+                            Empleado
+                            <input type="text" wire:model="empleado_filter" class="form-control form-control-sm"
+                                placeholder="Filtrar...">
+                        </th>
+
                         <th scope="col">Descripción</th>
                         <th scope="col">Código Osticket</th>
                         <th scope="col">Semanal/Diaria</th>
                         <th scope="col">Fecha de Inicio</th>
                         <th scope="col">Avance (%)</th>
                         <th scope="col">Observaciones</th>
-                        <th scope="col">Estado</th>
+                        <!-- Filtrar por Estado -->
+                        <th scope="col">
+                            Estado
+                            <select wire:model="estado_filter" class="form-select">
+                                <option value="">-- Todos los estados --</option>
+                                <option value="EN CURSO">EN CURSO</option>
+                                <option value="FINALIZADO">FINALIZADO</option>
+                                <option value="PENDIENTE">PENDIENTE</option>
+                            </select>
+                        </th>
+
                         <th scope="col">Tiempo Estimado (min)</th>
                         <th scope="col">Tiempo Real (h y m)</th>
                         <th scope="col">Fecha de Fin</th>
