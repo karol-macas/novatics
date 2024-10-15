@@ -29,14 +29,23 @@ class ProductoTest extends TestCase
         ]);
 
         $cliente = Cliente::create([
-            'nombre' => 'Cliente ABC',
-            'email' => 'cliente@abc.com',
+            'nombre' => 'Cooperativa Ejemplo',
+            'direccion' => 'Valle de los Chillos',
+            'telefono' => '2456789',
+            'email' => 'cooperativa@gmail.com',
+            'contacto' => '234556777',
+            'orden_trabajo' => 'orden.pdf',
+            'contrato_mantenimiento_licencia' => ' contrato.pdf',
+            'documento_otros' => ' documento.pdf',
+            'precio' => '13',
+            'estado' => 'activo',
         ]);
 
-        // Añadiendo un cliente al producto
+        // Asociar un cliente con un producto
         $producto->clientes()->attach($cliente->id);
 
-        // Verificar la relación
+
+        // Verificar que la relación con cliente funciona
         $this->assertTrue($producto->clientes->contains($cliente));
     }
 }
