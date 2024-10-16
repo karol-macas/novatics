@@ -2,77 +2,75 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Livewire\WithPagination;
+use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 use App\Models\Actividades;
-use App\Models\Empleados;
 
-class ActividadesTable extends Component
+class ActividadesTable extends DataTableComponent
 {
-    use WithPagination;
+    protected $model = Actividades::class;
 
-    // Variables de filtros
-    public $cliente_filter;
-    public $empleado_filter;
-    public $descripcion_filter;
-    public $codigo_filter;
-    public $estado_filter;
-
-    public function render()
+    public function configure(): void
     {
-        // Consultar actividades con los filtros necesarios
-        $actividades = Actividades::when($this->cliente_filter, function ($query) {
-            return $query->whereHas('cliente', function ($query) {
-                $query->where('nombre', 'like', '%' . $this->cliente_filter . '%');
-            });
-        })->when($this->empleado_filter, function ($query) {
-            return $query->whereHas('empleado', function ($query) {
-                $query->where('nombre1', 'like', '%' . $this->empleado_filter . '%')
-                    ->orWhere('apellido1', 'like', '%' . $this->empleado_filter . '%');
-            });
-        })->when($this->descripcion_filter, function ($query) {
-            return $query->where('descripcion', 'like', '%' . $this->descripcion_filter . '%');
-        })->when($this->codigo_filter, function ($query) {
-            return $query->where('codigo_osticket', 'like', '%' . $this->codigo_filter . '%');
-        })->when($this->estado_filter, function ($query) {
-            return $query->where('estado', $this->estado_filter);
-        })->paginate(10);
-
-        return view('livewire.actividades-table', [
-            'actividades' => $actividades,
-            'empleados' => Empleados::all(), // Esto solo es necesario si los nombres de empleados se van a usar en filtros o tablas.
-        ]);
+        $this->setPrimaryKey('id');
     }
 
-    // Reiniciar la paginación al actualizar filtros específicos
-    public function updatedDescripcionFilter()
+    public function columns(): array
     {
-        $this->resetPage();
+        return [
+            Column::make("Id", "id")
+                ->sortable(),
+
+            Column::make("Cliente", "cliente.nombre")
+                ->sortable(),
+                
+            Column::make("Empleado", "empleado.nombre1" )
+                ->sortable(),
+              
+            Column::make("Descripcion", "descripcion")
+                ->sortable(),
+            Column::make("Codigo osticket", "codigo_osticket")
+                ->sortable(),
+            Column::make("Semanal diaria", "semanal_diaria")
+                ->sortable(),
+            Column::make("Fecha inicio", "fecha_inicio")
+                ->sortable(),
+            Column::make("Avance", "avance")
+                ->sortable(),
+            Column::make("Observaciones", "observaciones")
+                ->sortable(),
+            Column::make("Estado", "estado")
+                ->sortable(),
+            Column::make("Tiempo estimado", "tiempo_estimado")
+                ->sortable(),
+            Column::make("Tiempo real horas", "tiempo_real_horas")
+                ->sortable(),
+            Column::make("Tiempo real minutos", "tiempo_real_minutos")
+                ->sortable(),
+            Column::make("Fecha fin", "fecha_fin")
+                ->sortable(),
+            Column::make("Repetitivo", "repetitivo")
+                ->sortable(),
+            Column::make("Prioridad", "prioridad")
+                ->sortable(),
+            Column::make("Departamento id", "departamento_id")
+                ->sortable(),
+            Column::make("Error", "error")
+                ->sortable(),
+            Column::make("Created at", "created_at")
+                ->sortable(),
+            Column::make("Updated at", "updated_at")
+                ->sortable(),
+        ];
     }
 
-    public function updatedCodigoFilter()
+    public function query()
     {
-        $this->resetPage();
+        return Actividades::query()
+            ->with('cliente')
+            ->with('empleado')
+            ->with('departamento');
     }
 
-    public function updatedClienteFilter()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedEmpleadoFilter()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedEstadoFilter()
-    {
-        $this->resetPage();
-    }
-
-    // Función de exportación (por implementar)
-    public function export()
-    {
-        // Lógica de exportación aquí
-    }
 }

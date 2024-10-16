@@ -44,14 +44,10 @@
                         <!-- Filtrar por Cliente -->
                         <th scope="col">
                             Cliente
-                            <input type="text" wire:model="cliente_filter" class="form-control form-control-sm"
-                                placeholder="Filtrar...">
                         </th>
                         <!-- Filtrar por Empleado -->
                         <th scope="col">
                             Empleado
-                            <input type="text" wire:model="empleado_filter" class="form-control form-control-sm"
-                                placeholder="Filtrar...">
                         </th>
 
                         <th scope="col">Descripción</th>
@@ -63,12 +59,6 @@
                         <!-- Filtrar por Estado -->
                         <th scope="col">
                             Estado
-                            <select wire:model="estado_filter" class="form-select">
-                                <option value="">-- Todos los estados --</option>
-                                <option value="EN CURSO">EN CURSO</option>
-                                <option value="FINALIZADO">FINALIZADO</option>
-                                <option value="PENDIENTE">PENDIENTE</option>
-                            </select>
                         </th>
 
                         <th scope="col">Tiempo Estimado (min)</th>
@@ -242,13 +232,12 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
-        </div>
-        <!-- Paginación -->
-        <div class="d-flex justify-content-center my-4">
-            {{ $actividades->links('pagination::bootstrap-4') }}
-        </div>
 
+
+
+
+
+        </div>
     </div>
 
     {{-- SweetAlert script --}}

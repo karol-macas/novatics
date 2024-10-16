@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+    @livewireStyles
+
 
     <!-- En la sección <head> de tu layout o directamente en la vista -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
