@@ -21,13 +21,10 @@ class ActividadesTable extends DataTableComponent
         return [
             Column::make("Id", "id")
                 ->sortable(),
-
             Column::make("Cliente", "cliente.nombre")
                 ->sortable(),
-                
             Column::make("Empleado", "empleado.nombre1" )
                 ->sortable(),
-              
             Column::make("Descripcion", "descripcion")
                 ->sortable(),
             Column::make("Codigo osticket", "codigo_osticket")
