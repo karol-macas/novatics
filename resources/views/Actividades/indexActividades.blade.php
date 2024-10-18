@@ -1,3 +1,11 @@
+<!--------------------------------------------------------
+Nombre del Proyecto: ERP
+Modulo: Actividades
+Version: 1.0
+Desarrollado por: Karol Macas
+Fecha de Inicio:
+Ultima Modificación:
+--------------------------------------------------------->
 @extends('layouts.app')
 
 @section('content')
@@ -66,31 +74,39 @@
                         <tr>
                             <td>{{ $actividad->id }}</td>
                             <td>{{ $actividad->cliente ? $actividad->cliente->nombre : 'No asignado' }}</td>
-                            <td>{{ $actividad->empleado ? $actividad->empleado->nombre1 . ' ' . $actividad->empleado->apellido1 : 'No asignado' }}</td>
+                            <td>{{ $actividad->empleado ? $actividad->empleado->nombre1 . ' ' . $actividad->empleado->apellido1 : 'No asignado' }}
+                            </td>
                             <td>{{ $actividad->descripcion }}</td>
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>
                             <td>{{ $actividad->fecha_inicio->format('d-m-Y') }}</td>
-                            
+
                             <!-- Avance con actualización solo para empleados -->
                             @if (Auth::user()->isEmpleado())
                                 <td>
                                     <div class="progress" style="height: 25px;">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $actividad->avance }}%;" aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ $actividad->avance }}%;"
+                                            aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
                                             {{ $actividad->avance }}%
                                         </div>
                                     </div>
                                     <form action="{{ route('actividades.updateAvance', $actividad->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <input type="number" name="avance" class="form-control form-control-sm mt-2" placeholder="Avance" min="0" max="100" value="{{ $actividad->avance }}" required>
-                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar Avance</button>
+                                        <input type="number" name="avance" class="form-control form-control-sm mt-2"
+                                            placeholder="Avance" min="0" max="100"
+                                            value="{{ $actividad->avance }}" required>
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
+                                            Avance</button>
                                     </form>
                                 </td>
                             @else
                                 <td>
                                     <div class="progress" style="height: 25px;">
-                                        <div class="progress-bar" role="progressbar" style="width: {{ $actividad->avance }}%;" aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{ $actividad->avance }}%;"
+                                            aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
                                             {{ $actividad->avance }}%
                                         </div>
                                     </div>
@@ -99,44 +115,74 @@
 
                             <td>{{ $actividad->observaciones }}</td>
 
-                            <!-- Estado editable solo para empleados -->
+                            <td>
+                                <span
+                                    class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
+                            </td>
+                            
+                            {{-- <!-- Estado con actualización solo para empleados -->
                             @if (Auth::user()->isEmpleado())
                                 <td>
-                                    <span class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
+                                    <span
+                                        class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
                                     <form action="{{ route('actividades.updateEstado', $actividad->id) }}" method="POST">
                                         @csrf
                                         @method('PUT')
-                                        <select name="estado" class="form-select form-select-sm mt-2" required>
-                                            <option value="EN CURSO" {{ $actividad->estado == 'EN CURSO' ? 'selected' : '' }}>EN CURSO</option>
-                                            <option value="FINALIZADO" {{ $actividad->estado == 'FINALIZADO' ? 'selected' : '' }}>FINALIZADO</option>
-                                            <option value="PENDIENTE" {{ $actividad->estado == 'PENDIENTE' ? 'selected' : '' }}>PENDIENTE</option>
+                                        <label for="estado-{{ $actividad->id }}" class="visually-hidden">Estado de la
+                                            actividad</label>
+                                        <select id="estado-{{ $actividad->id }}" name="estado"
+                                            class="form-select form-select-sm mt-2" required>
+                                            <option value="EN CURSO"
+                                                {{ $actividad->estado == 'EN CURSO' ? 'selected' : '' }}>EN CURSO</option>
+                                            <option value="FINALIZADO"
+                                                {{ $actividad->estado == 'FINALIZADO' ? 'selected' : '' }}>FINALIZADO
+                                            </option>
+                                            <option value="PENDIENTE"
+                                                {{ $actividad->estado == 'PENDIENTE' ? 'selected' : '' }}>PENDIENTE
+                                            </option>
                                         </select>
-                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar Estado</button>
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
+                                            Estado</button>
                                     </form>
                                 </td>
                             @else
                                 <td>
-                                    <span class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
+                                    <span
+                                        class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
                                 </td>
                             @endif
 
+                            @if (Auth::user()->isEmpleado())
+                                <td>
+                                    <span
+                                        class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
+                                </td>
+                            @endif --}}
+
+
                             <td>{{ $actividad->tiempo_estimado }}</td>
-                            <td>{{ $actividad->estado === 'FINALIZADO' ? ($actividad->tiempo_real_horas ?? 0) . ' h y ' . ($actividad->tiempo_real_minutos ?? 0) . ' min' : 'N/A' }}</td>
+                            <td>{{ $actividad->estado === 'FINALIZADO' ? ($actividad->tiempo_real_horas ?? 0) . ' h y ' . ($actividad->tiempo_real_minutos ?? 0) . ' min' : 'N/A' }}
+                            </td>
                             <td>{{ $actividad->fecha_fin ? $actividad->fecha_fin->format('d-m-Y') : '' }}</td>
                             <td>{{ $actividad->repetitivo ? 'Sí' : 'No' }}</td>
-                            <td><span class="badge {{ $actividad->prioridad == 'ALTA' ? 'bg-danger text-light' : ($actividad->prioridad == 'MEDIA' ? 'bg-warning text-dark' : 'bg-success text-light') }}">{{ $actividad->prioridad }}</span></td>
+                            <td><span
+                                    class="badge {{ $actividad->prioridad == 'ALTA' ? 'bg-danger text-light' : ($actividad->prioridad == 'MEDIA' ? 'bg-warning text-dark' : 'bg-success text-light') }}">{{ $actividad->prioridad }}</span>
+                            </td>
                             <td>{{ $actividad->departamento->nombre }}</td>
                             <td>{{ $actividad->error }}</td>
 
                             <td class="text-center">
                                 @if (Auth::user()->isAdmin())
-                                    <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm" title="Ver">
+                                    <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
+                                        title="Ver">
                                         <i class="fas fa-eye fa-md"></i>
                                     </a>
-                                    <a href="{{ route('actividades.edit', $actividad->id) }}" class="btn btn-warning btn-sm" title="Editar">
+                                    <a href="{{ route('actividades.edit', $actividad->id) }}"
+                                        class="btn btn-warning btn-sm" title="Editar">
                                         <i class="fas fa-edit fa-md"></i>
                                     </a>
-                                    <form action="{{ route('actividades.destroy', $actividad->id) }}" method="POST" class="d-inline form-delete">
+                                    <form action="{{ route('actividades.destroy', $actividad->id) }}" method="POST"
+                                        class="d-inline form-delete">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm btn-delete" title="Eliminar">
@@ -144,7 +190,8 @@
                                         </button>
                                     </form>
                                 @else
-                                    <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm" title="Ver">
+                                    <a href="{{ route('actividades.show', $actividad->id) }}" class="btn btn-info btn-sm"
+                                        title="Ver">
                                         <i class="fas fa-eye fa-md"></i>
                                     </a>
                                 @endif
@@ -161,7 +208,7 @@
 
     {{-- DataTables initialization --}}
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#actividades-table').DataTable({
                 responsive: true,
                 pageLength: 10, // Número de filas por página
@@ -180,7 +227,7 @@
             });
 
             // SweetAlert for delete confirmation
-            $('.form-delete').submit(function (e) {
+            $('.form-delete').submit(function(e) {
                 e.preventDefault();
                 Swal.fire({
                     title: '¿Estás seguro?',

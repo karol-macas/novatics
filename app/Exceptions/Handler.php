@@ -1,5 +1,13 @@
 <?php
-
+/*****************************************************
+ * Nombre del Proyecto: ERP 
+ * Descripción: Manejador de excepciones
+ * Modulo: Exceptions
+ * Version: 1.0
+ * Desarrollado por: Karol Macas
+ * Fecha de Inicio: 21/09/2024
+ * Ultima Modificación: 18/10/2024
+ ****************************************************/
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;

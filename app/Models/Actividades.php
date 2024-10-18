@@ -1,4 +1,12 @@
 <?php
+/*****************************************************
+ * Nombre del Proyecto: ERP 
+ * Modulo: Actividades
+ * Version: 1.0
+ * Desarrollado por: Karol Macas
+ * Fecha de Inicio: 
+ * Ultima Modificación: 
+ ****************************************************/
 
 namespace App\Models;
 
