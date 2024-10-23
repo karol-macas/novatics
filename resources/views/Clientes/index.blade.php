@@ -25,8 +25,8 @@
                         <th scope="col">Teléfono</th>
                         <th scope="col">Email</th>
                         <th scope="col">Contacto</th>
-                        <th scope="col">Orden de Trabajo</th>
-                        <th scope="col">Contrato de Mantenimiento</th>
+                        <th scope="col">Contrato de Implementacion</th>
+                        <th scope="col">Convenio de Datos</th>
                         <th scope="col">Documentos Otros</th>
                         <th scope="col">Precio</th>
                         <th scope="col">Estado</th>
@@ -48,19 +48,19 @@
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->contacto }}</td>
                             <td>
-                                @if ($cliente->orden_trabajo)
-                                    <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}" class="btn btn-info btn-sm"
-                                        target="_blank">Ver</a>
+                                @if ($cliente->contrato_implementacion)
+                                    <a href="{{ asset('storage/' . $cliente->contrato_implementacion) }}"
+                                        class="btn btn-info btn-sm" target="_blank">Ver</a>
                                 @else
-                                    <span class="text-danger">No tiene orden de trabajo</span>
+                                    <span class="text-danger">No tiene contrato de implementación</span>
                                 @endif
                             </td>
                             <td>
-                                @if ($cliente->contrato_mantenimiento_licencia)
-                                    <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
-                                        class="btn btn-info btn-sm" target="_blank">Ver</a>
+                                @if ($cliente->convenio_datos)
+                                    <a href="{{ asset('storage/' . $cliente->convenio_datos) }}" class="btn btn-info btn-sm"
+                                        target="_blank">Ver</a>
                                 @else
-                                    <span class="text-danger">No tiene contrato de mantenimiento</span>
+                                    <span class="text-danger">No tiene convenio de datos</span>
                                 @endif
                             </td>
                             <td>

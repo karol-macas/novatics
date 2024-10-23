@@ -50,24 +50,24 @@
                                     <td>{{ $cliente->contacto }}</td>
                                 </tr>
                                 <tr>
-                                    <th><i class="fas fa-file-pdf"></i> Orden de Trabajo</th>
+                                    <th><i class="fas fa-file-pdf"></i> Contrato de Implementación</th>
                                     <td>
-                                        @if ($cliente->orden_trabajo)
-                                            <a href="{{ asset('storage/' . $cliente->orden_trabajo) }}"
-                                                class="btn btn-info btn-sm">Ver Orden de Trabajo</a>
+                                        @if ($cliente->contrato_implementacion)
+                                            <a href="{{ asset('storage/' . $cliente->contrato_implementacion) }}"
+                                                class="btn btn-info btn-sm">Ver Contrato de Implementación</a>
                                         @else
-                                            <span class="text-danger">No tiene orden de trabajo</span>
+                                            <span class="text-danger">No tiene contrato de implementación</span>
                                         @endif
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th><i class="fas fa-file-pdf"></i> Contrato de Mantenimiento</th>
+                                    <th><i class="fas fa-file-pdf"></i> Convenio de Datos</th>
                                     <td>
-                                        @if ($cliente->contrato_mantenimiento_licencia)
-                                            <a href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
-                                                class="btn btn-info btn-sm">Ver Contrato de Mantenimiento</a>
+                                        @if ($cliente->convenio_datos)
+                                            <a href="{{ asset('storage/' . $cliente->convenio_datos) }}"
+                                                class="btn btn-info btn-sm">Ver Convenio de Datos</a>
                                         @else
-                                            <span class="text-danger">No tiene contrato de mantenimiento</span>
+                                            <span class="text-danger">No tiene convenio de datos</span>
                                         @endif
                                     </td>
                                 </tr>

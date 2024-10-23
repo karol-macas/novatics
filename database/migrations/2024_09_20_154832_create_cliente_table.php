@@ -15,10 +15,10 @@ class CreateClienteTable extends Migration
             $table->string('telefono');
             $table->string('email');
             $table->string('contacto')->default('Sin contacto');
-            $table->string('orden_trabajo')->nullable();
-            $table->string('contrato_mantenimiento_licencia')->nullable();
+            $table->string('contrato_implementacion')->nullable();
+            $table->string('convenio_datos')->nullable();
             $table->string('documento_otros')->nullable();
-            $table->decimal('precio', 10, 2);
+            $table->decimal('precio_producto', 10, 2);
             $table->enum('estado', ['ACTIVO', 'INACTIVO']);
             $table->timestamps();
         });

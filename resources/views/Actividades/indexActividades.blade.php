@@ -224,6 +224,9 @@ Ultima Modificación:
                         previous: "Anterior"
                     }
                 },
+                order: [
+                    [0, 'desc']
+                ]
             });
 
             // SweetAlert for delete confirmation

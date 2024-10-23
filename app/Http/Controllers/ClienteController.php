@@ -32,8 +32,8 @@ class ClienteController extends Controller
             'telefono' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
-            'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
-            'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'contrato_implementacion' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'convenio_datos' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'precio' => 'required|numeric',
             'estado' => 'required|in:ACTIVO,INACTIVO',
@@ -41,12 +41,12 @@ class ClienteController extends Controller
 
         $cliente = new Cliente($validated);
 
-        if ($request->hasFile('orden_trabajo')) {
-            $cliente->orden_trabajo = $request->file('orden_trabajo')->store('contratos_orden_trabajo', 'public');
+        if ($request->hasFile('contrato_implementacion')) {
+            $cliente->contrato_implementacion = $request->file('contrato_implementacion')->store('contratos_implementacion', 'public');
         }
 
-        if ($request->hasFile('contrato_mantenimiento_licencia')) {
-            $cliente->contrato_mantenimiento_licencia = $request->file('contrato_mantenimiento_licencia')->store('contratos_mantenimiento_licencia', 'public');
+        if ($request->hasFile('convenio_datos')) {
+            $cliente->convenio_datos = $request->file('convenio_datos')->store('convenios_datos', 'public');
         }
 
         if ($request->hasFile('documento_otros')) {
@@ -94,8 +94,8 @@ class ClienteController extends Controller
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
             'precio' => 'required|numeric',
-            'orden_trabajo' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
-            'contrato_mantenimiento_licencia' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'contrato_implementacion.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'convenio_datos.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
@@ -104,18 +104,18 @@ class ClienteController extends Controller
         $cliente->fill($validated);
 
         // Subir archivos y eliminar los anteriores
-        if ($request->hasFile('orden_trabajo')) {
-            if ($cliente->orden_trabajo) {
-                Storage::disk('public')->delete($cliente->orden_trabajo);
+        if ($request->hasFile('contrato_implementacion')) {
+            if ($cliente->contrato_implementacion) {
+                Storage::disk('public')->delete($cliente->contrato_implementacion);
             }
-            $cliente->orden_trabajo = $request->file('orden_trabajo')->store('contratos_orden_trabajo', 'public');
+            $cliente->contrato_implementacion = $request->file('contrato_implementacion')->store('contratos_implementacion', 'public');
         }
 
-        if ($request->hasFile('contrato_mantenimiento_licencia')) {
-            if ($cliente->contrato_mantenimiento_licencia) {
-                Storage::disk('public')->delete($cliente->contrato_mantenimiento_licencia);
+        if ($request->hasFile('convenio_datos')) {
+            if ($cliente->convenio_datos) {
+                Storage::disk('public')->delete($cliente->convenio_datos);
             }
-            $cliente->contrato_mantenimiento_licencia = $request->file('contrato_mantenimiento_licencia')->store('contratos_mantenimiento_licencia', 'public');
+            $cliente->convenio_datos = $request->file('convenio_datos')->store('convenios_datos', 'public');
         }
 
         if ($request->hasFile('documento_otros')) {
@@ -144,12 +144,12 @@ class ClienteController extends Controller
         $cliente = Cliente::findOrFail($id);
 
         // Eliminar archivos asociados antes de eliminar el cliente
-        if ($cliente->orden_trabajo) {
-            Storage::disk('public')->delete($cliente->orden_trabajo);
+        if ($cliente->contrato_implementacion) {
+            Storage::disk('public')->delete($cliente->contrato_implementacion);
         }
 
-        if ($cliente->contrato_mantenimiento_licencia) {
-            Storage::disk('public')->delete($cliente->contrato_mantenimiento_licencia);
+        if ($cliente->convenio_datos) {
+            Storage::disk('public')->delete($cliente->convenio_datos);
         }
 
         if ($cliente->documento_otros) {

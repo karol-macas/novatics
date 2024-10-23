@@ -15,8 +15,8 @@ class Cliente extends Model
         'telefono',
         'email',
         'contacto',
-        'orden_trabajo',
-        'contrato_mantenimiento_licencia',
+        'contrato_implementacion',
+        'convenio_datos',
         'documento_otros',
         'precio',
         'estado'

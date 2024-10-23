@@ -64,16 +64,16 @@
         },
         {
             "name": "botman/botman",
-            "version": "v2.8.6",
+            "version": "v2.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/botman/botman.git",
-                "reference": "5ab943a4ee22d18b2a31cf84089963a257ce2fd5"
+                "reference": "80fdd645d2ce081ad4a9cb4410e17886cfc722d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/botman/botman/zipball/5ab943a4ee22d18b2a31cf84089963a257ce2fd5",
-                "reference": "5ab943a4ee22d18b2a31cf84089963a257ce2fd5",
+                "url": "https://api.github.com/repos/botman/botman/zipball/80fdd645d2ce081ad4a9cb4410e17886cfc722d5",
+                "reference": "80fdd645d2ce081ad4a9cb4410e17886cfc722d5",
                 "shasum": ""
             },
             "require": {
@@ -83,7 +83,7 @@
                 "php": ">=7.1",
                 "psr/container": "^1.0 || ^2.0",
                 "react/socket": "~1.0",
-                "spatie/macroable": "^1.0",
+                "spatie/macroable": "^1.0 || ^2.0",
                 "symfony/http-foundation": "^2.8 || ^3.0 || ^4.0 || ^5.0 || ^6.0 || ^7.0"
             },
             "require-dev": {
@@ -138,9 +138,9 @@
             ],
             "support": {
                 "issues": "https://github.com/botman/botman/issues",
-                "source": "https://github.com/botman/botman/tree/v2.8.6"
+                "source": "https://github.com/botman/botman/tree/v2.8.7"
             },
-            "time": "2024-09-24T18:33:48+00:00"
+            "time": "2024-10-21T09:59:11+00:00"
         },
         {
             "name": "botman/driver-web",

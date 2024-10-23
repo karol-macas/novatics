@@ -24,8 +24,9 @@ class DepartamentoSeeder extends Seeder
         ];
 
         foreach ($departamentos as $departamento) {
-            // Evitar duplicados, crear solo si no existe
-            Departamento::firstOrCreate($departamento);
+            Departamento::create($departamento);
         }
+
+        
     }
 }

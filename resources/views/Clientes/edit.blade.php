@@ -33,13 +33,13 @@
                                         <label for="id_producto">Producto</label>
                                         <select name="productos[]" id="productos" class="form-control" multiple required>
                                             @foreach ($productos as $producto)
-                                                <option value="{{ $producto->id }}" 
+                                                <option value="{{ $producto->id }}"
                                                     @if (in_array($producto->id, $cliente->productos->pluck('id')->toArray())) selected @endif>
                                                     {{ $producto->nombre }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        
+
                                     </div>
 
                                     <!-- Campo Nombre -->
@@ -105,26 +105,25 @@
                                 <legend class="text-primary"><i class="fa-solid fa-file"></i> Documentos</legend>
                                 <div class="row">
 
-                                    <!-- Campo Orden de Trabajo -->
+                                    <!-- Campo Contrato Implementación -->
                                     <div class="form-group col-md-6">
-                                        <label for="orden_trabajo">Orden de Trabajo</label>
-                                        <input type="file" name="orden_trabajo" class="form-control">
-                                        @if ($cliente->orden_trabajo)
+                                        <label for="contrato_implementacion">Contrato de Implementación</label>
+                                        <input type="file" name="contrato_implementacion" class="form-control">
+                                        @if ($cliente->contrato_implementacion)
                                             <p class="mt-1">Archivo actual: <a
-                                                    href="{{ asset('storage/' . $cliente->orden_trabajo) }}"
-                                                    target="_blank">Ver
-                                                    Orden de Trabajo</a></p>
+                                                    href="{{ asset('storage/' . $cliente->contrato_implementacion) }}"
+                                                    target="_blank">Ver Contrato de Implementación</a></p>
                                         @endif
                                     </div>
 
-                                    <!-- Campo Contrato Mantenimiento -->
+                                    <!-- Campo Convenio Datos -->
                                     <div class="form-group col-md-6">
-                                        <label for="contrato_mantenimiento_licencia">Contrato de Mantenimiento</label>
-                                        <input type="file" name="contrato_mantenimiento_licencia" class="form-control">
-                                        @if ($cliente->contrato_mantenimiento_licencia)
+                                        <label for="convenio_datos">Convenio de Datos</label>
+                                        <input type="file" name="convenio_datos" class="form-control">
+                                        @if ($cliente->convenio_datos)
                                             <p class="mt-1">Archivo actual: <a
-                                                    href="{{ asset('storage/' . $cliente->contrato_mantenimiento_licencia) }}"
-                                                    target="_blank">Ver Contrato de Mantenimiento</a></p>
+                                                    href="{{ asset('storage/' . $cliente->convenio_datos) }}"
+                                                    target="_blank">Ver Convenio de Datos</a></p>
                                         @endif
                                     </div>
 
@@ -135,8 +134,7 @@
                                         @if ($cliente->documento_otros)
                                             <p class="mt-1">Archivo actual: <a
                                                     href="{{ asset('storage/' . $cliente->documento_otros) }}"
-                                                    target="_blank">Ver
-                                                    Documentos Otros</a></p>
+                                                    target="_blank">Ver Documentos Otros</a></p>
                                         @endif
                                     </div>
                                 </div>

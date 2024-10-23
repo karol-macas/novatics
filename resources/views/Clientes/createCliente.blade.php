@@ -66,16 +66,16 @@
                                 required>
                         </div>
 
-                        <!-- Campo Orden de Trabajo -->
+                        <!-- Contrato de Implementacion -->
                         <div class="form-group mb-3">
-                            <label for="orden_trabajo">Orden de Trabajo</label>
-                            <input type="file" name="orden_trabajo" class="form-control">
+                            <label for="contrato_implementacion">Contrato de Implementación</label>
+                            <input type="file" name="contrato_implementacion" class="form-control">
                         </div>
 
-                        <!-- Campo Contrato de Mantenimiento -->
-                        <div class="form-group mb-3">
-                            <label for="contrato_mantenimiento_licencia">Contrato de Mantenimiento</label>
-                            <input type="file" name="contrato_mantenimiento_licencia" class="form-control">
+                        <!-- Convenio de Datos -->
+                        <div class="form-group  mb-3">
+                            <label for="convenio_datos">Convenio de Datos</label>
+                            <input type="file" name="convenio_datos" class="form-control">
                         </div>
 
                         <!-- Campo Documentos Otros -->
