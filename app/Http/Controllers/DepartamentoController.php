@@ -23,6 +23,8 @@ class DepartamentoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
+            'supervisor_id' => 'required|exists:supervisores,id',
+            'cargo_id' => 'required|exists:cargos,id',        
         ]);
 
         $departamento = new Departamento($validated);
@@ -50,6 +52,8 @@ class DepartamentoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
+            'id_supervisor' => 'required|numeric',
+            'id_cargo' => 'required|numeric',
         ]);
 
         $departamento->fill($validated);

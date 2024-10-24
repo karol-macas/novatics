@@ -18,7 +18,8 @@ class CreateClienteTable extends Migration
             $table->string('contrato_implementacion')->nullable();
             $table->string('convenio_datos')->nullable();
             $table->string('documento_otros')->nullable();
-            $table->decimal('precio_producto', 10, 2);
+            //total del valor de los productos
+            $table->integer('total_valor_productos');
             $table->enum('estado', ['ACTIVO', 'INACTIVO']);
             $table->timestamps();
         });

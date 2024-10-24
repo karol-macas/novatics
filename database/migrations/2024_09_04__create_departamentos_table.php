@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,8 +11,15 @@ class CreateDepartamentosTable extends Migration
     {
         Schema::create('departamentos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->text('descripcion')->nullable();
+            $table -> string('nombre');
+            $table -> string('descripcion');
+            //tomar el id del supervisor para relacionarlo con el departamento
+            $table->foreignId('id_supervisor')->constrained('supervisor')->onDelete('cascade');
+            //cada departamento tiene sus cargos
+            $table->foreignId('id_cargos')->constrained('cargos')->onDelete('cascade');
+
+          
+             
             $table->timestamps();
         });
     }

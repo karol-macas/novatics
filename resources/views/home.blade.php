@@ -25,6 +25,9 @@
             ['route' => 'empleados.indexEmpleados', 'img' => 'ventas.png', 'title' => 'Ventas'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'Usuarios'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'inteligencia-de-negocios.png', 'title' => 'Inteligencia de Negocios'],
+            ['route' => 'supervisores.index','img' => 'inteligencia-de-negocios.png','title' => 'Supervisores'],
+            ['route' => 'cargos.index','img' => 'inteligencia-de-negocios.png','title' => 'Cargos']
+
         ] as $item)
                                     <div class="col-md-3 mb-4">
                                         <div class="card h-100 shadow">

@@ -44,6 +44,13 @@ class EmpleadosController extends Controller
             'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
+            'supervisor_id' => 'required|exists:supervisores,id',
+            'cargo_id' => 'required|exists:cargos,id',
+            'jornada_laboral' => 'required|string|max:255',
+            'fecha_contratacion' => 'required|date',
+            'fecha_conclusion_contrato' => 'nullable|date',
+            'terminacion_contrato' => 'nullable|string|max:255',
+            'fecha_recontratacion' => 'nullable|date',
         ]);
 
         $empleados = new Empleados($validated);
@@ -116,6 +123,14 @@ class EmpleadosController extends Controller
             'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
+            'supervisor_id' => 'required|exists:supervisores,id',
+            'cargo_id' => 'required|exists:cargos,id',
+            'jornada_laboral' => 'required|string|max:255',
+            'fecha_contratacion' => 'required|date',
+            'fecha_conclusion_contrato' => 'nullable|date',
+            'terminacion_contrato' => 'nullable|string|max:255',
+            'fecha_recontratacion' => 'nullable|date',
+    
         ]);
 
         $empleados = Empleados::findOrFail($id);

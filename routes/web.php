@@ -9,6 +9,8 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DepartamentoController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\SupervisorController;
+use App\Http\Controllers\CargosController;
 
 
 
@@ -81,6 +83,24 @@ Route::middleware(['auth'])->group(function () {
             'edit' => 'departamentos.edit',
             'update' => 'departamentos.update',
             'destroy' => 'departamentos.destroy',
+        ]);
+
+        Route::resource('supervisores', SupervisorController::class)->names([
+            'index' => 'supervisores.index',
+            'store' => 'supervisores.store',
+            'show' => 'supervisores.show',
+            'edit' => 'supervisores.edit',
+            'update' => 'supervisores.update',
+            'destroy' => 'supervisores.destroy',
+        ]);
+
+        Route::resource('cargos', CargosController::class)->names([
+            'index' => 'cargos.index',
+            'store' => 'cargos.store',
+            'show' => 'cargos.show',
+            'edit' => 'cargos.edit',
+            'update' => 'cargos.update',
+            'destroy' => 'cargos.destroy',
         ]);
 
         Route::post('/chatbot', [ChatbotController::class, 'handle']);

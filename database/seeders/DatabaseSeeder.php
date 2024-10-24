@@ -22,8 +22,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
+        
 
-        $this->call(DepartamentoSeeder::class);
+
+     
 
     }
 }

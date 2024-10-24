@@ -15,8 +15,8 @@ class CreateActividadesTabla extends Migration
     {
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cliente_id')->nullable();
-            $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade');
+            $table->unsignedBigInteger('id_cliente')->nullable();
+            $table->foreignId('id_empleado')->constrained('empleados')->onDelete('cascade');
             $table->string('descripcion');
             $table->string('codigo_osticket')->nullable();
             $table->string('semanal_diaria');
@@ -30,8 +30,13 @@ class CreateActividadesTabla extends Migration
             $table->date('fecha_fin')->nullable();
             $table->boolean('repetitivo');
             $table->string('prioridad');
-            $table->unsignedBigInteger('departamento_id');
             $table->string('error');
+            //cada actividad tiene un departamento
+            $table->foreignId('id_departamento')->constrained('departamentos')->onDelete('cascade');
+            //cada actividad tiene un cargo
+            $table->foreignId('id_cargo')->constrained('cargos')->onDelete('cascade');
+            //cada actividad tiene un supervisor
+            $table->foreignId('id_supervisor')->constrained('supervisor')->onDelete('cascade');
             $table->timestamps();
         });
     }
