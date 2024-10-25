@@ -15,9 +15,9 @@
             ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'RRHH'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'activos.png', 'title' => 'Activos'],
             ['route' => 'actividades.indexActividades', 'img' => 'actividades.png', 'title' => 'Actividades'],
-            ['route' => 'clientes.index', 'img' => 'clientes.png', 'title' => 'Clientes'],
+            ['route' => 'clientes.index', 'img' => 'cooperativas.png', 'title' => 'Clientes'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'clientes.png', 'title' => 'Empleados'],
-            ['route' => 'departamentos.index', 'img' => 'rrhh.png', 'title' => 'Departamentos'],
+            ['route' => 'departamentos.index', 'img' => 'departamentos.png', 'title' => 'Departamentos'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'cobros.png', 'title' => 'Cobros'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'mensajeria.png', 'title' => 'Mensajería'],
             ['route' => 'productos.index', 'img' => 'productos.png', 'title' => 'Productos'],
@@ -25,8 +25,8 @@
             ['route' => 'empleados.indexEmpleados', 'img' => 'ventas.png', 'title' => 'Ventas'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'Usuarios'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'inteligencia-de-negocios.png', 'title' => 'Inteligencia de Negocios'],
-            ['route' => 'supervisores.index','img' => 'inteligencia-de-negocios.png','title' => 'Supervisores'],
-            ['route' => 'cargos.index','img' => 'inteligencia-de-negocios.png','title' => 'Cargos']
+            ['route' => 'supervisores.index','img' => 'supervisor.png','title' => 'Supervisores'],
+            ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos']
 
         ] as $item)
                                     <div class="col-md-3 mb-4">

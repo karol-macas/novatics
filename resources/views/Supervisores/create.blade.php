@@ -21,13 +21,13 @@
                 <form action="{{ route('supervisores.store') }}" method="POST">
                     @csrf
 
-                    <!-- Campo Nombre -->
+                    <!-- Campo Nombre del Supervisor -->
                     <div class="form-group mb-3">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                        <label for="nombre_supervisor">Nombre del Supervisor</label>
+                        <input type="text" name="nombre_supervisor" class="form-control" value="{{ old('nombre_supervisor') }}" required>
                     </div>
 
-                    <!-- Campo nombre del supervisor que sera un empleado -->
+                    <!-- Campo empleado -->
                     <div class="form-group mb-3">
                         <label for="empleado_id">Empleado</label>
                         <select name="empleado_id" class="form-control" required>
@@ -38,9 +38,9 @@
                         </select>
                     </div>
 
-                    <!-- Descripcion -->
+                    <!-- Descripción -->
                     <div class="form-group mb-3">
-                        <label for="descripcion">Descripcion</label>
+                        <label for="descripcion">Descripción</label>
                         <textarea name="descripcion" class="form-control" rows="3" required>{{ old('descripcion') }}</textarea>
                     </div>
 
@@ -58,5 +58,3 @@
         </div>
     </div>
 @endsection
-
-                    

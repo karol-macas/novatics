@@ -36,7 +36,7 @@ class CreateActividadesTabla extends Migration
             //cada actividad tiene un cargo
             $table->foreignId('id_cargo')->constrained('cargos')->onDelete('cascade');
             //cada actividad tiene un supervisor
-            $table->foreignId('id_supervisor')->constrained('supervisor')->onDelete('cascade');
+            $table->foreignId('id_supervisor')->constrained('supervisores')->onDelete('cascade');
             $table->timestamps();
         });
     }

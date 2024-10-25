@@ -1,26 +1,25 @@
-<?php 
-/*****************************************************
- * Nombre del Proyecto: ERP 
- * Modulo: Supervisor
- * Version: 1.0
- * Desarrollado por: Karol Macas
- * Fecha de Inicio: 
- * Ultima Modificación: 
- ****************************************************/
+<?php
 
- namespace App\Models;
+namespace App\Models;
 
-    use Illuminate\Database\Eloquent\Factories\HasFactory;
-    use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    class Supervisor extends Model
+
+class Supervisor extends Model
+{
+    use HasFactory;
+
+    protected $table = 'supervisores';
+
+    protected $fillable = [
+        'nombre_supervisor',
+        'descripcion',
+    ];
+
+    // Relación con empleados, si un supervisor puede ser un empleado
+    public function empleado()
     {
-        use HasFactory;
-
-        protected $fillable = [
-            'nombre_supervisor',
-            'descripcion',
-        ];
+        return $this->belongsTo(Empleados::class, 'id_empleado'); // Cambia 'id_empleado' si es necesario
     }
-
-?>
+}

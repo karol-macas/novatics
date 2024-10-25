@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cargos;
+use App\Models\Departamento;
+
 
 
 class CargosController extends Controller{
@@ -10,7 +12,9 @@ class CargosController extends Controller{
     public function index()
     {
         $cargos = Cargos::all();
-        return view('cargos.index', compact('cargos'));
+        $departamento = Departamento::all();
+
+        return view('cargos.index', compact('cargos', 'departamento'));
     }
 
     public function create()

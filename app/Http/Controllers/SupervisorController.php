@@ -1,11 +1,13 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Supervisor;
+use App\Models\Empleados;
 
-class SupervisorController extends Controller{
-
+class SupervisorController extends Controller
+{
     public function index()
     {
         $supervisores = Supervisor::all();
@@ -14,7 +16,9 @@ class SupervisorController extends Controller{
 
     public function create()
     {
-        return view('supervisores.create');
+        $empleados = Empleados::all(); // Asegúrate de que este modelo esté importado
+        return view('supervisores.create', compact('empleados'));
+        
     }
 
     public function store(Request $request)
@@ -64,8 +68,4 @@ class SupervisorController extends Controller{
 
         return redirect()->route('supervisores.index')->with('success', 'Supervisor eliminado con éxito.');
     }
-
-
-
-
 }
