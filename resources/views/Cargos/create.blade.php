@@ -1,4 +1,4 @@
-('layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="container mt-5">
@@ -23,8 +23,8 @@
 
                     <!-- Campo Nombre -->
                     <div class="form-group mb-3">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" class="form-control" value="{{ old('nombre') }}" required>
+                        <label for="nombre_cargo">Nombre</label>
+                        <input type="text" name="nombre_cargo" class="form-control" value="{{ old('nombre_cargo') }}" required>
                     </div>
 
                     <!-- Campo Descripción -->
@@ -42,11 +42,23 @@
                     <!-- Salario Basico -->
                     <div class="form-group mb-3">
                         <label for="salario_basico">Salario Basico</label>
-                        <input type="text" name="salario_basico" class="form-control" value="{{ old('salario_basico') }}" required>
+                        <input type="number" name="salario_basico" class="form-control" value="{{ old('salario_basico') }}" required>
+                    </div>
+
+                    <!-- Campo Selección de Departamento -->
+                    <div class="form-group mb-3">
+                        <label for="departamento_id">Departamento</label>
+                        <select name="departamento_id" class="form-control" required>
+                            <option value="">Seleccione un departamento</option>
+                            @foreach ($departamentos as $departamento)
+                                <option value="{{ $departamento->id }}" {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
+                                    {{ $departamento->nombre }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Botones Enviar -->
-
                     <div class="form-group text-center mt-4">
                         <button type="submit" class="btn btn-success me-2">
                             <i class="fas fa-save"></i> Guardar
@@ -60,5 +72,3 @@
         </div>
     </div>
 @endsection
-
-                    

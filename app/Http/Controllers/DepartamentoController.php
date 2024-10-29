@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -23,8 +24,7 @@ class DepartamentoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
-            'supervisor_id' => 'required|exists:supervisores,id',
-            'cargo_id' => 'required|exists:cargos,id',        
+            
         ]);
 
         $departamento = new Departamento($validated);
@@ -33,9 +33,10 @@ class DepartamentoController extends Controller
         return redirect()->route('departamentos.index')->with('success', 'Departamento creado con éxito.');
     }
 
+
     public function show($id)
     {
-        $departamento = Departamento::findOrFail($id);
+        $departamento = Departamento::with('cargos')->findOrFail($id);
         return view('departamentos.show', compact('departamento'));
     }
 
@@ -69,6 +70,4 @@ class DepartamentoController extends Controller
 
         return redirect()->route('departamentos.index')->with('success', 'Departamento eliminado con éxito.');
     }
-    
 }
-

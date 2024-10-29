@@ -14,6 +14,8 @@
     use Illuminate\Database\Eloquent\Factories\HasFactory;
     use Illuminate\Database\Eloquent\Model;
 
+
+
     class Cargos extends Model
     {
         use HasFactory;
@@ -23,7 +25,13 @@
             'descripcion',
             'codigo_afiliacion',
             'salario_basico',
+            'departamento_id'
         ];
+
+        public function departamento()
+        {
+            return $this->belongsTo(Departamento::class, 'departamento_id');
+        }
 
         
     }
