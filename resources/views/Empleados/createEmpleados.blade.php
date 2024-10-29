@@ -104,6 +104,7 @@
                                 <input type="date" name="fecha_ingreso" class="form-control" required>
                             </div>
                         </div>
+                        
 
                         <h5 class="mt-4"><i class="fa-solid fa-file"></i> Documentos</h5>
                         <div class="row mb-3">
