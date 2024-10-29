@@ -22,4 +22,10 @@ class Supervisor extends Model
     {
         return $this->belongsTo(Empleados::class, 'id_empleado'); // Cambia 'id_empleado' si es necesario
     }
+
+    // Relación con departamentos, si un supervisor puede ser de un departamento
+    public function departamento()
+    {
+        return $this->hasMany(Departamento::class);
+    }
 }

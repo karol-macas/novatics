@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Departamento;
+use App\Models\Supervisor;
 
 
 class DepartamentoController extends Controller
@@ -16,23 +17,24 @@ class DepartamentoController extends Controller
 
     public function create()
     {
-        return view('departamentos.create');
+        $supervisores = Supervisor::all();
+        return view('departamentos.create', compact('supervisores'));
     }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
-            
+            'supervisor_id' => 'required|numeric',
         ]);
-
+    
+        
         $departamento = new Departamento($validated);
         $departamento->save();
-
+    
         return redirect()->route('departamentos.index')->with('success', 'Departamento creado con éxito.');
     }
-
+    
 
     public function show($id)
     {

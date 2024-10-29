@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Supervisor;
 use App\Models\Empleados;
+use App\Models\Departamento;
 
 class SupervisorController extends Controller
 {
@@ -16,8 +17,9 @@ class SupervisorController extends Controller
 
     public function create()
     {
-        $empleados = Empleados::all(); // Asegúrate de que este modelo esté importado
-        return view('supervisores.create', compact('empleados'));
+        $empleados = Empleados::all();
+        $departamentos = Departamento::all();
+        return view('supervisores.create', compact('empleados', 'departamentos'));
         
     }
 

@@ -21,6 +21,7 @@
                     <tr>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Supervisor</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                         <tr>
                             <td>{{ $departamento->nombre }}</td>
                             <td>{{ $departamento->descripcion }}</td>
+                            <td>{{ $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin Supervisor' }}</td>
                             <td class="text-center">
 
                                 <a href="{{ route('departamentos.show', $departamento->id) }}" class="btn btn-info btn-sm">

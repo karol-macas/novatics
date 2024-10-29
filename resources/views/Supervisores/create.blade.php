@@ -21,27 +21,18 @@
                 <form action="{{ route('supervisores.store') }}" method="POST">
                     @csrf
 
-                    <!-- Campo Nombre del Supervisor -->
-                    <div class="form-group mb-3">
-                        <label for="nombre_supervisor">Nombre del Supervisor</label>
-                        <input type="text" name="nombre_supervisor" class="form-control" value="{{ old('nombre_supervisor') }}" required>
-                    </div>
 
-                    <!-- Campo empleado -->
+                    <!-- Nombre Supervisor -->
                     <div class="form-group mb-3">
-                        <label for="empleado_id">Empleado</label>
-                        <select name="empleado_id" class="form-control" required>
-                            <option value="">Seleccione un empleado</option>
-                            @foreach ($empleados as $empleado)
-                                <option value="{{ $empleado->id }}">{{ $empleado->nombre }}</option>
-                            @endforeach
-                        </select>
+                        <label for="nombre_supervisor">Nombre</label>
+                        <input type="text" name="nombre_supervisor" id="nombre_supervisor" class="form-control" value="{{ old('nombre_supervisor') }}">
                     </div>
+                  
 
                     <!-- Descripción -->
                     <div class="form-group mb-3">
                         <label for="descripcion">Descripción</label>
-                        <textarea name="descripcion" class="form-control" rows="3" required>{{ old('descripcion') }}</textarea>
+                        <textarea name="descripcion" id="descripcion" class="form-control" rows="3">{{ old('descripcion') }}</textarea>
                     </div>
 
                     <!-- Botones Enviar -->

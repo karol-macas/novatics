@@ -13,10 +13,13 @@ class Departamento extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre_departamento',
+        'nombre',
         'descripcion',
+        'supervisor_id',
         
     ];
+
+
 
     public function empleados()
     {
@@ -25,7 +28,7 @@ class Departamento extends Model
 
     public function supervisor()
     {
-        return $this->belongsTo(Supervisor::class);
+        return $this->belongsTo(Supervisor::class, 'supervisor_id');
     }
 
     public function cargo()
