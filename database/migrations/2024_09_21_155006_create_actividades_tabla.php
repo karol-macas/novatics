@@ -16,7 +16,7 @@ class CreateActividadesTabla extends Migration
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_cliente')->nullable();
-            $table->foreignId('id_empleado')->constrained('empleados')->onDelete('cascade');
+            $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade');
             $table->string('descripcion');
             $table->string('codigo_osticket')->nullable();
             $table->string('semanal_diaria');

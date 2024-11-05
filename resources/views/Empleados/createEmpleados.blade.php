@@ -26,11 +26,13 @@
                                     onclick="showStep(1)">Información Personal</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="linkStep2" style="color: black;" onclick="showStep(2)">Encargado</a>
+                                <a class="nav-link" id="linkStep2" style="color: black;" onclick="showStep(2)">Detalles del
+                                    Contrato</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" id="linkStep3" style="color: black;"
-                                    onclick="showStep(3)">Documentos</a>
+                                <a class="nav-link" id="linkStep3" style="color: black;" onclick="showStep(3)">Documentacion
+                                    Requerida</a>
                             </li>
                         </ul>
                     </div>
@@ -52,8 +54,7 @@
                                 <div class="col-md-6">
                                     <label for="nombre2" class="form-label">Segundo Nombre<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="nombre2" class="form-control" placeholder="Segundo nombre"
-                                        required>
+                                    <input type="text" name="nombre2" class="form-control" placeholder="Segundo nombre">
                                 </div>
                             </div>
 
@@ -90,8 +91,7 @@
                                 <div class="col-md-6">
                                     <label for="telefono" class="form-label">Teléfono<span
                                             class="text-danger">*</span></label>
-                                    <input type="text" name="telefono" class="form-control" placeholder="Teléfono"
-                                        required>
+                                    <input type="text" name="telefono" class="form-control" placeholder="Teléfono">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="celular" class="form-label">Celular<span
@@ -112,43 +112,118 @@
                             <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente</button>
                         </div>
 
-                        <!-- Step 2: Encargado -->
                         <div class="step d-none" id="step2">
-                            <h4>Encargado</h4>
+                            <h4>Detalles del Contrato</h4>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="departamento" class="form-label">Departamento<span
                                             class="text-danger">*</span></label>
-                                    <select name="departamento_id" id="departamento" class="form-select" required>
+                                    <select name="departamento_id" id="departamento" class="form-select" required
+                                        onchange="updateSupervisor()">
                                         <option value="">Selecciona un Departamento</option>
                                         @foreach ($departamentos as $departamento)
-                                            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                            <option value="{{ $departamento->id }}"
+                                                data-supervisor-id="{{ $departamento->supervisor_id }}"
+                                                data-supervisor-nombre="{{ $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'No Supervisor' }}">
+                                                {{ $departamento->nombre }}</option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="supervisor" class="form-label">Supervisor<span
+                                            class="text-danger">*</span></label>
+                                    <select name="supervisor_id" id="supervisor" class="form-select" required>
+                                        <option value="">Selecciona un Supervisor</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class ="row mb-3">
+
+                                <div class="col-md-6">
+                                    <label for="cargo" class="form-label">Cargo<span
+                                            class="text-danger">*</span></label>
+                                    <select name="cargo_id" id="cargo" class="form-select" required>
+                                        <option value="">Selecciona un Cargo</option>
+                                        @foreach ($cargos as $cargo)
+                                            <option value="{{ $cargo->id }}">{{ $cargo->nombre_cargo }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
+                                
+
                                 <div class="col-md-6">
                                     <label for="fecha_ingreso" class="form-label">Fecha de Ingreso<span
                                             class="text-danger">*</span></label>
                                     <input type="date" name="fecha_ingreso" class="form-control" required>
                                 </div>
                             </div>
+
+                            <div class ="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="jornada_laboral" class="form-label">Tipo de Jornada<span
+                                            class="text-danger">*</span></label>
+                                    <select name="jornada_laboral" id="jornada_laboral" class="form-select" required>
+                                        <option value="">Selecciona una Opcion</option>
+                                        <option value="Tiempo Completo">Tiempo Completo</option>
+                                        <option value="Medio Tiempo">Medio Tiempo</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="fecha_contratacion" class="form-label">Fecha de Contratación<span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="fecha_contratacion" class="form-control" required>
+
+                                </div>
+                            </div>
+
+                            <div class ="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="fecha_conclusion" class="form-label">Fecha de Conclusion<span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="fecha_conclusion" class="form-control">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="terminacion_voluntaria" class="form-label">Terminacion Voluntaria<span
+                                            class="text-danger">*</span></label>
+                                    <select name="terminacion_voluntaria" id="terminacion_voluntaria"
+                                        class="form-select">
+                                        <option value="">Selecciona una Opcion</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class ="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="fecha_recontratacion" class="form-label">Fecha de Recontratacion<span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" name="fecha_recontratacion" class="form-control">
+                                </div>
+                            </div>
+
+
                             <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Anterior</button>
                             <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente</button>
                         </div>
-
-                        <!-- Step 3: Documentos -->
+                        <!-- Step 3: Documentos Requeridos -->
                         <div class="step d-none" id="step3">
-                            <h4>Documentos</h4>
+                            <h4>Documentos Requeridos</h4>
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <label for="curriculum" class="form-label">Currículum<span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="curriculum" class="form-control" required>
+                                    <input type="file" name="curriculum" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="contrato" class="form-label">Contrato<span
                                             class="text-danger">*</span></label>
-                                    <input type="file" name="contrato" class="form-control" required>
+                                    <input type="file" name="contrato" class="form-control">
                                 </div>
                             </div>
 
@@ -156,12 +231,12 @@
                                 <div class="col-md-6">
                                     <label for="contrato_confidencialidad" class="form-label">Contrato de
                                         Confidencialidad<span class="text-danger">*</span></label>
-                                    <input type="file" name="contrato_confidencialidad" class="form-control" required>
+                                    <input type="file" name="contrato_confidencialidad" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento de
                                         Datos<span class="text-danger">*</span></label>
-                                    <input type="file" name="contrato_consentimiento" class="form-control" required>
+                                    <input type="file" name="contrato_consentimiento" class="form-control">
                                 </div>
                             </div>
 
@@ -169,26 +244,70 @@
                             <button type="submit" class="btn btn-success">Guardar</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        function showStep(step) {
-            document.querySelectorAll('.step').forEach(s => s.classList.add('d-none'));
-            document.querySelector(`#step${step}`).classList.remove('d-none');
+        <script>
+            function updateSupervisor() {
+                const departamentoSelect = document.getElementById('departamento');
+                const supervisorSelect = document.getElementById('supervisor');
+                const selectedOption = departamentoSelect.options[departamentoSelect.selectedIndex];
 
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.querySelector(`#linkStep${step}`).classList.add('active');
-        }
+                // Limpiar la selección anterior
+                supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
 
-        function nextStep(step) {
-            showStep(step + 1);
-        }
+                // Obtener el ID y el nombre del supervisor
+                const supervisorId = selectedOption.dataset.supervisorId;
+                const supervisorNombre = selectedOption.dataset.supervisorNombre;
 
-        function prevStep(step) {
-            showStep(step - 1);
-        }
-    </script>
-@endsection
+                if (supervisorId) {
+                    // Crear la opción del supervisor basada en el ID y el nombre del supervisor
+                    const option = document.createElement('option');
+                    option.value = supervisorId;
+                    option.textContent = supervisorNombre; // Mostrar el nombre del supervisor
+                    supervisorSelect.appendChild(option);
+                }
+            }
+
+
+
+            function showStep(step) {
+                document.querySelectorAll('.step').forEach(s => s.classList.add('d-none'));
+                document.querySelector(`#step${step}`).classList.remove('d-none');
+
+                document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                document.querySelector(`#linkStep${step}`).classList.add('active');
+            }
+
+            function nextStep(step) {
+                // Selecciona el paso actual
+                const currentStep = document.querySelector(`#step${step}`);
+                const requiredFields = currentStep.querySelectorAll('[required]');
+
+                let isValid = true;
+
+                // Validación de campos requeridos
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        isValid = false;
+                        field.classList.add('is-invalid'); // Agrega la clase de error
+                    } else {
+                        field.classList.remove('is-invalid'); // Remueve la clase de error si está completo
+                    }
+                });
+
+                if (isValid) {
+                    showStep(step + 1); // Solo avanza si todos los campos están llenos
+                } else {
+                    // Despliega un mensaje de advertencia en el caso de que haya campos vacíos
+                    alert("Por favor complete todos los campos requeridos antes de continuar.");
+                }
+            }
+
+            function prevStep(step) {
+                showStep(step - 1);
+            }
+        </script>
+    @endsection

@@ -15,26 +15,38 @@ class DepartamentoController extends Controller
         return view('departamentos.index', compact('departamentos'));
     }
 
+
     public function create()
     {
         $supervisores = Supervisor::all();
         return view('departamentos.create', compact('supervisores'));
     }
+
+    public function getSupervisor($id)
+{
+    $departamento = Departamento::with('supervisor')->find($id);
+    return response()->json([
+        'supervisor' => $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin asignar'
+    ]);
+}
+
+
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
-            'supervisor_id' => 'required|numeric',
+            'descripcion' => 'required|string',
+            'supervisor_id' => 'nullable|exists:supervisores,id',
         ]);
-    
-        
-        $departamento = new Departamento($validated);
-        $departamento->save();
-    
+
+        Departamento::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'supervisor_id' => $request->supervisor_id,
+        ]);
+
         return redirect()->route('departamentos.index')->with('success', 'Departamento creado con éxito.');
     }
-    
 
     public function show($id)
     {
@@ -55,7 +67,7 @@ class DepartamentoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
-            'id_supervisor' => 'required|numeric',
+            'supervisor_id' => 'nullable|exists:supervisores,id',
             'id_cargo' => 'required|numeric',
         ]);
 

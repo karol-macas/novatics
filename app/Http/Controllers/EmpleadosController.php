@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Empleados;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Departamento;
+use App\Models\Cargos;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,9 @@ class EmpleadosController extends Controller
 
     public function create()
     {
-        $departamentos = Departamento::all();
-        return view('empleados.createEmpleados', compact('departamentos'));
+        $departamentos = Departamento::with('supervisor')->get();
+        $cargos = Cargos::all();
+        return view('empleados.createEmpleados', compact('departamentos', 'cargos'));
     }
 
     public function store(Request $request)
@@ -35,7 +37,7 @@ class EmpleadosController extends Controller
             'apellido2' => 'nullable|string|max:255',
             'cedula' => 'required|string|max:10|unique:empleados',
             'fecha_nacimiento' => 'required|date',
-            'telefono' => 'required|string|max:15',
+            'telefono' => 'nullable|string|max:15',
             'celular' => 'required|string|max:15',
             'correo_institucional' => 'required|email|unique:empleados,correo_institucional',
             'departamento_id' => 'required|exists:departamentos,id',
@@ -63,6 +65,7 @@ class EmpleadosController extends Controller
             'role' => 'empleado',
         ]);
 
+
         $empleados->user_id = $user->id;
 
         // Subir archivos al disco 'public'
@@ -87,6 +90,15 @@ class EmpleadosController extends Controller
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado creado con éxito.');
     }
 
+    public function getSupervisor($id)
+    {
+        $departamento = Departamento::with('supervisor')->find($id);
+        return response()->json([
+            'supervisor' => $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin asignar'
+        ]);
+    }
+
+
     public function show($id)
     {
         $empleados = Empleados::with('departamento')->findOrFail($id);
@@ -105,17 +117,17 @@ class EmpleadosController extends Controller
         $validated = $request->validate([
             'nombre1' => 'required|string|max:255',
             'apellido1' => 'required|string|max:255',
-            'nombre2' => 'required|string|max:255',
-            'apellido2' => 'required|string|max:255',
+            'nombre2' => 'nullable|string|max:255',
+            'apellido2' => 'nullable|string|max:255',
             'cedula' => [
                 'required',
                 'string',
                 'max:10',
                 Rule::unique('empleados')->ignore($id),
-            ], // Excluye la cédula del registro
+            ],
             'fecha_nacimiento' => 'required|date',
-            'telefono' => 'nullable|string|max:20',
-            'celular' => 'required|string|max:20',
+            'telefono' => 'required|string|max:15',
+            'celular' => 'required|string|max:15',
             'correo_institucional' => 'required|string|email|max:255|unique:empleados,correo_institucional,' . $id,
             'departamento_id' => 'required|exists:departamentos,id',
             'curriculum' => 'nullable|file|mimes:pdf,doc,docx',
@@ -123,14 +135,13 @@ class EmpleadosController extends Controller
             'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
-            'supervisor_id' => 'required|exists:supervisores,id',
             'cargo_id' => 'required|exists:cargos,id',
+            'supervisor_id' => 'required|exists:supervisores,id',
             'jornada_laboral' => 'required|string|max:255',
             'fecha_contratacion' => 'required|date',
             'fecha_conclusion_contrato' => 'nullable|date',
             'terminacion_contrato' => 'nullable|string|max:255',
             'fecha_recontratacion' => 'nullable|date',
-    
         ]);
 
         $empleados = Empleados::findOrFail($id);

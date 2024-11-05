@@ -83,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
             'edit' => 'departamentos.edit',
             'update' => 'departamentos.update',
             'destroy' => 'departamentos.destroy',
+            
         ]);
 
         Route::resource('supervisores', SupervisorController::class)->names([
@@ -93,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'supervisores.update',
             'destroy' => 'supervisores.destroy',
         ]);
+
+        Route::get('/departamentos/{id}/supervisor', [DepartamentoController::class, 'getSupervisor']);
+        Route::get('/empleados/{id}/departamento', [EmpleadosController::class, 'getSupervisor']);
 
         Route::resource('cargos', CargosController::class)->names([
             'index' => 'cargos.index',

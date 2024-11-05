@@ -19,7 +19,7 @@ class Departamento extends Model
         
     ];
 
-
+    
 
     public function empleados()
     {

@@ -18,21 +18,24 @@
             <table class="table table-hover table-bordered w-100 table-sm">
                 <thead class="thead-dark text-center">
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombres</th>
-                        <th scope="col">Apellidos</th>
-                        <th scope="col">Cédula</th>
-                        <th scope="col">Fecha de Nacimiento</th>
-                        <th scope="col">Telefono</th>
-                        <th scope="col">Celular</th>
-                        <th scope="col">Correo Institucional</th>
-                        <th scope="col">Departamento</th>
-                        <th scope="col">Fecha de Ingreso</th>
-                        <th scope="col">Curriculum</th>
-                        <th scope="col">Contrato</th>
-                        <th scope="col">Contrato de Confidencialidad</th>
-                        <th scope="col">Contrato de Consentimiento</th>
-                        <th scope="col">Acciones</th>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>cedula</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>Departamento</th>
+                        <th>Cargo</th>
+                        <th>Supervisor</th>
+                        <th>Fecha de Contratación</th>
+                        <th>Tipo de Jornada</th>
+                        <th>Curriculum</th>
+                        <th>Contrato</th>
+                        <th>Contrato de Confidencialidad</th>
+                        <th>Contrato de Consentimiento</th>
+                        <th>Acciones</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -43,12 +46,17 @@
                             <td>{{ $empleado->apellido1 . ' ' . $empleado->apellido2 }}</td>
                             <td>{{ $empleado->cedula }}</td>
                             <td>{{ $empleado->fecha_nacimiento }}</td>
-                            <td>{{ $empleado->telefono }}</td>
                             <td>{{ $empleado->celular }}</td>
                             <td>{{ $empleado->correo_institucional }}</td>
-                            <td>{{ $empleado->departamento->nombre }}</td>
-                            <td>{{ $empleado->fecha_ingreso ? \Carbon\Carbon::parse($empleado->fecha_ingreso)->format('d/m/Y') : 'N/A' }}
+                            <td>{{ optional($empleado->departamento)->nombre ?? 'N/A' }}</td>
+                            <td>{{ optional($empleado->cargo)->nombre_cargo ?? 'N/A' }}</td>
+                            <td>{{ optional($empleado->supervisor)->nombre_supervisor ?? 'N/A' }}</td>
+
+                            <td>{{ $empleado->fecha_contratacion ? \Carbon\Carbon::parse($empleado->fecha_contratacion)->format('d/m/Y') : 'N/A' }}
                             </td>
+                            <td>{{ $empleado->jornada_laboral }}</td>
+                            
+                        
                             <td>
                                 @if ($empleado->curriculum)
                                     <a href="{{ asset('storage/' . $empleado->curriculum) }}" class="btn btn-info btn-sm"

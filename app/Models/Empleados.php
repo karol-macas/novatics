@@ -24,9 +24,9 @@ class Empleados extends Model
         'telefono',
         'celular',
         'correo_institucional',
-        'id_departamento',
-        'id_cargo',
-        'id_supervisor',
+        'departamento_id',
+        'cargo_id',
+        'supervisor_id',
         'curriculum',
         'contrato',
         'contrato_confidencialidad',
@@ -41,7 +41,7 @@ class Empleados extends Model
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class);
+        return $this->belongsTo(Departamento::class,'departamento_id');
     }
 
     public function actividades()
@@ -51,12 +51,12 @@ class Empleados extends Model
 
     public function supervisor()
     {
-        return $this->belongsTo(Supervisor::class);
+        return $this->belongsTo(Supervisor::class, 'supervisor_id');
     }
 
     public function cargo()
     {
-        return $this->belongsTo(Cargos::class);
+        return $this->belongsTo(Cargos::class, 'cargo_id');
     }
 
 
