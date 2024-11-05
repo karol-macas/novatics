@@ -59,5 +59,12 @@ class Empleados extends Model
         return $this->belongsTo(Cargos::class, 'cargo_id');
     }
 
+    public function rubros()
+    {
+        return $this->belongsToMany(Rubro::class, 'empleado_rubro')
+                    ->withPivot('monto')
+                    ->withTimestamps();
+    }
+
 
 }

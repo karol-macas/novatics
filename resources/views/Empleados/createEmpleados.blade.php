@@ -215,12 +215,16 @@
                         <div class="step d-none" id="step3">
                             <h4>Documentos Requeridos</h4>
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <label for="curriculum" class="form-label">Currículum<span
                                             class="text-danger">*</span></label>
                                     <input type="file" name="curriculum" class="form-control">
                                 </div>
-                                <div class="col-md-6">
+                               
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-8">
                                     <label for="contrato" class="form-label">Contrato<span
                                             class="text-danger">*</span></label>
                                     <input type="file" name="contrato" class="form-control">
@@ -228,16 +232,21 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <label for="contrato_confidencialidad" class="form-label">Contrato de
                                         Confidencialidad<span class="text-danger">*</span></label>
                                     <input type="file" name="contrato_confidencialidad" class="form-control">
                                 </div>
-                                <div class="col-md-6">
+                                
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-md-8">
                                     <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento de
                                         Datos<span class="text-danger">*</span></label>
                                     <input type="file" name="contrato_consentimiento" class="form-control">
                                 </div>
+
                             </div>
 
                             <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>

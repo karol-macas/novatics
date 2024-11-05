@@ -26,7 +26,10 @@
             ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'Usuarios'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'inteligencia-de-negocios.png', 'title' => 'Inteligencia de Negocios'],
             ['route' => 'supervisores.index','img' => 'supervisor.png','title' => 'Supervisores'],
-            ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos']
+            ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos'],
+            ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
+            ['route' => 'roles_pago.index', 'img' => 'activos.png', 'title' => 'Roles de Pago'],
+
 
         ] as $item)
                                     <div class="col-md-3 mb-4">

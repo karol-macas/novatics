@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\CargosController;
+use App\Http\Controllers\RubroController;
+use App\Http\Controllers\RolPagoController;
+
 
 
 
@@ -105,6 +108,24 @@ Route::middleware(['auth'])->group(function () {
             'edit' => 'cargos.edit',
             'update' => 'cargos.update',
             'destroy' => 'cargos.destroy',
+        ]);
+
+        Route::resource('rubros', RubroController::class)->names([
+            'index' => 'rubros.index',
+            'store' => 'rubros.store',
+            'show' => 'rubros.show',
+            'edit' => 'rubros.edit',
+            'update' => 'rubros.update',
+            'destroy' => 'rubros.destroy',
+        ]);
+
+        Route::resource('roles_pago', RolPagoController::class)->names([
+            'index' => 'roles_pago.index',
+            'store' => 'roles_pago.store',
+            'show' => 'roles_pago.show',
+            'edit' => 'roles_pago.edit',
+            'update' => 'roles_pago.update',
+            'destroy' => 'roles_pago.destroy',
         ]);
 
         Route::post('/chatbot', [ChatbotController::class, 'handle']);

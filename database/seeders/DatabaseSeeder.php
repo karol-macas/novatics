@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Rubro;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DepartamentoSeeder::class,
             CargosSeeder::class,
+            RubroSeeder::class,
         ]);
 
 
