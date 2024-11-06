@@ -18,7 +18,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('roles_pagos.store') }}" method="POST">
+                <form action="{{ route('roles_pago.store') }}" method="POST">
                     @csrf
 
                     <!-- Campo Empleado -->
@@ -27,8 +27,9 @@
                         <select name="empleado_id" class="form-control" required>
                             <option value="">Seleccione un empleado</option>
                             @foreach ($empleados as $empleado)
-                                <option value="{{ $empleado->id }}" {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
-                                    {{ $empleado->nombre }} {{ $empleado->apellido }}
+                                <option value="{{ $empleado->id }}"
+                                    {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
+                                    {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
                                 </option>
                             @endforeach
                         </select>
@@ -39,7 +40,8 @@
                         <label for="rubros">Rubros <span class="text-danger">*</span></label>
                         <select name="rubros[]" class="form-control" multiple required>
                             @foreach ($rubros as $rubro)
-                                <option value="{{ $rubro->id }}" {{ in_array($rubro->id, old('rubros', [])) ? 'selected' : '' }}>
+                                <option value="{{ $rubro->id }}"
+                                    {{ in_array($rubro->id, old('rubros', [])) ? 'selected' : '' }}>
                                     {{ $rubro->nombre }}
                                 </option>
                             @endforeach
@@ -49,36 +51,41 @@
                     <!-- Campo Fecha de Inicio -->
                     <div class="form-group mt-4">
                         <label for="fecha_inicio">Fecha de Inicio <span class="text-danger">*</span></label>
-                        <input type="date" name="fecha_inicio" class="form-control" value="{{ old('fecha_inicio') }}" required>
+                        <input type="date" name="fecha_inicio" class="form-control" value="{{ old('fecha_inicio') }}"
+                            required>
                     </div>
 
                     <!-- Campo Fecha de Fin -->
                     <div class="form-group mt-4">
                         <label for="fecha_fin">Fecha de Fin <span class="text-danger">*</span></label>
-                        <input type="date" name="fecha_fin" class="form-control" value="{{ old('fecha_fin') }}" required>
+                        <input type="date" name="fecha_fin" class="form-control" value="{{ old('fecha_fin') }}"
+                            required>
                     </div>
 
                     <!-- Campo Total_Ingreso -->
                     <div class="form-group mt-4">
                         <label for="total_ingreso">Total Ingreso <span class="text-danger">*</span></label>
-                        <input type="number" name="total_ingreso" class="form-control" value="{{ old('total_ingreso') }}" required>
+                        <input type="number" name="total_ingreso" class="form-control" value="{{ old('total_ingreso') }}"
+                            required>
                     </div>
 
                     <!-- Campo Total_Egreso -->
                     <div class="form-group mt-4">
                         <label for="total_egreso">Total Egreso <span class="text-danger">*</span></label>
-                        <input type="number" name="total_egreso" class="form-control" value="{{ old('total_egreso') }}" required>
+                        <input type="number" name="total_egreso" class="form-control" value="{{ old('total_egreso') }}"
+                            required>
                     </div>
 
                     <!-- Campo Salario_Neto -->
                     <div class="form-group mt-4">
                         <label for="salario_neto">Salario Neto <span class="text-danger">*</span></label>
-                        <input type="number" name="salario_neto" class="form-control" value="{{ old('salario_neto') }}" required>
+                        <input type="number" name="salario_neto" class="form-control" value="{{ old('salario_neto') }}"
+                            required>
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
                         <button type="submit" class="btn btn-primary">Guardar Rol de Pago</button>
-                        <a href="{{ route('roles_pagos.index') }}" class="btn btn-outline-danger">Cancelar</a>
+                        <a href="{{ route('roles_pago.index') }}">Volver a la lista</a>
                     </div>
 
                 </form>
@@ -88,7 +95,3 @@
 
     </div>
 @endsection
-
-
-
-

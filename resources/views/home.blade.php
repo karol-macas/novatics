@@ -28,7 +28,7 @@
             ['route' => 'supervisores.index','img' => 'supervisor.png','title' => 'Supervisores'],
             ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos'],
             ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
-            ['route' => 'roles_pago.index', 'img' => 'activos.png', 'title' => 'Roles de Pago'],
+            ['route' => 'roles_pago.index', 'img' => 'rol-de-pagos.png', 'title' => 'Roles de Pago'],
 
 
         ] as $item)

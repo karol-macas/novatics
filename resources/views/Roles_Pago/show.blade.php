@@ -42,7 +42,7 @@
                         </table>
 
                         <div class="mt-4 text-center">
-                            <a href="{{ route('roles_pagos.index') }}" class="btn btn-primary">Volver al listado</a>
+                            <a href="{{ route('roles_pago.index') }}">Volver a la lista</a>
                         </div>
 
                     </div>

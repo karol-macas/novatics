@@ -36,4 +36,12 @@ class RolPago extends Model
 
         
     }
+
+    public function rubros()
+    {
+        return $this->belongsToMany(Rubro::class, 'rol_pago_rubro')
+                    ->withPivot('monto')
+                    ->withTimestamps();
+    }
+    
 }

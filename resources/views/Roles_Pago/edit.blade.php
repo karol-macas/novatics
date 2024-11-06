@@ -18,7 +18,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('roles_pagos.update', $roles_pago->id) }}" method="POST">
+            <form action="{{ route('roles_pago.update', $roles_pago->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -79,7 +79,7 @@
 
                 <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-primary">Guardar Rol de Pago</button>
-                    <a href="{{ route('roles_pagos.index') }}" class="btn btn-outline-danger">Cancelar</a>
+                    <a href="{{ route('roles_pago.index') }}" class="btn btn-outline-danger">Cancelar</a>
                 </div>
 
             </form>
