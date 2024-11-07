@@ -65,6 +65,8 @@ Ultima Modificación:
                         <th scope="col">Repetitivo</th>
                         <th scope="col">Prioridad</th>
                         <th scope="col">Departamento</th>
+                        <th scope="col">Cargo</th>
+                        <th scope="col">Supervisor</th>
                         <th scope="col">Error</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -169,6 +171,8 @@ Ultima Modificación:
                                     class="badge {{ $actividad->prioridad == 'ALTA' ? 'bg-danger text-light' : ($actividad->prioridad == 'MEDIA' ? 'bg-warning text-dark' : 'bg-success text-light') }}">{{ $actividad->prioridad }}</span>
                             </td>
                             <td>{{ $actividad->departamento->nombre }}</td>
+                            <td>{{ $actividad->cargo->nombre_cargo }}</td>
+                            <td>{{ $actividad->supervisor ? $actividad->supervisor->nombre_supervisor  : 'No asignado' }}
                             <td>{{ $actividad->error }}</td>
 
                             <td class="text-center">
@@ -224,6 +228,7 @@ Ultima Modificación:
                         previous: "Anterior"
                     }
                 },
+                // Ordenar por ID de forma descendente por defecto
                 order: [
                     [0, 'desc']
                 ]

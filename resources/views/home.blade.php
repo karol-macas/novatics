@@ -76,17 +76,5 @@
         }
     </style>
 
-    <!-- Add BotMan Script -->
-    <script>
-        var botmanWidget = {
-            introMessage: "✋ Hola! ¿Cómo puedo asistirte hoy?",
-            placeholderText: "Escribe tu mensaje...",
-            mainColor: "#3490dc",
-            bubbleBackground: "#3490dc",
-            aboutText: "Laravel Bot",
-            bubbleAvatarUrl: "{{ asset('images/bot_avatar.png') }}" // You can add your bot avatar here
-        };
-    </script>
-
-    <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script>
+    
 @endsection

@@ -35,6 +35,8 @@ class Actividades extends Model
         'repetitivo',  // Repetitivo (NO/SÍ)
         'prioridad',  // Prioridad
         'departamento_id',  // ID de departamento
+        'cargo_id',  // ID de cargo
+        'supervisor_id',  // ID de supervisor
         'error',  // Error
     ];
 
@@ -54,6 +56,17 @@ class Actividades extends Model
     {
         return $this->belongsTo(Departamento::class, 'departamento_id');
     }
+
+    public function cargo()
+    {
+        return $this->belongsTo(Cargos::class, 'cargo_id');
+    }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(Supervisor::class, 'supervisor_id');
+    }
+    
 
     
 }

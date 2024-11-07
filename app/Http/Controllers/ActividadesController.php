@@ -18,6 +18,9 @@ use App\Models\Actividades;
 use App\Models\Empleados;
 use App\Models\Departamento;
 use App\Models\Cliente;
+use App\Models\Cargos;
+use App\Models\Supervisor;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -60,8 +63,10 @@ class ActividadesController extends Controller
         $empleados = Empleados::all();
         $departamentos = Departamento::all();
         $clientes = Cliente::all();
+        $cargos = Cargos::all();
+        $supervisor = Supervisor::all();
 
-        return view('Actividades.createActividades', compact('empleados', 'departamentos', 'clientes'));
+        return view('Actividades.createActividades', compact('empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));
     }
 
     public function store(Request $request)
@@ -82,6 +87,8 @@ class ActividadesController extends Controller
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
+            'cargo_id' => 'required|exists:cargos,id',
+            'supervisor_id' => 'required|exists:supervisores,id',
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO,OTRO',
         ]);
 
@@ -101,6 +108,8 @@ class ActividadesController extends Controller
         $actividad->repetitivo = $request->input('repetitivo');
         $actividad->prioridad = $request->input('prioridad');
         $actividad->departamento_id = $request->input('departamento_id');
+        $actividad->cargo_id = $request->input('cargo_id');
+        $actividad->supervisor_id = $request->input('supervisor_id');
         $actividad->error = $request->input('error');
         $actividad->save();
 
@@ -122,7 +131,9 @@ class ActividadesController extends Controller
         $empleados = Empleados::all();
         $departamentos = Departamento::all();
         $clientes = Cliente::all();
-        return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes'));
+        $cargos = Cargos::all();
+        $supervisor = Supervisor::all();
+        return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));   
     }
 
     public function update(Request $request, $id)
@@ -144,6 +155,8 @@ class ActividadesController extends Controller
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
             'departamento_id' => 'required|exists:departamentos,id',
+            'cargo_id' => 'required|exists:cargos,id',
+            'supervisor_id' => 'required|exists:supervisores,id',
             'error' => 'required|string|in:CLIENTE,SOFTWARE,MEJORA ERROR,DESARROLLO,OTRO',
         ]);
 

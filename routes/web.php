@@ -8,7 +8,6 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DepartamentoController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\CargosController;
 use App\Http\Controllers\RubroController;
@@ -29,6 +28,9 @@ Auth::routes(['register' => false]);  // Desactiva el registro si no lo necesita
 Route::get('/login', function () {
     return redirect()->route('welcome'); 
 })->name('login');
+
+// Ruta de cerrar sesion
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Redirigir a la vista de bienvenida si alguien intenta acceder al registro
 Route::get('/register', function () {
@@ -128,7 +130,6 @@ Route::middleware(['auth'])->group(function () {
             'destroy' => 'roles_pago.destroy',
         ]);
 
-        Route::post('/chatbot', [ChatbotController::class, 'handle']);
     });
 
     // Rutas que solo puede acceder un empleado
@@ -151,7 +152,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
 
        
-        Route::match(['get', 'post'], '/chatbot', [ChatbotController::class, 'handle']);
     });
 
 });

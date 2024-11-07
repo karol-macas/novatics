@@ -227,6 +227,34 @@
                                             value="{{ Auth::user()->empleado->departamento->nombre }}" readonly>
                                     </div>
                                 </div>
+
+                                 <!-- Se llene automatico el campo de cargo al que corresponde al empleado -->
+
+                                <div class="form-group row mb-2">
+                                    <label for="cargo_id" class="col-md-4 col-form-label text-md-right">Cargo</label>
+                                    <div class="col-md-6">
+                                        <!-- Campo oculto para enviar el ID del cargo -->
+                                        <input type="hidden" name="cargo_id"
+                                            value="{{ Auth::user()->empleado->cargo->id }}">
+                                        <!-- Campo visible que muestra el nombre del cargo solo como lectura -->
+                                        <input type="text" class="form-control"
+                                            value="{{ Auth::user()->empleado->cargo->nombre_cargo }}" readonly>
+                                    </div>
+                                </div>
+
+                                 <!-- Se llene automatico el campo del supervisor al que corresponde al empleado -->
+
+                                <div class="form-group row mb-2">
+                                    <label for="supervisor_id" class="col-md-4 col-form-label text-md-right">Supervisor</label>
+                                    <div class="col-md-6">
+                                        <!-- Campo oculto para enviar el ID del supervisor -->
+                                        <input type="hidden" name="supervisor_id"
+                                            value="{{ Auth::user()->empleado->supervisor->id }}">
+                                        <!-- Campo visible que muestra el nombre del supervisor solo como lectura -->
+                                        <input type="text" class="form-control"
+                                            value="{{ Auth::user()->empleado->supervisor->nombre_supervisor }}" readonly>
+                                    </div>
+                                </div>
                             @endif
 
 

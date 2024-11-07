@@ -15,7 +15,7 @@ class CreateActividadesTabla extends Migration
     {
         Schema::create('actividades', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_cliente')->nullable();
+            $table->unsignedBigInteger('cliente_id')->nullable();
             $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade');
             $table->string('descripcion');
             $table->string('codigo_osticket')->nullable();
@@ -32,11 +32,11 @@ class CreateActividadesTabla extends Migration
             $table->string('prioridad');
             $table->string('error');
             //cada actividad tiene un departamento
-            $table->foreignId('id_departamento')->constrained('departamentos')->onDelete('cascade');
+            $table->foreignId('departamento_id')->constrained('departamentos')->onDelete('cascade');
             //cada actividad tiene un cargo
-            $table->foreignId('id_cargo')->constrained('cargos')->onDelete('cascade');
+            $table->foreignId('cargo_id')->constrained('cargos')->onDelete('cascade');
             //cada actividad tiene un supervisor
-            $table->foreignId('id_supervisor')->constrained('supervisores')->onDelete('cascade');
+            $table->foreignId('supervisor_id')->constrained('supervisores')->onDelete('cascade');
             $table->timestamps();
         });
     }

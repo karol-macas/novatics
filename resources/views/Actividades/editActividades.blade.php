@@ -68,6 +68,34 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <!-- Campo Cargo -->
+                                    <div class="form-group col-md-6">
+                                        <label for="cargo_id">Cargo</label>
+                                        <select name="cargo_id" id="cargo_id" class="form-select" required>
+                                            @foreach ($cargos as $cargo)
+                                                <option value="{{ $cargo->id }}"
+                                                    {{ $cargo->id == $actividades->cargo_id ? 'selected' : '' }}>
+                                                    {{ $cargo->nombre_cargo }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <!-- Campo Supervisor -->
+                                    <div class="form-group col-md-6">
+                                        <label for="supervisor_id">Supervisor</label>
+                                        <select name="supervisor_id" id="supervisor_id" class="form-select" required>
+                                            @foreach ($supervisores as $supervisor)
+                                                <option value="{{ $supervisor->id }}"
+                                                    {{ $supervisor->id == $actividades->supervisor_id ? 'selected' : '' }}>
+                                                    {{ $supervisor->nombre_supervisor }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                        
                                 </div>
                             </fieldset>
 
