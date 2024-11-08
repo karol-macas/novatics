@@ -35,7 +35,7 @@ class ClienteController extends Controller
             'contrato_implementacion' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'convenio_datos' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
-            'precio' => 'required|numeric',
+            'total_valor_productos' => 'required|numeric',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 
@@ -93,10 +93,10 @@ class ClienteController extends Controller
             'telefono' => 'required|string|max:20',
             'email' => 'required|email|max:255',
             'contacto' => 'nullable|string|max:255',
-            'precio' => 'required|numeric',
             'contrato_implementacion.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'convenio_datos.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
             'documento_otros.*' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'total_valor_productos' => 'required|numeric',
             'estado' => 'required|in:ACTIVO,INACTIVO',
         ]);
 

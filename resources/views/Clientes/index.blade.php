@@ -28,7 +28,7 @@
                         <th scope="col">Contrato de Implementacion</th>
                         <th scope="col">Convenio de Datos</th>
                         <th scope="col">Documentos Otros</th>
-                        <th scope="col">Precio</th>
+                        <th scope="col">Valor de los Productos</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Acciones</th>
                     </tr>
@@ -47,6 +47,7 @@
                             <td>{{ $cliente->telefono }}</td>
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->contacto }}</td>
+                            <td>{{ $cliente->total_valor_productos }}</td>
                             <td>
                                 @if ($cliente->contrato_implementacion)
                                     <a href="{{ asset('storage/' . $cliente->contrato_implementacion) }}"
@@ -75,7 +76,6 @@
                                     <span class="text-danger">No tiene documentos otros</span>
                                 @endif
                             </td>
-                            <td>{{ $cliente->precio }}</td>
                             <td>{{ $cliente->estado }}</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">

@@ -23,7 +23,9 @@ class ProductoController extends Controller
     {
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'descripcion' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',            
+            'valor_producto' => 'required|integer',
+            
         ]);
 
         Producto::create($validated);
@@ -48,6 +50,7 @@ class ProductoController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string|max:255',
+            'valor_producto' => 'required|integer',
         ]);
 
         Producto::findOrFail($id)->update($validated);

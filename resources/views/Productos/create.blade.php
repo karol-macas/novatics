@@ -23,7 +23,8 @@
                     <!-- Campo Nombre -->
                     <div class="form-group">
                         <label for="nombre">Nombre <span class="text-danger">*</span></label>
-                        <input type="text" name="nombre" class="form-control" placeholder="Ingrese un nombre del Producto" value="{{ old('nombre') }}" required>
+                        <input type="text" name="nombre" class="form-control"
+                            placeholder="Ingrese un nombre del Producto" value="{{ old('nombre') }}" required>
                     </div>
 
                     <!-- Campo Descripción -->
@@ -31,6 +32,14 @@
                         <label for="descripcion">Descripción <span class="text-danger">*</span></label>
                         <textarea name="descripcion" class="form-control" placeholder="Describe la actividad">{{ old('descripcion') }}</textarea>
                     </div>
+
+                    <!-- Valor Producto -->
+                    <div class="form-group mt-3">
+                        <label for="valor_producto">Valor del Producto <span class="text-danger">*</span></label>
+                        <input type="number" name="valor_producto" class="form-control"
+                            placeholder="Ingrese el valor del Producto" value="{{ old('valor_producto') }}" required>
+                    </div>
+
 
                     <div class="d-flex justify-content-between mt-4">
                         <button type="submit" class="btn btn-primary">Guardar Producto</button>

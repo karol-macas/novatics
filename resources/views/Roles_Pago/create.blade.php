@@ -37,15 +37,18 @@
 
                     <!-- Seleccionar los rubros para el empleado -->
                     <div class="form-group mt-4">
-                        <label for="rubros">Rubros <span class="text-danger">*</span></label>
-                        <select name="rubros[]" class="form-control" multiple required>
+                        <label for="rubros">Selecciona Rubros</label>
+                        <div id="rubros">
                             @foreach ($rubros as $rubro)
-                                <option value="{{ $rubro->id }}"
-                                    {{ in_array($rubro->id, old('rubros', [])) ? 'selected' : '' }}>
-                                    {{ $rubro->nombre }}
-                                </option>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="rubros[]"
+                                        id="rubro{{ $rubro->id }}" value="{{ $rubro->id }}">
+                                    <label class="form-check label" for="rubro{{ $rubro->id }}">
+                                        {{ $rubro->nombre }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>    
                     </div>
 
                     <!-- Campo Fecha de Inicio -->

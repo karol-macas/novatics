@@ -10,14 +10,15 @@ class CreateRolesPagoTable extends Migration
     {
         Schema::create('roles_pago', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('empleado_id')->constrained()->onDelete('cascade');
-            $table->foreignId('rubro_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('empleado_id');
             $table->date('fecha_inicio');
             $table->date('fecha_fin');
             $table->decimal('total_ingreso', 10, 2)->default(0);
             $table->decimal('total_egreso', 10, 2)->default(0);
             $table->decimal('salario_neto', 10, 2)->default(0);
             $table->timestamps();
+
+            $table->foreign('empleado_id')->references('id')->on('empleados')->onDelete('cascade');
         });
     }
 

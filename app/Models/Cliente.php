@@ -18,7 +18,7 @@ class Cliente extends Model
         'contrato_implementacion',
         'convenio_datos',
         'documento_otros',
-        'precio',
+        'total_valor_productos',
         'estado'
     ];
 

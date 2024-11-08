@@ -31,9 +31,15 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="linkStep3" style="color: black;" onclick="showStep(3)">Documentacion
+                                <a class="nav-link" id="linkStep3" style="color: black;" onclick="showStep(3)">Documentación
                                     Requerida</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" id="linkStep3" style="color: black;" onclick="showStep(4)">Información
+                                    de Pago </a>
+                            </li>
+
                         </ul>
                     </div>
 
@@ -153,7 +159,7 @@
                                     </select>
                                 </div>
 
-                                
+
 
                                 <div class="col-md-6">
                                     <label for="fecha_ingreso" class="form-label">Fecha de Ingreso<span
@@ -220,7 +226,7 @@
                                             class="text-danger">*</span></label>
                                     <input type="file" name="curriculum" class="form-control">
                                 </div>
-                               
+
                             </div>
 
                             <div class="row mb-3">
@@ -237,7 +243,7 @@
                                         Confidencialidad<span class="text-danger">*</span></label>
                                     <input type="file" name="contrato_confidencialidad" class="form-control">
                                 </div>
-                                
+
                             </div>
 
                             <div class="row mb-3">
@@ -250,8 +256,37 @@
                             </div>
 
                             <button type="button" class="btn btn-secondary" onclick="prevStep(2)">Anterior</button>
-                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button type="button" class="btn btn-primary" onclick="nextStep(3)">Siguiente</button>
+
                         </div>
+
+                        <!-- Step 4: Informacion de Pago -->
+                        <div class="step d-none" id="step4">
+                            <h4>Información de Pago</h4>
+
+                            <div class="form-group mt-4">
+                                <label for="rubros">Selecciona Rubros</label>
+                                <div id="rubros">
+                                    @foreach ($rubros as $rubro)
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="rubros[]"
+                                                id="rubro{{ $rubro->id }}" value="{{ $rubro->id }}">
+                                            <label class="form-check-label" for="rubro{{ $rubro->id }}">
+                                                {{ $rubro->nombre }}
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <div id="montos-container"></div> <!-- Aquí se agregarán dinámicamente los campos de monto -->
+
+                            <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Anterior</button>
+                            <button type="submit" class="btn btn-success">Guardar</button>
+
+
+
+
                     </form>
 
                 </div>
@@ -259,6 +294,33 @@
         </div>
 
         <script>
+            document.getElementById('rubros').addEventListener('change', function(event) {
+                // Obtener los rubros seleccionados (todos los checkboxes marcados)
+                let selectedRubros = Array.from(this.querySelectorAll('input[type="checkbox"]:checked')).map(input =>
+                    input.value);
+
+                // Obtener el contenedor de los montos
+                let montosContainer = document.getElementById('montos-container');
+                montosContainer.innerHTML = ''; // Limpiar los montos anteriores
+
+                // Crear un campo de monto para cada rubro seleccionado
+                selectedRubros.forEach((rubroId) => {
+                    let montoLabel = document.createElement('label');
+                    montoLabel.innerText = `Monto para el rubro ${rubroId}`; // Muestra el ID del rubro
+
+                    let montoInput = document.createElement('input');
+                    montoInput.type = 'number';
+                    montoInput.name = `monto_rubro[${rubroId}]`; // Asocia el monto con el ID del rubro
+                    montoInput.classList.add('form-control');
+                    montoInput.placeholder = `Monto para el rubro ${rubroId}`;
+
+                    // Añadir al contenedor de montos
+                    montosContainer.appendChild(montoLabel);
+                    montosContainer.appendChild(montoInput);
+                    montosContainer.appendChild(document.createElement('br')); // Separador visual entre campos
+                });
+            });
+
             function updateSupervisor() {
                 const departamentoSelect = document.getElementById('departamento');
                 const supervisorSelect = document.getElementById('supervisor');

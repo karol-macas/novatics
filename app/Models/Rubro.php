@@ -22,10 +22,14 @@ class Rubro extends Model
         'tipo_rubro' => 'string',
     ];
 
+    public function rolesPago()
+    {
+        return $this->belongsToMany(RolPago::class, 'empleado_rubro', 'rubro_id', 'empleado_id');  
+    }
+
     public function empleados()
     {
-        return $this->belongsToMany(Empleados::class, 'empleado_rubro')
-                    ->withPivot('monto')
-                    ->withTimestamps();
+        return $this->belongsToMany(Empleados::class, 'empleado_rubro', 'rubro_id', 'empleado_id')
+        ->withPivot('monto');
     }
 }

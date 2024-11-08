@@ -23,14 +23,21 @@
                         @csrf
 
                         <!-- Campo Producto -->
+
+
                         <div class="form-group mb-3">
                             <label for="productos">Selecciona Productos</label>
-
-                            <select name="productos[]" id="productos" class="form-control" multiple required>
+                            <div id="productos">
                                 @foreach ($productos as $producto)
-                                    <option value="{{ $producto->id }}">{{ $producto->nombre }}</option>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="productos[]"
+                                            id="producto{{ $producto->id }}" value="{{ $producto->id }}">
+                                        <label class="form-check-label" for="producto{{ $producto->id }}">
+                                            {{ $producto->nombre }}
+                                        </label>
+                                    </div>
                                 @endforeach
-                            </select>
+                            </div>
                         </div>
 
                         <!-- Campo Nombre -->
@@ -84,11 +91,11 @@
                             <input type="file" name="documento_otros[]" class="form-control" multiple>
                         </div>
 
-                        <!-- Campo Precio -->
+                        <!-- Total de los Productos  -->
                         <div class="form-group mb-3">
-                            <label for="precio">Precio</label>
-                            <input type="number" name="precio" class="form-control" value="{{ old('precio') }}"
-                                min="0" required>
+                            <label for="total_valor_productos">Valor Total de Productos</label>
+                            <input type="number" name="total_valor_productos" id="total_valor_productos"
+                                class="form-control" required>
                         </div>
 
                         <!-- Campo Estado -->

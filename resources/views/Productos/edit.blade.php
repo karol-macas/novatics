@@ -33,6 +33,13 @@
                     <textarea name="descripcion" class="form-control" required>{{ old('descripcion', $producto->descripcion) }}</textarea>
                 </div>
 
+                <!-- Valor del Producto -->
+                <div class="form-group mt-3">
+                    <label for="valor">Valor del  Producto</label>
+                    <input type="number" name="valor" class="form-control" value="{{ old('valor', $producto->valor_producto) }}" required>
+                </div>
+
+
                 <div class="d-flex justify-content-between mt-4">
                     <button type="submit" class="btn btn-primary">Guardar Producto</button>
                     <a href="{{ route('productos.index') }}" class="btn btn-outline-danger">Cancelar</a>

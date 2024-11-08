@@ -10,12 +10,22 @@ class RolPago extends Model
     use HasFactory;
 
     protected $fillable = [
-        'empleado_id', 'fecha_inicio', 'fecha_fin', 'total_ingreso', 'total_egreso', 'salario_neto'
+        'empleado_id',
+        'fecha_inicio',
+        'fecha_fin',
+        'total_ingreso',
+        'total_egreso',
+        'salario_neto'
     ];
 
     public function empleado()
     {
         return $this->belongsTo(Empleados::class);
+    }
+
+    public function rubros()
+    {
+        return $this->belongsToMany(Rubro::class, 'empleado_rubro', 'empleado_id', 'rubro_id');  
     }
 
     protected $table = 'roles_pago';
@@ -33,15 +43,5 @@ class RolPago extends Model
         $this->total_egreso = $totalEgreso;
         $this->salario_neto = $totalIngreso - $totalEgreso;
         $this->save();
-
-        
     }
-
-    public function rubros()
-    {
-        return $this->belongsToMany(Rubro::class, 'rol_pago_rubro')
-                    ->withPivot('monto')
-                    ->withTimestamps();
-    }
-    
 }

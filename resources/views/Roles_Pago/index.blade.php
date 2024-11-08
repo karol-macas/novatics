@@ -15,7 +15,8 @@
 
                     <form action="{{ route('roles_pago.index') }}" method="GET">
                         <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Buscar por empleado" value="{{ request('search') }}">
+                            <input type="text" name="search" class="form-control" placeholder="Buscar por empleado"
+                                value="{{ request('search') }}">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-secondary">
                                     <i class="fas fa-search"></i>
@@ -34,46 +35,54 @@
                                 <th>Rubros</th>
                                 <th>Fecha de Inicio</th>
                                 <th>Fecha de Fin</th>
+                                <th>Total Ingreso</th>
+                                <th>Total Egreso</th>
+                                <th>Salario Neto</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($rolesPago as $rolPago)
-    <tr>
-        <td>{{ $rolPago->empleado->nombre }} {{ $rolPago->empleado->apellido }}</td>
-        <td>
-            @foreach ($rolPago->rubros as $rubro)
-                <span class="badge badge-primary">{{ $rubro->nombre }}</span>
-            @endforeach
-        </td>
-        <td>{{ $rolPago->fecha_inicio }}</td>
-        <td>{{ $rolPago->fecha_fin }}</td>
-        <td>{{ $rolPago->total_ingreso }}</td>
-        <td>{{ $rolPago->total_egreso }}</td>
-        <td>{{ $rolPago->salario_neto }}</td>
-        <td>
-            <a href="{{ route('roles_pago.show', $rolPago->id) }}" class="btn btn-primary">
-                <i class="fas fa-eye"></i> Ver
-            </a>
+                                <tr>
+                                    <td>{{ $rolPago->id }}</td>
+                                    <td>{{ $rolPago->empleado->nombre1 }} {{ $rolPago->empleado->apellido1 }}</td>
+                                    <td>
+                                        <!-- Mostrar rubros -->
+                                        <ul>
+                                            @foreach ($rolPago->rubros as $rubro)
+                                                <li>{{ $rubro->nombre }} (Monto: {{ $rubro->pivot->monto }})</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>{{ $rolPago->fecha_inicio }}</td>
+                                    <td>{{ $rolPago->fecha_fin }}</td>
+                                    <td>{{ $rolPago->total_ingreso }}</td>
+                                    <td>{{ $rolPago->total_egreso }}</td>
+                                    <td>{{ $rolPago->salario_neto }}</td>
+                                    <td>
+                                        <a href="{{ route('roles_pago.show', $rolPago->id) }}" class="btn btn-primary">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </a>
 
-            <a href="{{ route('roles_pago.edit', $rolPago->id) }}" class="btn btn-warning">
-                <i class="fas fa-edit"></i> Editar
-            </a>
+                                        <a href="{{ route('roles_pago.edit', $rolPago->id) }}" class="btn btn-warning">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
 
-            <form action="{{ route('roles_pago.destroy', $rolPago->id) }}" method="POST" class="d-inline form-delete">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Eliminar
-                </button>
-            </form>
-        </td>
-    </tr>
-@empty
-    <tr>
-        <td colspan="7" class="text-center">No hay roles de pago registrados.</td>
-    </tr>
-@endforelse
+                                        <form action="{{ route('roles_pago.destroy', $rolPago->id) }}" method="POST"
+                                            class="d-inline form-delete">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="9" class="text-center">No hay roles de pago registrados.</td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
                     </table>
@@ -84,6 +93,6 @@
                 </div>
             </div>
         </div>
-    </div>                                                      
+    </div>
 
 @endsection

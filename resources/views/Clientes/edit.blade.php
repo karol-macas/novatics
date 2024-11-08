@@ -29,17 +29,20 @@
                                 <legend class="text-primary"><i class="fa-solid fa-user-tie"></i> Información del Cliente
                                 </legend>
                                 <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label for="id_producto">Producto</label>
-                                        <select name="productos[]" id="productos" class="form-control" multiple required>
-                                            @foreach ($productos as $producto)
-                                                <option value="{{ $producto->id }}"
-                                                    @if (in_array($producto->id, $cliente->productos->pluck('id')->toArray())) selected @endif>
-                                                    {{ $producto->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
 
+                                    <div class="form-group mb-3">
+                                        <label for="productos">Selecciona Productos</label>
+                                        <div id="productos">
+                                            @foreach ($productos as $producto)
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" name="productos[]" id="producto{{ $producto->id }}" value="{{ $producto->id }}"
+                                                        @if(in_array($producto->id, $cliente->productos->pluck('id')->toArray())) checked @endif>
+                                                    <label class="form-check-label" for="producto{{ $producto->id }}">
+                                                        {{ $producto->nombre }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
                                     </div>
 
                                     <!-- Campo Nombre -->
@@ -77,12 +80,13 @@
                                             value="{{ old('contacto', $cliente->contacto) }}">
                                     </div>
 
-                                    <!-- Campo Precio -->
+                                    <!-- Campo Total Valor Productos -->
                                     <div class="form-group col-md-6">
-                                        <label for="precio">Precio</label>
-                                        <input type="text" name="precio" class="form-control"
-                                            value="{{ old('precio', $cliente->precio) }}" required>
+                                        <label for="total_valor_productos">Total Valor Productos</label>
+                                        <input type="number" name="total_valor_productos" class="form-control"
+                                            value="{{ old('total_valor_productos', $cliente->total_valor_productos) }}" required>
                                     </div>
+
 
                                     <!-- Campo Estado -->
                                     <div class="form-group col-md-6">

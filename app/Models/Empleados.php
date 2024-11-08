@@ -15,9 +15,9 @@ class Empleados extends Model
 
     protected $fillable = [
         'user_id',
-        'nombre1', 
+        'nombre1',
         'apellido1',
-        'nombre2', 
+        'nombre2',
         'apellido2',
         'cedula',
         'fecha_nacimiento',
@@ -41,7 +41,7 @@ class Empleados extends Model
 
     public function departamento()
     {
-        return $this->belongsTo(Departamento::class,'departamento_id');
+        return $this->belongsTo(Departamento::class, 'departamento_id');
     }
 
     public function actividades()
@@ -59,12 +59,16 @@ class Empleados extends Model
         return $this->belongsTo(Cargos::class, 'cargo_id');
     }
 
+
     public function rubros()
     {
-        return $this->belongsToMany(Rubro::class, 'empleado_rubro')
-                    ->withPivot('monto')
-                    ->withTimestamps();
+        return $this->belongsToMany(Rubro::class, 'empleado_rubro', 'empleado_id', 'rubro_id')
+        ->withPivot('monto');
     }
 
 
+    public function rolesPago()
+    {
+        return $this->hasMany(RolPago::class);
+    }
 }

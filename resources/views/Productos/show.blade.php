@@ -24,6 +24,10 @@
                                     <th><i class="fas fa-align-left"></i> Descripción</th>
                                     <td>{{ $producto->descripcion }}</td>
                                 </tr>
+                                <tr>
+                                    <th><i class="fas fa-dollar-sign"></i> Valor del Producto</th>
+                                    <td>{{ $producto->valor_producto }}</td>
+                                </tr>
                             </tbody>
                         </table>
 

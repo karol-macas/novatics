@@ -21,6 +21,7 @@
                         <th scope="col">ID</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripción</th>
+                        <th scope="col">Valor del Producto</th>
                         <th scope="col">Acciones</th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                             <td>{{ $producto->id }}</td>
                             <td>{{ $producto->nombre }}</td>
                             <td>{{ $producto->descripcion }}</td>
+                            <td>{{ $producto->valor_producto }}</td>
                             <td>
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('productos.show', $producto->id) }}" class="btn btn-info me-2" title="Ver">

@@ -15,8 +15,8 @@ class CreateClienteProductoTable extends Migration
     {
         Schema::create('cliente_producto', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_cliente')->constrained('clientes')->onDelete('cascade');
-            $table->foreignId('id_producto')->constrained('productos')->onDelete('cascade');
+            $table->foreignId('cliente_id')->constrained('clientes')->onDelete('cascade');
+            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade');
             $table->timestamps();
         });
     }

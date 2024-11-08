@@ -11,32 +11,80 @@ class RubroSeeder extends Seeder
     {
         // Crear algunos rubros de ejemplo
         Rubro::create([
-            'nombre' => 'Salario',
-            'descripcion' => 'Pago de salarios a empleados',
-            'tipo_rubro' => 'egreso',
-        ]);
-
-        Rubro::create([
-            'nombre' => 'Venta de productos',
-            'descripcion' => 'Ingreso generado por la venta de productos',
+            'nombre' => 'Sueldo Unificado',
+            'descripcion' => '',
             'tipo_rubro' => 'ingreso',
         ]);
 
         Rubro::create([
-            'nombre' => 'Servicios públicos',
-            'descripcion' => 'Gastos en electricidad, agua y otros servicios públicos',
-            'tipo_rubro' => 'egreso',
-        ]);
-
-        Rubro::create([
-            'nombre' => 'Intereses bancarios',
-            'descripcion' => 'Ingreso por intereses de depósitos bancarios',
+            'nombre' => 'Viaticos',
+            'descripcion' => '',
             'tipo_rubro' => 'ingreso',
         ]);
 
         Rubro::create([
-            'nombre' => 'Mantenimiento',
-            'descripcion' => 'Costos de mantenimiento de la oficina y equipo',
+            'nombre' => 'Decimo Tercero',
+            'descripcion' => '',
+            'tipo_rubro' => 'ingreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Decimo Cuarto',
+            'descripcion' => '',
+            'tipo_rubro' => 'ingreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Fondo de Reserva',
+            'descripcion' => '',
+            'tipo_rubro' => 'ingreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Bonificaciones',
+            'descripcion' => '',
+            'tipo_rubro' => 'ingreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'IESS',
+            'descripcion' => '',
+            'tipo_rubro' => 'egreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Prestamos IESS',
+            'descripcion' => '',
+            'tipo_rubro' => 'egreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Cajita de Ahorro Quincenal',
+            'descripcion' => '',
+            'tipo_rubro' => 'egreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Cajita de Ahorro Mensual',
+            'descripcion' => '',
+            'tipo_rubro' => 'egreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Prestamos',
+            'descripcion' => '',
+            'tipo_rubro' => 'egreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Quincena',
+            'descripcion' => '',
+            'tipo_rubro' => 'ingreso',
+        ]);
+
+        Rubro::create([
+            'nombre' => 'Impuestos a la Rentas',
+            'descripcion' => '',
             'tipo_rubro' => 'egreso',
         ]);
     }
