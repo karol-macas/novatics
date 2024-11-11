@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Correo Institucional y Departamento -->
+                                <!-- Correo Institucional, Departamento, Supervisor y Cargo -->
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
@@ -123,6 +123,53 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group">
+                                            <label for="supervisor_id">Supervisor</label>
+                                            <select class="form-control" id="supervisor_id" name="supervisor_id"
+                                                required>
+                                                @foreach ($supervisores as $supervisor)
+                                                    <option value="{{ $supervisor->id }}"
+                                                        {{ $empleados->supervisor_id == $supervisor->id ? 'selected' : '' }}>
+                                                        {{ $supervisor->nombre1 }} {{ $supervisor->apellido1 }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group">
+                                            <label for="cargo_id">Cargo</label>
+                                            <select class="form-control" id="cargo_id" name="cargo_id" required>
+                                                @foreach ($cargos as $cargo)
+                                                    <option value="{{ $cargo->id }}"
+                                                        {{ $empleados->cargo_id == $cargo->id ? 'selected' : '' }}>
+                                                        {{ $cargo->nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <!-- Tipo de Jornada -->
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group mt-3">
+                                            <label for="jornada_laboral" class="form-label">Tipo de Jornada<span
+                                                    class="text-danger">*</span></label>
+                                            <select name="jornada_laboral" id="jornada_laboral" class="form-select"
+                                                required>
+                                                <option value="">Selecciona una Opcion</option>
+                                                <option value="Tiempo Completo">Tiempo Completo</option>
+                                                <option value="Medio Tiempo">Medio Tiempo</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="row">
@@ -136,6 +183,64 @@
 
                                     </div>
                                 </div>
+
+                                <!-- Fecha de Contratacion -->
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group mt-3">
+                                            <label for="fecha_contratacion" class="form-label">Fecha de
+                                                Contratación</label>
+                                            <input type="date" class="form-control" id="fecha_contratacion"
+                                                name="fecha_contratacion" value="{{ $empleados->fecha_contratacion }}"
+                                                required>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fecha de Conclusion -->
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group mt-3">
+                                            <label for="fecha_conclusion" class="form-label">Fecha de
+                                                Conclusion</label>
+                                            <input type="date" class="form-control" id="fecha_conclusion"
+                                                name="fecha_conclusion" value="{{ $empleados->fecha_conclusion }}"
+                                                required>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Terminacion Voluntaria -->
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group mt-3">
+                                            <label for="terminacion_voluntaria" class="form-label">Terminacion
+                                                Voluntaria<span class="text-danger">*</span></label>
+                                            <select name="terminacion_voluntaria" id="terminacion_voluntaria"
+                                                class="form-select">
+                                                <option value="">Selecciona una Opcion</option>
+                                                <option value="Si">Si</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fecha de Recontratacion -->
+                                <div class="row">
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-group mt-3">
+                                            <label for="fecha_recontratacion" class="form-label">Fecha de
+                                                Recontratacion</label>
+                                            <input type="date" class="form-control" id="fecha_recontratacion"
+                                                name="fecha_recontratacion"
+                                                value="{{ $empleados->fecha_recontratacion }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                             </fieldset>
 

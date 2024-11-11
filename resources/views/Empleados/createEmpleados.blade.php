@@ -306,7 +306,9 @@
                 // Crear un campo de monto para cada rubro seleccionado
                 selectedRubros.forEach((rubroId) => {
                     let montoLabel = document.createElement('label');
-                    montoLabel.innerText = `Monto para el rubro ${rubroId}`; // Muestra el ID del rubro
+                    //mostar el nombre del rubro y no el id
+                    montoLabel.textContent = `Monto para el rubro ${rubroId}`;
+                    
 
                     let montoInput = document.createElement('input');
                     montoInput.type = 'number';
