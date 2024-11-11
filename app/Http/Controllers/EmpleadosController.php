@@ -144,7 +144,8 @@ class EmpleadosController extends Controller
         $departamentos = Departamento::all();
         $supervisores = Supervisor::all();
         $cargos = Cargos::all();
-        return view('empleados.editEmpleados', compact('empleados', 'departamentos', 'supervisores', 'cargos'));
+        $rubros = Rubro::all();
+        return view('empleados.editEmpleados', compact('empleados', 'departamentos', 'supervisores', 'cargos', 'rubros'));
     }
 
     public function update(Request $request, $id)
