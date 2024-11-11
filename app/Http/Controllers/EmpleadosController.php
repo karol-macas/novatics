@@ -10,6 +10,7 @@ use App\Models\Cargos;
 use App\Models\Rubro;
 use Illuminate\Validation\Rule;
 use App\Models\User;
+use App\Models\Supervisor;
 use Illuminate\Support\Facades\Storage;
 
 class EmpleadosController extends Controller
@@ -141,7 +142,9 @@ class EmpleadosController extends Controller
     {
         $empleados = Empleados::findOrFail($id);
         $departamentos = Departamento::all();
-        return view('empleados.editEmpleados', compact('empleados', 'departamentos'));
+        $supervisores = Supervisor::all();
+        $cargos = Cargos::all();
+        return view('empleados.editEmpleados', compact('empleados', 'departamentos', 'supervisores', 'cargos'));
     }
 
     public function update(Request $request, $id)

@@ -295,33 +295,41 @@
 
         <script>
             document.getElementById('rubros').addEventListener('change', function(event) {
-                // Obtener los rubros seleccionados (todos los checkboxes marcados)
-                let selectedRubros = Array.from(this.querySelectorAll('input[type="checkbox"]:checked')).map(input =>
-                    input.value);
+        const montosContainer = document.getElementById('montos-container');
+        montosContainer.innerHTML = ''; // Limpiar el contenedor
 
-                // Obtener el contenedor de los montos
-                let montosContainer = document.getElementById('montos-container');
-                montosContainer.innerHTML = ''; // Limpiar los montos anteriores
+        // Obtener todos los checkboxes seleccionados
+        const checkboxes = document.querySelectorAll('#rubros input[type="checkbox"]:checked');
+        checkboxes.forEach(function(checkbox) {
+            const rubroId = checkbox.value;
+            const rubroNombre = checkbox.nextElementSibling.textContent;
 
-                // Crear un campo de monto para cada rubro seleccionado
-                selectedRubros.forEach((rubroId) => {
-                    let montoLabel = document.createElement('label');
-                    //mostar el nombre del rubro y no el id
-                    montoLabel.textContent = `Monto para el rubro ${rubroId}`;
-                    
+            // Crear un div para cada monto
+            const montoDiv = document.createElement('div');
+            montoDiv.className = 'form-group mb-3';
 
-                    let montoInput = document.createElement('input');
-                    montoInput.type = 'number';
-                    montoInput.name = `monto_rubro[${rubroId}]`; // Asocia el monto con el ID del rubro
-                    montoInput.classList.add('form-control');
-                    montoInput.placeholder = `Monto para el rubro ${rubroId}`;
+            // Etiqueta para el rubro
+            const label = document.createElement('label');
+            label.textContent = `Monto para ${rubroNombre}`;
+            label.htmlFor = `monto${rubroId}`;
 
-                    // Añadir al contenedor de montos
-                    montosContainer.appendChild(montoLabel);
-                    montosContainer.appendChild(montoInput);
-                    montosContainer.appendChild(document.createElement('br')); // Separador visual entre campos
-                });
-            });
+            // Campo de entrada para el monto
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.name = `montos[${rubroId}]`;
+            input.id = `monto${rubroId}`;
+            input.className = 'form-control';
+            input.placeholder = 'Ingrese el monto';
+
+            // Agregar el label y el input al div
+            montoDiv.appendChild(label);
+            montoDiv.appendChild(input);
+
+            // Agregar el div al contenedor principal
+            montosContainer.appendChild(montoDiv);
+        });
+    });
+           
 
             function updateSupervisor() {
                 const departamentoSelect = document.getElementById('departamento');

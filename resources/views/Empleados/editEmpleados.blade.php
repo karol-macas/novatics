@@ -100,6 +100,7 @@
 
                                 <!-- Correo Institucional, Departamento, Supervisor y Cargo -->
                                 <div class="row">
+
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="correo_institucional">Correo Institucional</label>
@@ -108,6 +109,7 @@
                                                 required>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="departamento_id">Departamento</label>
@@ -122,7 +124,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="row">
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="supervisor_id">Supervisor</label>
@@ -131,7 +135,7 @@
                                                 @foreach ($supervisores as $supervisor)
                                                     <option value="{{ $supervisor->id }}"
                                                         {{ $empleados->supervisor_id == $supervisor->id ? 'selected' : '' }}>
-                                                        {{ $supervisor->nombre1 }} {{ $supervisor->apellido1 }}
+                                                        {{ $supervisor->nombre_supervisor }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -145,7 +149,7 @@
                                                 @foreach ($cargos as $cargo)
                                                     <option value="{{ $cargo->id }}"
                                                         {{ $empleados->cargo_id == $cargo->id ? 'selected' : '' }}>
-                                                        {{ $cargo->nombre }}
+                                                        {{ $cargo->nombre_cargo }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -153,27 +157,22 @@
                                         </div>
                                     </div>
 
-
                                 </div>
 
-                                <!-- Tipo de Jornada -->
+
                                 <div class="row">
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-group mt-3">
-                                            <label for="jornada_laboral" class="form-label">Tipo de Jornada<span
-                                                    class="text-danger">*</span></label>
-                                            <select name="jornada_laboral" id="jornada_laboral" class="form-select"
-                                                required>
-                                                <option value="">Selecciona una Opcion</option>
-                                                <option value="Tiempo Completo">Tiempo Completo</option>
-                                                <option value="Medio Tiempo">Medio Tiempo</option>
-                                            </select>
-                                        </div>
+
+                                    <div class="form-group mt-3">
+                                        <label for="tipo_jornada">Tipo de Jornada</label>
+                                        <select name="tipo_jornada" id="tipo_jornada" class="form-select">
+                                            <option value="">Selecciona una Opcion</option>
+                                            <option value="Tiempo Completo">Tiempo Completo</option>
+                                            <option value="Medio Tiempo">Medio Tiempo</option>
+                                        </select>
+
                                     </div>
-                                </div>
 
-                                <div class="row">
-                                    <!-- Fecha de Ingreso -->
+
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="fecha_ingreso">Fecha de Ingreso</label>
@@ -183,6 +182,7 @@
 
                                     </div>
                                 </div>
+
 
                                 <!-- Fecha de Contratacion -->
                                 <div class="row">
