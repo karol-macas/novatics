@@ -219,16 +219,16 @@
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group ">
 
-                                            <label class="form-check-label" for="terminacion_voluntaria">Terminación
+                                            <label  for="terminacion_voluntaria">Terminación
                                                 Voluntaria</label>
-                                            <select name="terminacion_contrato" id="terminacion_contrato"
+                                            <select name="terminacion_voluntaria" id="terminacion_voluntaria"
                                                 class="form-select" required>
                                                 <option value="">Selecciona una Opción</option>
                                                 <option value="Si"
-                                                    {{ old('terminacion_contrato', $empleados->terminacion_contrato) == 'Si' ? 'selected' : '' }}>
+                                                    {{ old('terminacion_voluntaria', $empleados->terminacion_voluntaria) == 'Si' ? 'selected' : '' }}>
                                                     Sí</option>
                                                 <option value="No"
-                                                    {{ old('terminacion_contrato', $empleados->terminacion_contrato) == 'No' ? 'selected' : '' }}>
+                                                    {{ old('terminacion_voluntaria', $empleados->terminacion_voluntaria) == 'No' ? 'selected' : '' }}>
                                                     No</option>
                                             </select>
                                         </div>
