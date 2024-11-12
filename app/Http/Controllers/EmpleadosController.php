@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Supervisor;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class EmpleadosController extends Controller
 {
@@ -25,10 +26,11 @@ class EmpleadosController extends Controller
 
     public function create()
     {
+        $empleado = new Empleados();
         $departamentos = Departamento::with('supervisor')->get();
         $cargos = Cargos::all();
-        $rubros = Rubro::all(); 
-        return view('empleados.createEmpleados', compact('departamentos', 'cargos', 'rubros'));
+        $rubros = Rubro::all();
+        return view('empleados.createEmpleados', compact('empleado', 'departamentos', 'cargos', 'rubros'));
     }
 
     public function store(Request $request)
@@ -58,11 +60,11 @@ class EmpleadosController extends Controller
             'fecha_recontratacion' => 'nullable|date',
             'rubros' => 'nullable|array',  // Asegúrate de que los rubros sean opcionales
             'rubros.*' => 'exists:rubros,id', // Validar que los rubros existan en la base de datos
-            'monto_rubro' => 'nullable|array',  // Los montos asociados a los rubros
-            'monto_rubro.*' => 'numeric',  // Asegúrate de que los montos sean números
+            'monto' => 'nullable|array',  // Los montos asociados a los rubros
+            'monto.*' => 'numeric',  // Asegúrate de que los montos sean números
         ]);
 
-        
+
 
         $empleados = new Empleados($validated);
 
@@ -96,15 +98,22 @@ class EmpleadosController extends Controller
 
         $empleados->save();
 
-        // Asignar rubros con sus montos
-        if ($request->has('rubros') && $request->has('monto_rubro')) {
-            $rubros = $request->rubros;
-            $montos = $request->monto_rubro;
+        $empleadoId = $empleados->id;
+        $rubros = $request->input('rubros', []);
+        $montos = $request->input('montos', []);
 
-            foreach ($rubros as $index => $rubroId) {
-                $empleados->rubros()->attach($rubroId, ['monto' => $montos[$index]]);
-            }
+        // Asignar rubros con sus montos
+        foreach ($rubros as $rubroId) {
+            $monto = $montos[$rubroId] ?? 0; // Obtener el monto asociado al rubro o 0 si no existe
+
+            // Guardar en la base de datos (tabla empleado_rubro)
+            DB::table('empleado_rubro')->insert([
+                'empleado_id' => $empleadoId,
+                'rubro_id' => $rubroId,
+                'monto' => $monto,
+            ]);
         }
+
 
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado creado con éxito.');
     }
@@ -120,6 +129,7 @@ class EmpleadosController extends Controller
 
     public function show($id)
     {
+        $empleados = Empleados::find($id);
         $empleados = Empleados::with('departamento')->findOrFail($id);
         $empleado = Empleados::with('rubros')->findOrFail($id);
 
@@ -140,7 +150,7 @@ class EmpleadosController extends Controller
 
     public function edit($id)
     {
-        $empleados = Empleados::findOrFail($id);
+        $empleados = Empleados::find($id);
         $departamentos = Departamento::all();
         $supervisores = Supervisor::all();
         $cargos = Cargos::all();
@@ -223,17 +233,17 @@ class EmpleadosController extends Controller
             $rubros = $request->rubros;
             $montos = $request->monto_rubro;
 
-            // Asignar cada rubro con su monto respectivo
-            foreach ($rubros as $rubroId) {
-                if (isset($montos[$rubroId])) {
-                    // Asignamos el rubro con el monto en la tabla pivote
-                    $empleados->rubros()->attach($rubroId, ['monto' => $montos[$rubroId]]);
-                }
-            }
+            // Usamos sync para actualizar las relaciones y los montos
+            $empleados->rubros()->sync(
+                collect($rubros)->mapWithKeys(function ($rubroId) use ($montos) {
+                    return [$rubroId => ['monto' => $montos[$rubroId]]];
+                })
+            );
         }
 
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado actualizado con éxito.');
     }
+
 
     public function destroy($id)
     {

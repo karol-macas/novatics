@@ -24,23 +24,24 @@
                             @csrf
                             @method('PUT')
 
-                            <fieldset class="border p-3 mb-4">
-                                <legend class="text-primary"><i class="fas fa-user"></i> Información del Empleado
-                                </legend>
+                            <!-- Sección de Información del Empleado -->
+                            <fieldset class="border p-4 mb-4">
+                                <legend class="text-primary"><i class="fas fa-user"></i> Información del Empleado</legend>
+
                                 <!-- Nombres y Apellidos -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre1">Primer Nombre</label>
                                             <input type="text" class="form-control" id="nombre1" name="nombre1"
-                                                value="{{ $empleados->nombre1 }}" required>
+                                                value="{{ old('nombre1', $empleados->nombre1) }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="nombre2">Segundo Nombre</label>
                                             <input type="text" class="form-control" id="nombre2" name="nombre2"
-                                                value="{{ $empleados->nombre2 }}" required>
+                                                value="{{ old('nombre2', $empleados->nombre2) }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -50,14 +51,14 @@
                                         <div class="form-group">
                                             <label for="apellido1">Primer Apellido</label>
                                             <input type="text" class="form-control" id="apellido1" name="apellido1"
-                                                value="{{ $empleados->apellido1 }}" required>
+                                                value="{{ old('apellido1', $empleados->apellido1) }}" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="apellido2">Segundo Apellido</label>
                                             <input type="text" class="form-control" id="apellido2" name="apellido2"
-                                                value="{{ $empleados->apellido2 }}" required>
+                                                value="{{ old('apellido2', $empleados->apellido2) }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -68,14 +69,16 @@
                                         <div class="form-group">
                                             <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                                             <input type="date" class="form-control" id="fecha_nacimiento"
-                                                name="fecha_nacimiento" value="{{ $empleados->fecha_nacimiento }}" required>
+                                                name="fecha_nacimiento"
+                                                value="{{ old('fecha_nacimiento', $empleados->fecha_nacimiento) }}"
+                                                required>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="cedula">Cédula</label>
                                             <input type="text" class="form-control" id="cedula" name="cedula"
-                                                value="{{ $empleados->cedula }}" required>
+                                                value="{{ old('cedula', $empleados->cedula) }}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +89,7 @@
                                         <div class="form-group">
                                             <label for="telefono">Teléfono</label>
                                             <input type="text" class="form-control" id="telefono" name="telefono"
-                                                value="{{ $empleados->telefono }}">
+                                                value="{{ old('telefono', $empleados->telefono) }}">
                                         </div>
                                     </div>
 
@@ -94,19 +97,19 @@
                                         <div class="form-group">
                                             <label for="celular">Celular</label>
                                             <input type="text" class="form-control" id="celular" name="celular"
-                                                value="{{ $empleados->celular }}" required>
+                                                value="{{ old('celular', $empleados->celular) }}" required>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Correo Institucional, Departamento, Supervisor y Cargo -->
                                 <div class="row">
-
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="correo_institucional">Correo Institucional</label>
                                             <input type="email" class="form-control" id="correo_institucional"
-                                                name="correo_institucional" value="{{ $empleados->correo_institucional }}"
+                                                name="correo_institucional"
+                                                value="{{ old('correo_institucional', $empleados->correo_institucional) }}"
                                                 required>
                                         </div>
                                     </div>
@@ -118,7 +121,7 @@
                                                 required>
                                                 @foreach ($departamentos as $departamento)
                                                     <option value="{{ $departamento->id }}"
-                                                        {{ $empleados->departamento_id == $departamento->id ? 'selected' : '' }}>
+                                                        {{ old('departamento_id', $empleados->departamento_id) == $departamento->id ? 'selected' : '' }}>
                                                         {{ $departamento->nombre }}
                                                     </option>
                                                 @endforeach
@@ -135,7 +138,7 @@
                                                 required>
                                                 @foreach ($supervisores as $supervisor)
                                                     <option value="{{ $supervisor->id }}"
-                                                        {{ $empleados->supervisor_id == $supervisor->id ? 'selected' : '' }}>
+                                                        {{ old('supervisor_id', $empleados->supervisor_id) == $supervisor->id ? 'selected' : '' }}>
                                                         {{ $supervisor->nombre_supervisor }}
                                                     </option>
                                                 @endforeach
@@ -149,28 +152,31 @@
                                             <select class="form-control" id="cargo_id" name="cargo_id" required>
                                                 @foreach ($cargos as $cargo)
                                                     <option value="{{ $cargo->id }}"
-                                                        {{ $empleados->cargo_id == $cargo->id ? 'selected' : '' }}>
+                                                        {{ old('cargo_id', $empleados->cargo_id) == $cargo->id ? 'selected' : '' }}>
                                                         {{ $cargo->nombre_cargo }}
                                                     </option>
                                                 @endforeach
                                             </select>
-
                                         </div>
                                     </div>
-
                                 </div>
 
-
+                                <!-- Jornada Laboral -->
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
                                             <label for="jornada_laboral">Jornada Laboral</label>
-                                            <select name="jornada_laboral" id="jornada_laboral" class="form-select">
-                                                <option value="">Selecciona una Opcion</option>
-                                                <option value="Diurna">Medio Tiempo</option>
-                                                <option value="Nocturna">Tiempo Completo</option>
-                                 
+                                            <select name="jornada_laboral" id="jornada_laboral" class="form-control"
+                                                required>
+                                                <option value="">Selecciona una Opción</option>
+                                                <option value="Medio Tiempo"
+                                                    {{ old('jornada_laboral', $empleados->jornada_laboral) == 'Medio Tiempo' ? 'selected' : '' }}>
+                                                    Medio Tiempo</option>
+                                                <option value="Tiempo Completo"
+                                                    {{ old('jornada_laboral', $empleados->jornada_laboral) == 'Tiempo Completo' ? 'selected' : '' }}>
+                                                    Tiempo Completo</option>
                                             </select>
+
                                         </div>
                                     </div>
 
@@ -178,70 +184,59 @@
                                         <div class="form-group">
                                             <label for="fecha_ingreso">Fecha de Ingreso</label>
                                             <input type="date" class="form-control" id="fecha_ingreso"
-                                                name="fecha_ingreso" value="{{ $empleados->fecha_ingreso }}" required>
+                                                name="fecha_ingreso"
+                                                value="{{ old('fecha_ingreso', $empleados->fecha_ingreso) }}" required>
                                         </div>
-
                                     </div>
-
                                 </div>
 
-
-                                <!-- Fecha de Contratacion -->
+                                <!-- Fecha de Contratación -->
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
-                                        <div class="form-group mt-3">
-                                            <label for="fecha_contratacion" class="form-label">Fecha de
-                                                Contratación</label>
+                                        <div class="form-group">
+                                            <label for="fecha_contratacion">Fecha de Contratación</label>
                                             <input type="date" class="form-control" id="fecha_contratacion"
-                                                name="fecha_contratacion" value="{{ $empleados->fecha_contratacion }}"
+                                                name="fecha_contratacion"
+                                                value="{{ old('fecha_contratacion', $empleados->fecha_contratacion) }}"
                                                 required>
-
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Fecha de Conclusion -->
-                                <div class="row">
                                     <div class="col-md-6 mt-3">
-                                        <div class="form-group mt-3">
-                                            <label for="fecha_conclusion" class="form-label">Fecha de
-                                                Conclusion</label>
+                                        <div class="form-group">
+                                            <label for="fecha_conclusion">Fecha de Conclusión</label>
                                             <input type="date" class="form-control" id="fecha_conclusion"
-                                                name="fecha_conclusion" value="{{ $empleados->fecha_conclusion }}">
-
+                                                name="fecha_conclusion"
+                                                value="{{ old('fecha_conclusion', $empleados->fecha_conclusion) }}">
                                         </div>
                                     </div>
+
                                 </div>
 
-                                <!-- Terminacion Voluntaria -->
+
                                 <div class="row">
+
                                     <div class="col-md-6 mt-3">
-                                        <div class="form-group mt-3">
-                                            <label for="terminacion_voluntaria" class="form-label">Terminacion
-                                                Voluntaria<span class="text-danger">*</span></label>
-                                            <select name="terminacion_voluntaria" id="terminacion_voluntaria"
-                                                class="form-select">
-                                                <option value="">Selecciona una Opcion</option>
-                                                <option value="Si">Si</option>
-                                                <option value="No">No</option>
+                                        <div class="form-group ">
+
+                                            <label class="form-check-label" for="terminacion_voluntaria">Terminación
+                                                Voluntaria</label>
+                                            <select name="terminacion_contrato" id="terminacion_contrato"
+                                                class="form-select" required>
+                                                <option value="">Selecciona una Opción</option>
+                                                <option value="Si"
+                                                    {{ old('terminacion_contrato', $empleados->terminacion_contrato) == 'Si' ? 'selected' : '' }}>
+                                                    Sí</option>
+                                                <option value="No"
+                                                    {{ old('terminacion_contrato', $empleados->terminacion_contrato) == 'No' ? 'selected' : '' }}>
+                                                    No</option>
                                             </select>
                                         </div>
                                     </div>
-                                </div>
 
-                                <!-- Fecha de Recontratacion -->
-                                <div class="row">
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-group mt-3">
-                                            <label for="fecha_recontratacion" class="form-label">Fecha de
-                                                Recontratacion</label>
-                                            <input type="date" class="form-control" id="fecha_recontratacion"
-                                                name="fecha_recontratacion"
-                                                value="{{ $empleados->fecha_recontratacion }}">
-                                        </div>
-                                    </div>
                                 </div>
                             </fieldset>
+
 
                             <fieldset class="border p-3 mb-4">
                                 <legend class="text-primary"><i class="fa-solid fa-file"></i> Documentos</legend>
@@ -303,33 +298,38 @@
 
                             </fieldset>
 
-                            <fieldset>
-                                <!-- Step 4: Información de Pago -->
-                                <legend class="text-primary"><i class="fa-solid fa-file"></i> Informacion de Pago</legend>
+                            <!-- Información de Pago -->
 
-                                <div class="form-group col-md-6">
-
+                            <fieldset class="border p-4 mb-4">
+                                <legend class="text-primary"><i class="fa-solid fa-dollar-sign"></i> Información de Pago
+                                </legend>
+                                <div class="form-group">
                                     <label for="rubros">Selecciona Rubros</label>
-                                    <div id="rubros">
+                                    <div id="rubros" class="d-flex justify-content-center flex-wrap">
                                         @foreach ($rubros as $rubro)
-                                            <div class="form-check">
+                                            <div class="form-check m-2">
                                                 <input class="form-check-input" type="checkbox" name="rubros[]"
                                                     id="rubro{{ $rubro->id }}" value="{{ $rubro->id }}"
                                                     {{ in_array($rubro->id, $empleados->rubros->pluck('id')->toArray()) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="rubro{{ $rubro->id }}">
                                                     {{ $rubro->nombre }}
                                                 </label>
+                                                <!-- Agregar campo para monto -->
+                                                <div class="mt-2">
+                                                    <input type="number" class="form-control"
+                                                        name="montos[{{ $rubro->id }}]"
+                                                        value="{{ $empleados->rubros->contains('id', $rubro->id) ? $empleados->rubros->where('id', $rubro->id)->first()->pivot->monto : '' }}"
+                                                        placeholder="Monto" step="0.01">
+
+                                                </div>
                                             </div>
                                         @endforeach
                                     </div>
-
-                                    <div id="montos-container"></div>
-
-
-
                                 </div>
-
                             </fieldset>
+
+
+
 
                             <!-- Botones -->
                             <div class="d-flex justify-content-between mt-4">

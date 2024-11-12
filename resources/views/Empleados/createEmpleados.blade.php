@@ -36,7 +36,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" id="linkStep3" style="color: black;" onclick="showStep(4)">Información
+                                <a class="nav-link" id="linkStep4" style="color: black;" onclick="showStep(4)">Información
                                     de Pago </a>
                             </li>
 
@@ -160,7 +160,6 @@
                                 </div>
 
 
-
                                 <div class="col-md-6">
                                     <label for="fecha_ingreso" class="form-label">Fecha de Ingreso<span
                                             class="text-danger">*</span></label>
@@ -266,9 +265,9 @@
 
                             <div class="form-group mt-4">
                                 <label for="rubros">Selecciona Rubros</label>
-                                <div id="rubros">
+                                <div id="rubros" class="d-flex flex-wrap justify-content-center">
                                     @foreach ($rubros as $rubro)
-                                        <div class="form-check">
+                                        <div class="form-check m-2">
                                             <input class="form-check-input" type="checkbox" name="rubros[]"
                                                 id="rubro{{ $rubro->id }}" value="{{ $rubro->id }}">
                                             <label class="form-check-label" for="rubro{{ $rubro->id }}">
@@ -279,17 +278,14 @@
                                 </div>
                             </div>
 
+
                             <div id="montos-container"></div> <!-- Aquí se agregarán dinámicamente los campos de monto -->
 
                             <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Anterior</button>
                             <button type="submit" class="btn btn-success">Guardar</button>
 
                         </div>
-
-
-
                     </form>
-
                 </div>
             </div>
         </div>
