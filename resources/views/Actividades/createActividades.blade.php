@@ -229,9 +229,10 @@
                                 </div>
 
                                  <!-- Se llene automatico el campo de cargo al que corresponde al empleado -->
-
+                                 <label for="cargo_id" class="col-md-4 col-form-label text-md-right">Cargo</label>
                                 <div class="form-group row mb-2">
                                     <label for="cargo_id" class="col-md-4 col-form-label text-md-right">Cargo</label>
+
                                     <div class="col-md-6">
                                         <!-- Campo oculto para enviar el ID del cargo -->
                                         <input type="hidden" name="cargo_id"

@@ -219,7 +219,7 @@
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group ">
 
-                                            <label  for="terminacion_voluntaria">Terminación
+                                            <label for="terminacion_voluntaria">Terminación
                                                 Voluntaria</label>
                                             <select name="terminacion_voluntaria" id="terminacion_voluntaria"
                                                 class="form-select" required>
@@ -317,7 +317,7 @@
                                                 <!-- Agregar campo para monto -->
                                                 <div class="mt-2">
                                                     <input type="number" class="form-control"
-                                                        name="montos[{{ $rubro->id }}]"
+                                                        name="monto_rubro[{{ $rubro->id }}]"
                                                         value="{{ $empleados->rubros->contains('id', $rubro->id) ? $empleados->rubros->where('id', $rubro->id)->first()->pivot->monto : '' }}"
                                                         placeholder="Monto" step="0.01">
 

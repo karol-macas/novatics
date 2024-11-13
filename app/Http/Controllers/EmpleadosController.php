@@ -229,17 +229,18 @@ class EmpleadosController extends Controller
         $empleados->save();
 
         // Asignar rubros con sus montos
-        if ($request->has('rubros') && $request->has('monto_rubro')) {
-            $rubros = $request->rubros;
-            $montos = $request->monto_rubro;
-
-            // Usamos sync para actualizar las relaciones y los montos
+        if ($request->filled('rubros') && $request->filled('monto_rubro')) {
+            $rubros = $request->input('rubros');
+            $montos = $request->input('monto_rubro');
+        
+            // Sincronizar los rubros con sus montos en la tabla pivote
             $empleados->rubros()->sync(
                 collect($rubros)->mapWithKeys(function ($rubroId) use ($montos) {
-                    return [$rubroId => ['monto' => $montos[$rubroId]]];
-                })
+                    return [$rubroId => ['monto' => $montos[$rubroId] ?? 0]]; // Valor predeterminado si no está presente
+                })->toArray()
             );
         }
+        
 
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado actualizado con éxito.');
     }
