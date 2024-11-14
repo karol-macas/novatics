@@ -232,7 +232,7 @@ class EmpleadosController extends Controller
         if ($request->filled('rubros') && $request->filled('monto_rubro')) {
             $rubros = $request->input('rubros');
             $montos = $request->input('monto_rubro');
-        
+
             // Sincronizar los rubros con sus montos en la tabla pivote
             $empleados->rubros()->sync(
                 collect($rubros)->mapWithKeys(function ($rubroId) use ($montos) {
@@ -240,10 +240,22 @@ class EmpleadosController extends Controller
                 })->toArray()
             );
         }
-        
+
 
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado actualizado con éxito.');
     }
+
+    public function getEmployeeDetails($id)
+    {
+        $empleado = Empleados::with('departamento', 'cargo', 'supervisor')->findOrFail($id);
+
+        return response()->json([
+            'departamento' => $empleado->departamento->nombre ?? 'N/A',
+            'cargo' => $empleado->cargo->nombre_cargo ?? 'N/A',
+            'supervisor' => $empleado->supervisor->nombre_supervisor ?? 'N/A',
+        ]);
+    }
+
 
 
     public function destroy($id)

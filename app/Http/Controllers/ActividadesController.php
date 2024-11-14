@@ -123,8 +123,6 @@ class ActividadesController extends Controller
         return view('Actividades.show', compact('actividades'));
     }
 
-
-
     public function edit($id)
     {
         $actividades = Actividades::findOrFail($id);
@@ -169,22 +167,32 @@ class ActividadesController extends Controller
 
     public function updateAvance(Request $request, $id)
     {
+        // Obtener la actividad
+        $actividad = Actividades::findOrFail($id);
+
+        // Verificar si el avance ya es 100; si es así, no permitir edición y mostrar un mensaje
+        if ($actividad->avance == 100) {
+            return redirect()->route('actividades.indexActividades')
+                ->withErrors(['error' => 'La actividad ya está finalizada y no puede ser editada.']);
+        }
+
+        // Validar el avance
         $validated = $request->validate([
             'avance' => 'required|numeric|min:0|max:100',
         ]);
 
-        $actividad = Actividades::findOrFail($id);
         $actividad->avance = $validated['avance'];
 
         // Cambiar el estado según el avance
         if ($actividad->avance == 0) {
             $actividad->estado = 'PENDIENTE';
+            $actividad->tiempo_inicio = null;  // Reiniciar tiempo inicio si se vuelve a pendiente
         } elseif ($actividad->avance > 0 && $actividad->avance < 100) {
             $actividad->estado = 'EN CURSO';
 
-            // Si no hay fecha de inicio, se registra la fecha actual
-            if (is_null($actividad->fecha_inicio)) {
-                $actividad->fecha_inicio = now();
+            // Si no hay fecha de inicio, se registra la fecha actual como tiempo_inicio
+            if (is_null($actividad->tiempo_inicio)) {
+                $actividad->tiempo_inicio = now();
             }
         } elseif ($actividad->avance == 100) {
             $actividad->estado = 'FINALIZADO';
@@ -192,9 +200,8 @@ class ActividadesController extends Controller
             // Registrar la fecha de finalización
             $actividad->fecha_fin = now();
 
-            // Calcular el tiempo total desde el inicio hasta la finalización
-            if ($actividad->fecha_inicio) {
-                $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio)->setTimezone('America/Guayaquil');
+            if ($actividad->tiempo_inicio) {
+                $inicio = \Carbon\Carbon::parse($actividad->tiempo_inicio)->setTimezone('America/Guayaquil');
                 $fin = \Carbon\Carbon::now()->setTimezone('America/Guayaquil');
 
                 $duracionMinutos = $fin->diffInMinutes($inicio);
@@ -215,6 +222,8 @@ class ActividadesController extends Controller
 
         return redirect()->route('actividades.indexActividades')->with('success', 'Avance y estado actualizados con éxito.');
     }
+
+
 
 
     // public function updateAvance(Request $request, $id)
@@ -269,22 +278,15 @@ class ActividadesController extends Controller
     public function startCounter($id)
     {
 
-
         $actividad = Actividades::findOrFail($id);
 
-
-
-
         // Solo iniciar el contador si el estado actual es "PENDIENTE"
-
 
         if ($actividad->estado === 'PENDIENTE') {
 
             $actividad->estado = 'EN CURSO';
 
-
             $actividad->fecha_inicio = now(); // Fecha actual para iniciar el contador
-
 
             $actividad->save();
 
@@ -365,9 +367,6 @@ class ActividadesController extends Controller
         // Redirigir con mensaje de éxito
         return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado correctamente.');
     }
-
-
-
 
     public function destroy($id)
     {

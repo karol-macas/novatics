@@ -152,7 +152,9 @@ Route::middleware(['auth'])->group(function () {
          Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
 
         Route::post('/actividades/{id}/start-counter', [ActividadesController::class, 'startCounter'])->name('actividades.startCounter');
-       
+        
+        Route::get('/empleado/{id}/details', [EmpleadosController::class, 'getEmployeeDetails'])->name('empleado.details');
+
     });
 
 });

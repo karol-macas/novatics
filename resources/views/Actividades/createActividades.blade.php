@@ -39,14 +39,23 @@
                                 </div>
                             </div>
 
+
+                            <!-- Selección del Empleado -->
                             @if (Auth::user()->isAdmin())
                                 <div class="form-group row mb-3">
                                     <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleado</label>
                                     <div class="col-md-6">
-                                        <select name="empleado_id" class="form-select" required>
+                                        <select name="empleado_id" class="form-select" id="empleado_id" required
+                                            onchange="updateEmployeeInfo()">
                                             <option value="">Seleccione un empleado</option>
                                             @foreach ($empleados as $empleado)
                                                 <option value="{{ $empleado->id }}"
+                                                    data-departamento="{{ $empleado->departamento->nombre }}"
+                                                    data-departamento-id="{{ $empleado->departamento->id }}"
+                                                    data-cargo="{{ $empleado->cargo->nombre_cargo }}"   
+                                                    data-cargo-id="{{ $empleado->cargo->id }}"
+                                                    data-supervisor="{{ $empleado->supervisor->nombre_supervisor }}"
+                                                    data-supervisor-id="{{ $empleado->supervisor->id }}"
                                                     {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
                                                     {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
                                                 </option>
@@ -113,6 +122,7 @@
                                         value="{{ old('fecha_inicio', now()->format('Y-m-d')) }}" readonly>
                                 </div>
                             </div>
+
                             <!-- Avance -->
                             <div class="form-group row mb-2">
                                 <label for="avance" class="col-md-4 col-form-label text-md-right">Avance
@@ -122,6 +132,7 @@
                                         readonly>
                                 </div>
                             </div>
+
                             <!-- Observaciones-->
                             <div class="form-group row mb-2">
                                 <label for="observaciones"
@@ -130,17 +141,16 @@
                                     <textarea name="observaciones" class="form-control">{{ old('observaciones') }}</textarea>
                                 </div>
                             </div>
+
                             <!-- Estado-->
                             <div class="form-group row mb-2">
                                 <label for="estado" class="col-md-4 col-form-label text-md-right">Estado<span
                                         class="text-danger"> *</span></label>
                                 <div class="col-md-6">
-
                                     <input type="text" name="estado" id="estado" class="form-control"
                                         value="PENDIENTE" readonly>
                                 </div>
                             </div>
-
 
                             <!-- Tiempo Estimado-->
                             <div class="form-group row mb-2">
@@ -175,7 +185,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <!-- Proridad -->
+
+                            <!-- Prioridad -->
                             <div class="form-group row mb-2">
                                 <label for="prioridad" class="col-md-4 col-form-label text-md-right">Prioridad<span
                                         class="text-danger"> *</span></label>
@@ -191,31 +202,39 @@
                                 </div>
                             </div>
 
-                            <!-- Seleccion del Administrador del departamento a los empleados -->
-                            @if (Auth::user()->isAdmin())
-                                <div class="form-group row mb-2">
-                                    <label for="departamento_id"
-                                        class="col-md-4 col-form-label text-md-right">Departamento<span
-                                            class="text-danger"> *</span></label>
-                                    <div class="col-md-6">
-                                        <select name="departamento_id" class="form-select" required>
-                                            <option value="">Seleccione un departamento</option>
-                                            @foreach ($departamentos as $departamento)
-                                                <option value="{{ $departamento->id }}"
-                                                    {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
-                                                    {{ $departamento->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-
+                            <!-- Información del Departamento, Cargo y Supervisor (solo para mostrar) -->
+                            <div class="form-group row mb-2">
+                                <label for="departamento"
+                                    class="col-md-4 col-form-label text-md-right">Departamento</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="departamento" class="form-control" readonly>
                                 </div>
-                            @endif
+                            </div>
+
+                            <div class="form-group row mb-2">
+                                <label for="cargo" class="col-md-4 col-form-label text-md-right">Cargo</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="cargo" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-2">
+                                <label for="supervisor" class="col-md-4 col-form-label text-md-right">Supervisor</label>
+                                <div class="col-md-6">
+                                    <input type="text" id="supervisor" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                            <!-- Inputs ocultos para enviar los IDs reales al servidor -->
+                            <input type="hidden" name="departamento_id" id="departamento_id">
+                            <input type="hidden" name="cargo_id" id="cargo_id">
+                            <input type="hidden" name="supervisor_id" id="supervisor_id">
+
 
                             <!-- Se llene automatico el campo de de departamento al que corresponde al empleado -->
                             @if (Auth::user()->isEmpleado())
-                                <div class="form-group row mb-2">
+                                <div class="form-group
+                                    row mb-2">
                                     <label for="departamento_id"
                                         class="col-md-4 col-form-label text-md-right">Departamento</label>
                                     <div class="col-md-6">
@@ -303,4 +322,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function updateEmployeeInfo() {
+            var empleadoSelect = document.getElementById('empleado_id');
+            var selectedOption = empleadoSelect.options[empleadoSelect.selectedIndex];
+
+            // Mostrar nombres en los campos informativos
+            document.getElementById('departamento').value = selectedOption.getAttribute('data-departamento');
+            document.getElementById('cargo').value = selectedOption.getAttribute('data-cargo');
+            document.getElementById('supervisor').value = selectedOption.getAttribute('data-supervisor');
+
+            // Guardar los IDs en los inputs ocultos
+            document.getElementById('departamento_id').value = selectedOption.getAttribute('data-departamento-id');
+            document.getElementById('cargo_id').value = selectedOption.getAttribute('data-cargo-id');
+            document.getElementById('supervisor_id').value = selectedOption.getAttribute('data-supervisor-id');
+        }
+    </script>
+
 @endsection
