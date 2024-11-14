@@ -82,7 +82,7 @@ class ActividadesController extends Controller
             'fecha_inicio' => 'required|date',
             'avance' => 'required|numeric|min:0|max:100',
             'observaciones' => 'nullable|string|max:255',
-            'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
+            'estado' => 'required|string|in:PENDIENTE,FINALIZADO',
             'tiempo_estimado' => 'required|integer',
             'repetitivo' => 'required|boolean',
             'prioridad' => 'required|string|in:ALTA,MEDIA,BAJA',
@@ -100,10 +100,10 @@ class ActividadesController extends Controller
         $actividad->descripcion = $request->input('descripcion');
         $actividad->codigo_osticket = $request->input('codigo_osticket');
         $actividad->semanal_diaria = $request->input('semanal_diaria');
-        $actividad->fecha_inicio = $request->input('fecha_inicio');
-        $actividad->avance = $request->input('avance');
+        $actividad->fecha_inicio = now(); // Esto guardará la fecha y hora actuales
+        $actividad->avance = 0;
         $actividad->observaciones = $request->input('observaciones');
-        $actividad->estado = $request->input('estado');
+        $actividad->estado = 'PENDIENTE';
         $actividad->tiempo_estimado = $request->input('tiempo_estimado');
         $actividad->repetitivo = $request->input('repetitivo');
         $actividad->prioridad = $request->input('prioridad');
@@ -133,7 +133,7 @@ class ActividadesController extends Controller
         $clientes = Cliente::all();
         $cargos = Cargos::all();
         $supervisor = Supervisor::all();
-        return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));   
+        return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));
     }
 
     public function update(Request $request, $id)
@@ -217,6 +217,84 @@ class ActividadesController extends Controller
     }
 
 
+    // public function updateAvance(Request $request, $id)
+    // {
+    //     $validated = $request->validate([
+    //         'avance' => 'required|numeric|min:0|max:100',
+    //     ]);
+
+    //     $actividad = Actividades::findOrFail($id);
+    //     $actividad->avance = $validated['avance'];
+
+    //     // Cambiar el estado según el avance
+    //     if ($actividad->avance == 0) {
+    //         $actividad->estado = 'PENDIENTE';
+    //     } elseif ($actividad->avance > 0 && $actividad->avance < 100) {
+    //         $actividad->estado = 'EN CURSO';
+
+    //         // Si no hay fecha de inicio, se registra la fecha actual
+    //         if (is_null($actividad->fecha_inicio)) {
+    //             $actividad->fecha_inicio = now();
+    //         }
+    //     } elseif ($actividad->avance == 100) {
+    //         $actividad->estado = 'FINALIZADO';
+
+    //         // Registrar la fecha de finalización
+    //         $actividad->fecha_fin = now();
+
+    //         // Calcular el tiempo total desde el inicio hasta la finalización
+    //         if ($actividad->fecha_inicio) {
+    //             $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio)->setTimezone('America/Guayaquil');
+    //             $fin = \Carbon\Carbon::now()->setTimezone('America/Guayaquil');
+
+    //             $duracionMinutos = $fin->diffInMinutes($inicio);
+    //             $horas = floor($duracionMinutos / 60);
+    //             $minutos = $duracionMinutos % 60;
+
+    //             // Guardar el tiempo real en horas y minutos
+    //             $actividad->tiempo_real_horas = $horas;
+    //             $actividad->tiempo_real_minutos = $minutos;
+
+    //             Log::info("Tiempo real calculado: {$horas} horas, {$minutos} minutos.");
+    //         } else {
+    //             return redirect()->back()->withErrors('No se puede finalizar una actividad sin fecha de inicio.');
+    //         }
+    //     }
+
+    //     $actividad->save();
+
+    //     return redirect()->route('actividades.indexActividades')->with('success', 'Avance y estado actualizados con éxito.');
+    // }
+
+    public function startCounter($id)
+    {
+
+
+        $actividad = Actividades::findOrFail($id);
+
+
+
+
+        // Solo iniciar el contador si el estado actual es "PENDIENTE"
+
+
+        if ($actividad->estado === 'PENDIENTE') {
+
+            $actividad->estado = 'EN CURSO';
+
+
+            $actividad->fecha_inicio = now(); // Fecha actual para iniciar el contador
+
+
+            $actividad->save();
+
+            return redirect()->route('actividades.indexActividades')->with('success', 'El contador ha iniciado.');
+        }
+
+        return redirect()->route('actividades.indexActividades')->withErrors('El contador solo puede iniciarse si la actividad está pendiente.');
+    }
+
+
     // public function updateEstado(Request $request, $id)
     // {
     //     $validated = $request->validate([
@@ -269,6 +347,27 @@ class ActividadesController extends Controller
 
         return redirect()->route('actividades.indexActividades')->with('success', 'Tiempo estimado actualizado con éxito.');
     }**/
+
+    public function updateEstado(Request $request, $id)
+    {
+        // Validar el estado
+        $request->validate([
+            'estado' => 'required|in:EN CURSO,FINALIZADO',
+        ]);
+
+        // Buscar la actividad por su ID
+        $actividad = Actividades::findOrFail($id);
+
+        // Actualizar el estado
+        $actividad->estado = $request->estado;
+        $actividad->save();
+
+        // Redirigir con mensaje de éxito
+        return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado correctamente.');
+    }
+
+
+
 
     public function destroy($id)
     {

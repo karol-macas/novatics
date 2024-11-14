@@ -118,8 +118,8 @@
                                 <label for="avance" class="col-md-4 col-form-label text-md-right">Avance
                                     (%)<span class="text-danger"> *</span></label>
                                 <div class="col-md-6">
-                                    <input type="number" name="avance" class="form-control" value="{{ old('avance') }}"
-                                        min="0" max="100" required>
+                                    <input type="number" name="avance" id="avance" class="form-control" value="0"
+                                        readonly>
                                 </div>
                             </div>
                             <!-- Observaciones-->
@@ -135,14 +135,12 @@
                                 <label for="estado" class="col-md-4 col-form-label text-md-right">Estado<span
                                         class="text-danger"> *</span></label>
                                 <div class="col-md-6">
-                                    <select name="estado" id="estado" class="form-select" required>
-                                        <option value="EN CURSO" {{ old('estado') == 'EN CURSO' ? 'selected' : '' }}>En
-                                            Curso</option>
-                                        <option value="PENDIENTE" {{ old('estado') == 'PENDIENTE' ? 'selected' : '' }}>
-                                            Pendiente</option>
-                                    </select>
+
+                                    <input type="text" name="estado" id="estado" class="form-control"
+                                        value="PENDIENTE" readonly>
                                 </div>
                             </div>
+
 
                             <!-- Tiempo Estimado-->
                             <div class="form-group row mb-2">
@@ -210,6 +208,8 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+
                                 </div>
                             @endif
 
@@ -228,8 +228,7 @@
                                     </div>
                                 </div>
 
-                                 <!-- Se llene automatico el campo de cargo al que corresponde al empleado -->
-                                 <label for="cargo_id" class="col-md-4 col-form-label text-md-right">Cargo</label>
+                                <!-- Se llene automatico el campo de cargo al que corresponde al empleado -->
                                 <div class="form-group row mb-2">
                                     <label for="cargo_id" class="col-md-4 col-form-label text-md-right">Cargo</label>
 
@@ -243,10 +242,11 @@
                                     </div>
                                 </div>
 
-                                 <!-- Se llene automatico el campo del supervisor al que corresponde al empleado -->
+                                <!-- Se llene automatico el campo del supervisor al que corresponde al empleado -->
 
                                 <div class="form-group row mb-2">
-                                    <label for="supervisor_id" class="col-md-4 col-form-label text-md-right">Supervisor</label>
+                                    <label for="supervisor_id"
+                                        class="col-md-4 col-form-label text-md-right">Supervisor</label>
                                     <div class="col-md-6">
                                         <!-- Campo oculto para enviar el ID del supervisor -->
                                         <input type="hidden" name="supervisor_id"
@@ -277,7 +277,7 @@
                                         <option value="DESARROLLO" {{ old('error') == 'DESARROLLO' ? 'selected' : '' }}>
                                             Desarrollo
                                         </option>
-                                       
+
                                         <option value="OTRO" {{ old('error') == 'OTRO' ? 'selected' : '' }}>
                                             Otros
                                         </option>

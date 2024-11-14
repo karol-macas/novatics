@@ -56,9 +56,9 @@ Ultima Modificación:
                         <th scope="col">Código Osticket</th>
                         <th scope="col">Semanal/Diaria</th>
                         <th scope="col">Fecha de Inicio</th>
+                        <th scope="col">Estado</th>
                         <th scope="col">Avance (%)</th>
                         <th scope="col">Observaciones</th>
-                        <th scope="col">Estado</th>
                         <th scope="col">Tiempo Estimado (min)</th>
                         <th scope="col">Tiempo Real (h y m)</th>
                         <th scope="col">Fecha de Fin</th>
@@ -82,10 +82,63 @@ Ultima Modificación:
                             <td>{{ $actividad->codigo_osticket }}</td>
                             <td>{{ $actividad->semanal_diaria }}</td>
                             <td>{{ $actividad->fecha_inicio->format('d-m-Y') }}</td>
+                            <td>
+                                <!-- Muestra el estado actual con el diseño de badge -->
+                                <span
+                                    class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">
+                                    {{ $actividad->estado }}
+                                </span>
 
-                            <!-- Avance con actualización solo para empleados -->
+                                <!-- Formulario para cambiar el estado (solo visible si el usuario es un empleado) -->
+                                @if (Auth::user()->isEmpleado())
+                                    <form action="{{ route('actividades.updateEstado', $actividad->id) }}" method="POST"
+                                        class="mt-2" id="estadoForm{{ $actividad->id }}">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="input-group">
+                                            <select name="estado" class="form-select form-select-sm"
+                                                onchange="confirmUpdateEstado({{ $actividad->id }})">
+                                                <option value="EN CURSO"
+                                                    {{ $actividad->estado == 'EN CURSO' ? 'selected' : '' }}>EN CURSO
+                                                </option>
+                                                <option value="FINALIZADO"
+                                                    {{ $actividad->estado == 'FINALIZADO' ? 'selected' : '' }}>FINALIZADO
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </form>
+                                @endif
+                            </td>
+
+                            <td>
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ $actividad->avance }}%;"
+                                        aria-valuenow="{{ $actividad->avance }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ $actividad->avance }}%
+                                    </div>
+                                </div>
+                                @if (Auth::user()->isEmpleado())
+                                    <form action="{{ route('actividades.updateAvance', $actividad->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <input type="number" name="avance" class="form-control form-control-sm mt-2"
+                                            placeholder="Avance" min="0" max="100" value="{{ $actividad->avance }}" required>
+                                        <button type="submit" class="btn btn-outline-success btn-sm mt-2">Actualizar
+                                            Avance</button>
+                                    </form>
+                                @endif
+                            </td>
+
+
+
+                            {{-- <!-- Avance con actualización solo para empleados -->
                             @if (Auth::user()->isEmpleado())
                                 <td>
+                                    <span
+                                        class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
+                                </td> --}}
+
+                            {{-- <td>
                                     <div class="progress" style="height: 25px;">
                                         <div class="progress-bar" role="progressbar"
                                             style="width: {{ $actividad->avance }}%;"
@@ -113,15 +166,12 @@ Ultima Modificación:
                                         </div>
                                     </div>
                                 </td>
-                            @endif
+                            @endif --}}
 
                             <td>{{ $actividad->observaciones }}</td>
 
-                            <td>
-                                <span
-                                    class="badge {{ $actividad->estado == 'EN CURSO' ? 'bg-pastel-morado' : ($actividad->estado == 'FINALIZADO' ? 'bg-pastel-verde' : 'bg-pastel-naranja') }}">{{ $actividad->estado }}</span>
-                            </td>
-                            
+
+
                             {{-- <!-- Estado con actualización solo para empleados -->
                             @if (Auth::user()->isEmpleado())
                                 <td>
@@ -172,7 +222,7 @@ Ultima Modificación:
                             </td>
                             <td>{{ $actividad->departamento->nombre }}</td>
                             <td>{{ $actividad->cargo->nombre_cargo }}</td>
-                            <td>{{ $actividad->supervisor ? $actividad->supervisor->nombre_supervisor  : 'No asignado' }}
+                            <td>{{ $actividad->supervisor ? $actividad->supervisor->nombre_supervisor : 'No asignado' }}
                             <td>{{ $actividad->error }}</td>
 
                             <td class="text-center">
@@ -253,5 +303,24 @@ Ultima Modificación:
                 });
             });
         });
+
+
+        function confirmUpdateEstado(id) {
+            Swal.fire({
+                title: '¿Estás seguro de actualizar el estado?',
+                text: '¡Este cambio será guardado!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, actualizar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Encuentra el formulario asociado y envíalo
+                    document.querySelector(`#form-estado-${id}`).submit();
+                }
+            });
+        }
     </script>
 @endsection
