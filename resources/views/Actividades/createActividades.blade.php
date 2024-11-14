@@ -52,7 +52,7 @@
                                                 <option value="{{ $empleado->id }}"
                                                     data-departamento="{{ $empleado->departamento->nombre }}"
                                                     data-departamento-id="{{ $empleado->departamento->id }}"
-                                                    data-cargo="{{ $empleado->cargo->nombre_cargo }}"   
+                                                    data-cargo="{{ $empleado->cargo->nombre_cargo }}"
                                                     data-cargo-id="{{ $empleado->cargo->id }}"
                                                     data-supervisor="{{ $empleado->supervisor->nombre_supervisor }}"
                                                     data-supervisor-id="{{ $empleado->supervisor->id }}"
@@ -101,8 +101,8 @@
 
                             <!-- Semanal o Diario -->
                             <div class="form-group row mb-3">
-                                <label for="semanal_diaria" class="col-md-4 col-form-label text-md-right">Frecuencia <span
-                                        class="text-danger">*</span></label>
+                                <label for="semanal_diaria" class="col-md-4 col-form-label text-md-right">Frecuencia
+                                    <span class="text-danger">*</span></label>
                                 <div class="col-md-6">
                                     <select name="semanal_diaria" class="form-select" required>
                                         <option value="SEMANAL" {{ old('semanal_diaria') == 'SEMANAL' ? 'selected' : '' }}>
@@ -194,7 +194,8 @@
                                     <select name="prioridad" id="prioridad" class="form-select" required>
                                         <option value="ALTA" {{ old('prioridad') == 'ALTA' ? 'selected' : '' }}>Alta
                                         </option>
-                                        <option value="MEDIA" {{ old('prioridad') == 'MEDIA' ? 'selected' : '' }}>Media
+                                        <option value="MEDIA" {{ old('prioridad') == 'MEDIA' ? 'selected' : '' }}>
+                                            Media
                                         </option>
                                         <option value="BAJA" {{ old('prioridad') == 'BAJA' ? 'selected' : '' }}>Baja
                                         </option>
@@ -202,34 +203,36 @@
                                 </div>
                             </div>
 
-                            <!-- Información del Departamento, Cargo y Supervisor (solo para mostrar) -->
-                            <div class="form-group row mb-2">
-                                <label for="departamento"
-                                    class="col-md-4 col-form-label text-md-right">Departamento</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="departamento" class="form-control" readonly>
+                            @if (Auth::user()->isAdmin())
+                                <!-- Información del Departamento, Cargo y Supervisor (solo para mostrar) -->
+                                <div class="form-group row mb-2">
+                                    <label for="departamento"
+                                        class="col-md-4 col-form-label text-md-right">Departamento</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="departamento" class="form-control" readonly>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row mb-2">
-                                <label for="cargo" class="col-md-4 col-form-label text-md-right">Cargo</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="cargo" class="form-control" readonly>
+                                <div class="form-group row mb-2">
+                                    <label for="cargo" class="col-md-4 col-form-label text-md-right">Cargo</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="cargo" class="form-control" readonly>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group row mb-2">
-                                <label for="supervisor" class="col-md-4 col-form-label text-md-right">Supervisor</label>
-                                <div class="col-md-6">
-                                    <input type="text" id="supervisor" class="form-control" readonly>
+                                <div class="form-group row mb-2">
+                                    <label for="supervisor"
+                                        class="col-md-4 col-form-label text-md-right">Supervisor</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="supervisor" class="form-control" readonly>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Inputs ocultos para enviar los IDs reales al servidor -->
-                            <input type="hidden" name="departamento_id" id="departamento_id">
-                            <input type="hidden" name="cargo_id" id="cargo_id">
-                            <input type="hidden" name="supervisor_id" id="supervisor_id">
-
+                                <!-- Inputs ocultos para enviar los IDs reales al servidor -->
+                                <input type="hidden" name="departamento_id" id="departamento_id">
+                                <input type="hidden" name="cargo_id" id="cargo_id">
+                                <input type="hidden" name="supervisor_id" id="supervisor_id">
+                            @endif
 
                             <!-- Se llene automatico el campo de de departamento al que corresponde al empleado -->
                             @if (Auth::user()->isEmpleado())
@@ -339,5 +342,4 @@
             document.getElementById('supervisor_id').value = selectedOption.getAttribute('data-supervisor-id');
         }
     </script>
-
 @endsection
