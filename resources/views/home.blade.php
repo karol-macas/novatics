@@ -29,6 +29,7 @@
             ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos'],
             ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
             ['route' => 'roles_pago.index', 'img' => 'rol-de-pagos.png', 'title' => 'Roles de Pago'],
+            ['route' => 'roles_pago.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum']
 
 
         ] as $item)
