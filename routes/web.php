@@ -12,6 +12,7 @@ use App\Http\Controllers\SupervisorController;
 use App\Http\Controllers\CargosController;
 use App\Http\Controllers\RubroController;
 use App\Http\Controllers\RolPagoController;
+use App\Http\Controllers\DailyController;
 
 
 
@@ -130,6 +131,16 @@ Route::middleware(['auth'])->group(function () {
             'destroy' => 'roles_pago.destroy',
         ]);
 
+        Route::resource('daily', DailyController::class)->names([
+            'index' => 'daily.index',
+            'create' => 'daily.create',
+            'store' => 'daily.store',
+            'show' => 'daily.show',
+            'edit' => 'daily.edit',
+            'update' => 'daily.update',
+            'destroy' => 'daily.destroy',
+        ]);
+
     });
 
     // Rutas que solo puede acceder un empleado
@@ -145,6 +156,16 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'actividades.update',
 
 
+        ]);
+
+        Route::resource('daily', DailyController::class)->names([
+            'index' => 'daily.index',
+            'create' => 'daily.create',
+            'store' => 'daily.store',
+            'show' => 'daily.show',
+            'edit' => 'daily.edit',
+            'update' => 'daily.update',
+            'destroy' => 'daily.destroy',
         ]);
 
          Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');

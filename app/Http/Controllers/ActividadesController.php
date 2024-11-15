@@ -224,57 +224,6 @@ class ActividadesController extends Controller
     }
 
 
-
-
-    // public function updateAvance(Request $request, $id)
-    // {
-    //     $validated = $request->validate([
-    //         'avance' => 'required|numeric|min:0|max:100',
-    //     ]);
-
-    //     $actividad = Actividades::findOrFail($id);
-    //     $actividad->avance = $validated['avance'];
-
-    //     // Cambiar el estado según el avance
-    //     if ($actividad->avance == 0) {
-    //         $actividad->estado = 'PENDIENTE';
-    //     } elseif ($actividad->avance > 0 && $actividad->avance < 100) {
-    //         $actividad->estado = 'EN CURSO';
-
-    //         // Si no hay fecha de inicio, se registra la fecha actual
-    //         if (is_null($actividad->fecha_inicio)) {
-    //             $actividad->fecha_inicio = now();
-    //         }
-    //     } elseif ($actividad->avance == 100) {
-    //         $actividad->estado = 'FINALIZADO';
-
-    //         // Registrar la fecha de finalización
-    //         $actividad->fecha_fin = now();
-
-    //         // Calcular el tiempo total desde el inicio hasta la finalización
-    //         if ($actividad->fecha_inicio) {
-    //             $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio)->setTimezone('America/Guayaquil');
-    //             $fin = \Carbon\Carbon::now()->setTimezone('America/Guayaquil');
-
-    //             $duracionMinutos = $fin->diffInMinutes($inicio);
-    //             $horas = floor($duracionMinutos / 60);
-    //             $minutos = $duracionMinutos % 60;
-
-    //             // Guardar el tiempo real en horas y minutos
-    //             $actividad->tiempo_real_horas = $horas;
-    //             $actividad->tiempo_real_minutos = $minutos;
-
-    //             Log::info("Tiempo real calculado: {$horas} horas, {$minutos} minutos.");
-    //         } else {
-    //             return redirect()->back()->withErrors('No se puede finalizar una actividad sin fecha de inicio.');
-    //         }
-    //     }
-
-    //     $actividad->save();
-
-    //     return redirect()->route('actividades.indexActividades')->with('success', 'Avance y estado actualizados con éxito.');
-    // }
-
     public function startCounter($id)
     {
 
@@ -295,60 +244,6 @@ class ActividadesController extends Controller
 
         return redirect()->route('actividades.indexActividades')->withErrors('El contador solo puede iniciarse si la actividad está pendiente.');
     }
-
-
-    // public function updateEstado(Request $request, $id)
-    // {
-    //     $validated = $request->validate([
-    //         'estado' => 'required|string|in:EN CURSO,FINALIZADO,PENDIENTE',
-    //     ]);
-
-    //     $actividad = Actividades::findOrFail($id);
-    //     $actividad->estado = $validated['estado'];
-
-    //     if ($actividad->estado === 'EN CURSO' && is_null($actividad->fecha_inicio)) {
-    //         $actividad->fecha_inicio = now();
-    //     }
-
-    //     if ($actividad->estado === 'FINALIZADO') {
-    //         $actividad->fecha_fin = now();
-
-    //         if ($actividad->fecha_inicio) {
-    //             $inicio = \Carbon\Carbon::parse($actividad->fecha_inicio)->setTimezone('America/Guayaquil');
-    //             $fin = \Carbon\Carbon::now()->setTimezone('America/Guayaquil');
-
-    //             $duracionMinutos = $fin->diffInMinutes($inicio);
-    //             $horas = floor($duracionMinutos / 60);
-    //             $minutos = $duracionMinutos % 60;
-
-    //             $actividad->tiempo_real_horas = $horas;
-    //             $actividad->tiempo_real_minutos = $minutos;
-
-    //             Log::info("Tiempo real calculado: {$horas} horas, {$minutos} minutos.");
-    //         } else {
-    //             return redirect()->back()->withErrors('No se puede finalizar una actividad sin fecha de inicio.');
-    //         }
-    //     }
-
-    //     $actividad->save();
-
-    //     return redirect()->route('actividades.indexActividades')->with('success', 'Estado actualizado con éxito.');
-    // }
-
-    //Actualizar el tiempo estimado de la actividad
-
-    /**public function updateTiempoEstimado(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'tiempo_estimado' => 'required|integer',
-        ]);
-
-        $actividad = Actividades::findOrFail($id);
-        $actividad->tiempo_estimado = $validated['tiempo_estimado'];
-        $actividad->save();
-
-        return redirect()->route('actividades.indexActividades')->with('success', 'Tiempo estimado actualizado con éxito.');
-    }**/
 
     public function updateEstado(Request $request, $id)
     {

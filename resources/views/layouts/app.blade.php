@@ -26,6 +26,7 @@
 
 
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
     <!-- En la sección <head> de tu layout o directamente en la vista -->

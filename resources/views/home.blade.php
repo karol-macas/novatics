@@ -29,7 +29,7 @@
             ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos'],
             ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
             ['route' => 'roles_pago.index', 'img' => 'rol-de-pagos.png', 'title' => 'Roles de Pago'],
-            ['route' => 'roles_pago.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum']
+            ['route' => 'daily.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum']
 
 
         ] as $item)
@@ -54,6 +54,18 @@
                                                 <img src="{{ asset('images/actividades.png') }}" alt="Actividades"
                                                     class="img-fluid mb-2" style="width: 60px; height: 60px;">
                                                 <h5 class="card-title">Actividades</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            <a href="{{ route('daily.index') }}">
+                                                <img src="{{ asset('images/scrum.png') }}" alt="Daily Scrum"
+                                                    class="img-fluid mb-2" style="width: 60px; height: 60px;">
+                                                <h5 class="card-title">Daily Scrum</h5>
                                             </a>
                                         </div>
                                     </div>
