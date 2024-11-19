@@ -21,7 +21,7 @@
                 <form action="{{ route('daily.store') }}" method="POST">
                     @csrf
 
-                    @if (Auth::user()->isAdmin())
+                    
 
                     <!-- Campo Empleado -->
                     <div class="form-group mt-4">
@@ -36,19 +36,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @endif
-
-                    @if (Auth::user()->isEmpleado())
-                        <div class="form-group mt-4">
-                            <label for="empleado_nombre">Empleado</label>
-                            <input type="text" name="empleado_nombre" class="form-control"
-                                value="{{ Auth::user()->empleado->nombre1 }} {{ Auth::user()->empleado->apellido1 }}"
-                                readonly>
-                            <input type="hidden" name="empleado_id" value="{{ Auth::user()->empleado->id }}">
-                        </div>
-                    @endif
-
-
+                    
                     <div class="form-group mt-4">
                         <label for="fecha">Fecha</label>
                         <input type="text" name="fecha" class="form-control" value="{{ date('d-m-Y') }}" readonly>
@@ -56,13 +44,13 @@
 
                     <!-- Ayer que hizo -->
                     <div class="form-group mt-4">
-                        <label for="ayer">Ayer que hizo <span class="text-danger">*</span></label>
+                        <label for="ayer">¿Ayer que hizo? <span class="text-danger">*</span></label>
                         <input type="text" name="ayer" class="form-control" value="{{ old('ayer') }}" required>
                     </div>
 
                     <!-- Hoy que hara -->
                     <div class="form-group mt-4">
-                        <label for="hoy">Hoy que hara <span class="text-danger">*</span></label>
+                        <label for="hoy">¿Hoy que hara? <span class="text-danger">*</span></label>
                         <input type="text" name="hoy" class="form-control" value="{{ old('hoy') }}" required>
                     </div>
 
