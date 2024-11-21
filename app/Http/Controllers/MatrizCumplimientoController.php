@@ -21,7 +21,7 @@ class MatrizCumplimientoController extends Controller
     public function create()
     {
         $parametros = Parametro::all();
-        $empleado = Empleados::with('supervisor')->findOrFail($empleadoId);
+        $empleados = Empleados::all();
         return view('matriz_cumplimientos.create', compact('parametros', 'empleados'));
     }
 

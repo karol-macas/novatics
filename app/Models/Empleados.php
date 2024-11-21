@@ -57,18 +57,12 @@ class Empleados extends Model
         return $this->hasMany(Actividades::class, 'empleado_id');
     }
 
-    // Relación con el supervisor basada en el nombre completo
-    public function supervisor()
-    {
-        return $this->belongsTo(Supervisor::class, 'supervisor_id');
-    }
+    public function esSupervisor()
+{
+    return $this->es_supervisor; // Retorna true si es supervisor
+}
 
-    // Método para verificar si el empleado tiene un supervisor
-    public function getSupervisorByFullName()
-    {
-        return Supervisor::whereRaw("CONCAT(nombre_supervisor) = ?", [trim($this->nombre1 . ' ' . $this->apellido1)])->first();
-    }
-
+    
     public function cargo()
     {
         return $this->belongsTo(Cargos::class, 'cargo_id');

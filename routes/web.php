@@ -192,6 +192,11 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
+    Route::middleware(['auth', 'supervisor'])->group(function () {
+        Route::get('/modulo-supervisor', [SupervisorController::class, 'index'])->name('matriz_cumplimientos.index');
+    });
+    
+
 });
 
 
