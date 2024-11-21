@@ -13,6 +13,8 @@ use App\Http\Controllers\CargosController;
 use App\Http\Controllers\RubroController;
 use App\Http\Controllers\RolPagoController;
 use App\Http\Controllers\DailyController;
+use App\Http\Controllers\MatrizCumplimientoController;
+use App\Http\Controllers\ParametroController;
 
 
 
@@ -140,6 +142,18 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'daily.update',
             'destroy' => 'daily.destroy',
         ]);
+
+        Route::resource('matriz_cumplimientos', MatrizCumplimientoController::class)->names([
+            'index' => 'matriz_cumplimientos.index',
+            'create' => 'matriz_cumplimientos.create',
+            'store' => 'matriz_cumplimientos.store',
+            'show' => 'matriz_cumplimientos.show',
+            'edit' => 'matriz_cumplimientos.edit',
+            'update' => 'matriz_cumplimientos.update',
+            'destroy' => 'matriz:cumplimientos.destroy',
+        ]);
+
+        Route::resource('parametros', ParametroController::class);
 
     });
 

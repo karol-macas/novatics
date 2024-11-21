@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             DepartamentoSeeder::class,
             CargosSeeder::class,
             RubroSeeder::class,
+            ParametrosSeeder::class,
             
         ]);
 

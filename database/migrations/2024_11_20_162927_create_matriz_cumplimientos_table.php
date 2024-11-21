@@ -10,7 +10,7 @@ class CreateMatrizCumplimientosTable extends Migration
     {
         Schema::create('matriz_cumplimientos', function (Blueprint $table) {
             $table->id();
-            $table->string('parametro'); // Parámetro evaluado
+            $table->foreignId('parametro_id')->constrained('parametros')->onDelete('cascade');
             $table->integer('puntos')->default(0); // Puntos iniciales
             $table->foreignId('empleado_id')->constrained('empleados')->onDelete('cascade');
             $table->foreignId('cargo_id')->constrained('cargos')->onDelete('cascade');

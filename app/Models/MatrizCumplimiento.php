@@ -25,4 +25,9 @@ class MatrizCumplimiento extends Model
     {
         return $this->belongsTo(Supervisor::class);
     }
+
+    public function parametro()
+    {
+        return $this->belongsTo(Parametro::class);
+    }
 }

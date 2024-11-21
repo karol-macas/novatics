@@ -2,32 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Empleados;
 use App\Models\MatrizCumplimiento;
+use App\Models\Parametro;
 use Illuminate\Http\Request;
 
 class MatrizCumplimientoController extends Controller
 {
     public function index()
     {
+
+
+
         $cumplimientos = MatrizCumplimiento::with('empleado', 'cargo', 'supervisor')->get();
         return view('matriz_cumplimientos.index', compact('cumplimientos'));
     }
 
     public function create()
     {
-        // Aquí puedes pasar listas de empleados, cargos y supervisores para el formulario
-        return view('matriz_cumplimientos.create');
+        $parametros = Parametro::all();
+        $empleado = Empleados::with('supervisor')->findOrFail($empleadoId);
+        return view('matriz_cumplimientos.create', compact('parametros', 'empleados'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'parametro' => 'required|string|max:255',
+            'parametro_id' => 'required|exists:parametros,id',
             'puntos' => 'required|integer|min:0',
             'empleado_id' => 'required|exists:empleados,id',
             'cargo_id' => 'required|exists:cargos,id',
             'supervisor_id' => 'required|exists:supervisores,id',
         ]);
+
+        // Verificar que el supervisor asignado sea el correcto
+        $empleado = Empleados::findOrFail($request->empleado_id);
+        if ($empleado->id_supervisor != $request->supervisor_id) {
+            return back()->withErrors(['supervisor_id' => 'El supervisor asignado no coincide con el empleado.']);
+        }
 
         MatrizCumplimiento::create($request->all());
 

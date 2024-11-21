@@ -15,12 +15,11 @@ class Supervisor extends Model
     protected $fillable = [
         'nombre_supervisor',
         'descripcion',
-    ];
+    ];    
 
-    // Relación con empleados, si un supervisor puede ser un empleado
     public function empleado()
     {
-        return $this->belongsTo(Empleados::class, 'id_empleado'); // Cambia 'id_empleado' si es necesario
+        return $this->hasOne(Empleados::class, 'nombre1','nombre_supervisor');
     }
 
     // Relación con departamentos, si un supervisor puede ser de un departamento

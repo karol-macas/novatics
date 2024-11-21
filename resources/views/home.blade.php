@@ -25,13 +25,12 @@
             ['route' => 'empleados.indexEmpleados', 'img' => 'ventas.png', 'title' => 'Ventas'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'rrhh.png', 'title' => 'Usuarios'],
             ['route' => 'empleados.indexEmpleados', 'img' => 'inteligencia-de-negocios.png', 'title' => 'Inteligencia de Negocios'],
-            ['route' => 'supervisores.index','img' => 'supervisor.png','title' => 'Supervisores'],
-            ['route' => 'cargos.index','img' => 'cargos.png','title' => 'Cargos'],
+            ['route' => 'supervisores.index', 'img' => 'supervisor.png', 'title' => 'Supervisores'],
+            ['route' => 'cargos.index', 'img' => 'cargos.png', 'title' => 'Cargos'],
             ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
             ['route' => 'roles_pago.index', 'img' => 'rol-de-pagos.png', 'title' => 'Roles de Pago'],
-            ['route' => 'daily.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum']
-
-
+            ['route' => 'daily.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum'],
+            ['route' => 'matriz_cumplimientos.index', 'img' => 'ventas.png', 'title' => 'Matriz de Cumplimientos'],
         ] as $item)
                                     <div class="col-md-3 mb-4">
                                         <div class="card h-100 shadow">
@@ -70,6 +69,21 @@
                                         </div>
                                     </div>
                                 </div>
+                            @elseif (Auth::user()->isEmpleado() &&
+                                    Auth::user()->empleado->supervisor &&
+                                    trim(Auth::user()->empleado->supervisor->nombre_supervisor) ==
+                                        trim(Auth::user()->nombre1 . ' ' . Auth::user()->apellido1))
+                                <div class="col-md-4 mb-4">
+                                    <div class="card h-100 shadow">
+                                        <div class="card-body d-flex flex-column align-items-center">
+                                            <a href="{{ route('matriz_cumplimientos.index') }}">
+                                                <img src="{{ asset('images/ventas.png') }}" alt="Matriz de Cumplimientos"
+                                                    class="img-fluid mb-2" style="width: 60px; height: 60px;">
+                                                <h5 class="card-title">Matriz de Cumplimientos</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>
@@ -88,6 +102,4 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
     </style>
-
-    
 @endsection

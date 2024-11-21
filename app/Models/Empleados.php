@@ -39,6 +39,14 @@ class Empleados extends Model
         'fecha_recontratacion'
     ];
 
+    public function create($empleado_id)
+    {
+        $empleado = Empleados::with('supervisor')->findOrFail($empleado_id);
+        $parametros = Parametro::all();
+
+        return view('matriz_cumplimientos.create', compact('empleado', 'parametros'));
+    }
+
     public function departamento()
     {
         return $this->belongsTo(Departamento::class, 'departamento_id');
@@ -49,9 +57,16 @@ class Empleados extends Model
         return $this->hasMany(Actividades::class, 'empleado_id');
     }
 
+    // Relación con el supervisor basada en el nombre completo
     public function supervisor()
     {
         return $this->belongsTo(Supervisor::class, 'supervisor_id');
+    }
+
+    // Método para verificar si el empleado tiene un supervisor
+    public function getSupervisorByFullName()
+    {
+        return Supervisor::whereRaw("CONCAT(nombre_supervisor) = ?", [trim($this->nombre1 . ' ' . $this->apellido1)])->first();
     }
 
     public function cargo()
@@ -63,7 +78,7 @@ class Empleados extends Model
     public function rubros()
     {
         return $this->belongsToMany(Rubro::class, 'empleado_rubro', 'empleado_id', 'rubro_id')
-        ->withPivot('monto');
+            ->withPivot('monto');
     }
 
 
