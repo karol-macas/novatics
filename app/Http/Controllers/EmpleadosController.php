@@ -27,7 +27,7 @@ class EmpleadosController extends Controller
     public function create()
     {
         $empleado = new Empleados();
-        $departamentos = Departamento::with('supervisor')->get();
+        $departamentos = Departamento::all();
         $cargos = Cargos::all();
         $rubros = Rubro::all();
         return view('empleados.createEmpleados', compact('empleado', 'departamentos', 'cargos', 'rubros'));
@@ -51,8 +51,8 @@ class EmpleadosController extends Controller
             'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
-            'supervisor_id' => 'required|exists:supervisores,id',
             'cargo_id' => 'required|exists:cargos,id',
+            'es_supervisor' => 'nullable|boolean',
             'jornada_laboral' => 'required|string|max:255',
             'fecha_contratacion' => 'required|date',
             'fecha_conclusion_contrato' => 'nullable|date',
@@ -67,6 +67,14 @@ class EmpleadosController extends Controller
 
 
         $empleados = new Empleados($validated);
+
+        if ($request->has('es_supervisor') && $validated['es_supervisor']) {
+            Supervisor::create([
+                'empleado_id' => $empleados->id,
+                'nombre_supervisor' => $empleados->nombre1 . ' ' . $empleados->apellido1,
+                'departamento_id' => $empleados->departamento_id,
+            ]);
+        }
 
         // Crear el usuario asociado al empleado
         $user = User::create([
@@ -182,7 +190,7 @@ class EmpleadosController extends Controller
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
             'cargo_id' => 'required|exists:cargos,id',
-            'supervisor_id' => 'required|exists:supervisores,id',
+            'es_supervisor' => 'nullable|boolean',
             'jornada_laboral' => 'required|string|max:255',
             'fecha_contratacion' => 'required|date',
             'fecha_conclusion_contrato' => 'nullable|date',

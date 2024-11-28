@@ -27,6 +27,9 @@ class CreateEmpleadosTable extends Migration
             $table->string('contrato_confidencialidad')->nullable();
             $table->string('contrato_consentimiento')->nullable();
             $table->date('fecha_ingreso');
+            
+            $table->boolean('es_supervisor')->default(false); // Indica si el empleado es supervisor
+            
             $table->foreignId('supervisor_id')->constrained('supervisores')->onDelete('cascade');
             $table->foreignId('cargo_id')->nullable()->constrained('cargos')->onDelete('cascade');
             $table->date('fecha_contratacion');

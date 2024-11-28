@@ -136,14 +136,19 @@
 
                                     </select>
                                 </div>
-                                <div class="col-md-6">
+                                <div>
+                                    <label for="es_supervisor">¿Es Supervisor?</label>
+                                    <input type="checkbox" id="es_supervisor" name="es_supervisor" value="1" {{ old('es_supervisor', $empleado->esSupervisor() ? 'checked' : '') }}>
+                                </div>
+
+                                {{-- <div class="col-md-6">
                                     <label for="supervisor" class="form-label">Supervisor<span
                                             class="text-danger">*</span></label>
                                     <select name="supervisor_id" id="supervisor" class="form-select" required>
                                         <option value="">Selecciona un Supervisor</option>
                                     </select>
 
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class ="row mb-3">

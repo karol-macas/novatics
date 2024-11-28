@@ -192,6 +192,11 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
+    Route::group(['middleware' => 'isSupervisor'], function () {
+        Route::get('/modulo-supervisores', [SupervisorController::class, 'index'])->name('supervisores.index');
+    });
+    
+
 });
 
 
