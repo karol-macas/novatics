@@ -12,8 +12,6 @@ class CreateDepartamentosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('descripcion');
-            $table->unsignedBigInteger('supervisor_id')->nullable(); 
-            $table->foreign('supervisor_id')->references('id')->on('supervisores')->onDelete('set null');
             $table->timestamps();
         });
     }

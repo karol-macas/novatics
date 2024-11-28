@@ -29,8 +29,6 @@ class CreateEmpleadosTable extends Migration
             $table->date('fecha_ingreso');
             
             $table->boolean('es_supervisor')->default(false); // Indica si el empleado es supervisor
-            
-            $table->foreignId('supervisor_id')->constrained('supervisores')->onDelete('cascade');
             $table->foreignId('cargo_id')->nullable()->constrained('cargos')->onDelete('cascade');
             $table->date('fecha_contratacion');
             $table->string('jornada_laboral');
