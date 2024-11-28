@@ -9,8 +9,7 @@ class CreateEmpleadosTable extends Migration
     public function up()
     {
         Schema::create('empleados', function (Blueprint $table) {
-            $table->id();
-            //tabla de users el id
+            $table->id();  // Asegúrate de que sea `unsignedBigInteger` por defecto
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('nombre1');
             $table->string('apellido1');
@@ -27,7 +26,7 @@ class CreateEmpleadosTable extends Migration
             $table->string('contrato_confidencialidad')->nullable();
             $table->string('contrato_consentimiento')->nullable();
             $table->date('fecha_ingreso');
-            $table->boolean('es_supervisor')->default(false); 
+            $table->boolean('es_supervisor')->default(false);
             $table->foreignId('cargo_id')->nullable()->constrained('cargos')->onDelete('cascade');
             $table->date('fecha_contratacion');
             $table->string('jornada_laboral');

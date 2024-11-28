@@ -14,6 +14,7 @@ class CreateProductosTable extends Migration
             $table->string('descripcion', 255);
             //valor del producto
             $table->integer('valor_producto');
+    
             $table->timestamps();
         });
     }

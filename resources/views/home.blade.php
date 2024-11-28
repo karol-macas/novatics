@@ -85,11 +85,11 @@
                                     </div>
                                 </div>
                             @endif
-                            @if (auth()->check() && auth()->user()->empleado->esSupervisor())
+                            {{-- @if (auth()->check() && auth()->user()->empleado->esSupervisor())
                                 <li>
                                     <a href="{{ route('matriz_cumplimientos.index') }}">Módulo Supervisor</a>
                                 </li>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>

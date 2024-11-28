@@ -26,7 +26,7 @@ class Empleados extends Model
         'correo_institucional',
         'departamento_id',
         'cargo_id',
-        'supervisor_id',
+        'es_supervisor',
         'curriculum',
         'contrato',
         'contrato_confidencialidad',
@@ -57,17 +57,22 @@ class Empleados extends Model
         return $this->hasMany(Actividades::class, 'empleado_id');
     }
 
-    public function esSupervisor()
-{
-    return $this->es_supervisor; // Retorna true si es supervisor
-}
+    // Relación con el supervisor basada en el nombre completo
+    // public function supervisor()
+    // {
+    //     return $this->belongsTo(Supervisor::class, 'supervisor_id');
+    // }
 
-    
+    // Método para verificar si el empleado tiene un supervisor
+    // public function getSupervisorByFullName()
+    // {
+    //     return Supervisor::whereRaw("CONCAT(nombre_supervisor) = ?", [trim($this->nombre1 . ' ' . $this->apellido1)])->first();
+    // }
+
     public function cargo()
     {
         return $this->belongsTo(Cargos::class, 'cargo_id');
     }
-
 
     public function rubros()
     {
@@ -75,9 +80,26 @@ class Empleados extends Model
             ->withPivot('monto');
     }
 
-
     public function rolesPago()
     {
         return $this->hasMany(RolPago::class);
     }
+
+    public function esSupervisor()
+    {
+        return $this->supervisor !== null; // Si tiene un registro en la tabla de supervisores, es supervisor
+    }
+    
+   // Relación para obtener los supervisores
+   public function supervisores()
+   {
+       return $this->hasMany(Supervisor::class, 'empleado_id');
+   }
+
+   // Relación para obtener un supervisor específico
+   public function supervisor()
+   {
+       return $this->belongsTo(Supervisor::class, 'empleado_id');
+   }
+
 }

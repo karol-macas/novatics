@@ -10,21 +10,17 @@ class Supervisor extends Model
 {
     use HasFactory;
 
-    protected $table = 'supervisores';
+    protected $table = 'supervisores'; // Nombre de la tabla en la base de datos 
 
-    protected $fillable = [
-        'nombre_supervisor',
-        'descripcion',
-    ];    
+    protected $fillable = ['empleado_id', 'nombre_supervisor', 'departamento_id'];
 
-    public function empleado()
+    public function empleados()
     {
-        return $this->hasOne(Empleados::class, 'nombre1','nombre_supervisor');
+        return $this->hasMany(Empleados::class, 'supervisor_id');
     }
 
-    // Relación con departamentos, si un supervisor puede ser de un departamento
     public function departamento()
     {
-        return $this->hasMany(Departamento::class);
+        return $this->belongsTo(Departamento::class, 'departamento_id');
     }
 }

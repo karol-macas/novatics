@@ -27,10 +27,24 @@ class EmpleadosController extends Controller
     public function create()
     {
         $empleado = new Empleados();
-        $departamentos = Departamento::with('supervisor')->get();
+        $departamentos = Departamento::all();
+        $departamento_id = old('departamento_id', null);
+        $supervisores = Empleados::where('es_supervisor', true)->get();
         $cargos = Cargos::all();
         $rubros = Rubro::all();
-        return view('empleados.createEmpleados', compact('empleado', 'departamentos', 'cargos', 'rubros'));
+
+        // Inicializamos una colección vacía para los supervisores
+        $supervisores = collect();
+
+        // Si se ha seleccionado un departamento, obtenemos los supervisores de ese departamento
+        if ($departamento_id) {
+            // Obtener los supervisores del departamento seleccionado
+            $supervisores = Supervisor::where('departamento_id', $departamento_id)->get();
+        }
+
+
+
+        return view('empleados.createEmpleados', compact('empleado', 'departamentos', 'cargos', 'rubros', 'supervisores'));
     }
 
     public function store(Request $request)
@@ -51,8 +65,9 @@ class EmpleadosController extends Controller
             'contrato_confidencialidad' => 'nullable|file|mimes:pdf,jpg,png',
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
-            'supervisor_id' => 'required|exists:supervisores,id',
             'cargo_id' => 'required|exists:cargos,id',
+            'supervisor_id' => 'nullable|exists:empleados,id',
+            'es_supervisor' => 'nullable|boolean',
             'jornada_laboral' => 'required|string|max:255',
             'fecha_contratacion' => 'required|date',
             'fecha_conclusion_contrato' => 'nullable|date',
@@ -64,9 +79,10 @@ class EmpleadosController extends Controller
             'monto.*' => 'numeric',  // Asegúrate de que los montos sean números
         ]);
 
-
-
+        //Crear el empleado
         $empleados = new Empleados($validated);
+
+
 
         // Crear el usuario asociado al empleado
         $user = User::create([
@@ -98,6 +114,23 @@ class EmpleadosController extends Controller
 
         $empleados->save();
 
+        // Si el empleado es supervisor, registrar en la tabla 'supervisores'
+        if ($empleados->es_supervisor) {
+            $supervisor = new Supervisor([
+                'empleado_id' => $empleados->id,
+                'nombre_supervisor' => $empleados->nombre1 . ' ' . $empleados->apellido1,
+                'departamento_id' => $empleados->departamento_id,  // Asignar el departamento del empleado
+            ]);
+            $supervisor->save(); // Guardamos el supervisor
+        }
+
+        if ($request->has('supervisor_id') && $request->input('supervisor_id') != '') {
+            $empleados->supervisor_id = $request->input('supervisor_id');
+            $empleados->save();
+        }
+
+
+
         $empleadoId = $empleados->id;
         $rubros = $request->input('rubros', []);
         $montos = $request->input('montos', []);
@@ -118,14 +151,21 @@ class EmpleadosController extends Controller
         return redirect()->route('empleados.indexEmpleados')->with('success', 'Empleado creado con éxito.');
     }
 
-    public function getSupervisor($id)
+    public function getSupervisoresPorDepartamento($departamento_id)
     {
-        $departamento = Departamento::with('supervisor')->find($id);
-        return response()->json([
-            'supervisor' => $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin asignar'
-        ]);
+        // Obtener los supervisores que pertenecen al departamento seleccionado
+        $supervisores = Empleados::where('departamento_id', $departamento_id)
+            ->where('es_supervisor', true)
+            ->get();
+
+        return response()->json($supervisores);
     }
 
+    public function getSupervisores($departamento_id)
+    {
+        $supervisores = Supervisor::where('departamento_id', $departamento_id)->get();
+        return response()->json(['supervisores' => $supervisores]);
+    }
 
     public function show($id)
     {
@@ -182,7 +222,7 @@ class EmpleadosController extends Controller
             'contrato_consentimiento' => 'nullable|file|mimes:pdf,jpg,png',
             'fecha_ingreso' => 'required|date',
             'cargo_id' => 'required|exists:cargos,id',
-            'supervisor_id' => 'required|exists:supervisores,id',
+            'es_supervisor' => 'nullable|boolean',
             'jornada_laboral' => 'required|string|max:255',
             'fecha_contratacion' => 'required|date',
             'fecha_conclusion_contrato' => 'nullable|date',

@@ -136,15 +136,38 @@
 
                                     </select>
                                 </div>
+
                                 <div class="col-md-6">
+
                                     <label for="supervisor" class="form-label">Supervisor<span
                                             class="text-danger">*</span></label>
-                                    <select name="supervisor_id" id="supervisor" class="form-select" required>
+                                    <select name="supervisor_id" id="supervisor" class="form-select">
                                         <option value="">Selecciona un Supervisor</option>
+                                        @foreach ($supervisores as $supervisor)
+                                            <option value="{{ $supervisor->empleado_id }}"
+                                                {{ old('supervisor_id') == $supervisor->empleado_id ? 'selected' : '' }}>
+                                                {{ $supervisor->nombre_supervisor }}
+                                            </option>
+                                        @endforeach
                                     </select>
 
+
+                                    <div>
+                                        <label for="es_supervisor">¿Es Supervisor?</label>
+                                        <input type="checkbox" id="es_supervisor" name="es_supervisor" value="1"
+                                            {{ old('es_supervisor', $empleado->esSupervisor() ? 'checked' : '') }}>
+                                    </div>
+
+
                                 </div>
+
+
+
                             </div>
+
+
+
+
 
                             <div class ="row mb-3">
 
@@ -291,6 +314,31 @@
         </div>
 
         <script>
+            $(document).ready(function() {
+                $('#departamento_id').change(function() {
+                    var departamento_id = $(this).val();
+
+                    // Si no hay departamento seleccionado, no hacemos nada
+                    if (!departamento_id) {
+                        $('#supervisor').html('<option value="">Selecciona un Supervisor</option>');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/get-supervisores/' + departamento_id,
+                        type: 'GET',
+                        success: function(response) {
+                            var options = '<option value="">Selecciona un Supervisor</option>';
+                            $.each(response.supervisores, function(key, supervisor) {
+                                options += '<option value="' + supervisor.empleado_id +
+                                    '">' + supervisor.nombre_supervisor + '</option>';
+                            });
+                            $('#supervisor').html(options);
+                        }
+                    });
+                });
+            });
+            
             document.getElementById('rubros').addEventListener('change', function(event) {
                 const montosContainer = document.getElementById('montos-container');
                 montosContainer.innerHTML = ''; // Limpiar el contenedor

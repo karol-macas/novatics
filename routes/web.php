@@ -103,8 +103,9 @@ Route::middleware(['auth'])->group(function () {
             'destroy' => 'supervisores.destroy',
         ]);
 
-        Route::get('/departamentos/{id}/supervisor', [DepartamentoController::class, 'getSupervisor']);
-        Route::get('/empleados/{id}/departamento', [EmpleadosController::class, 'getSupervisor']);
+        Route::get('/departamentos/{id}/supervisor', [DepartamentoController::class, 'getSupervisores']);
+        Route::get('/supervisores/{departamento_id}', [EmpleadosController::class, 'getSupervisoresPorDepartamento']);
+
 
         Route::resource('cargos', CargosController::class)->names([
             'index' => 'cargos.index',
@@ -192,8 +193,8 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    Route::middleware(['auth', 'supervisor'])->group(function () {
-        Route::get('/modulo-supervisor', [SupervisorController::class, 'index'])->name('matriz_cumplimientos.index');
+    Route::group(['middleware' => 'isSupervisor'], function () {
+        Route::get('/modulo-supervisores', [SupervisorController::class, 'index'])->name('supervisores.index');
     });
     
 

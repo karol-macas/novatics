@@ -50,13 +50,25 @@
                             <td>{{ $empleado->correo_institucional }}</td>
                             <td>{{ optional($empleado->departamento)->nombre ?? 'N/A' }}</td>
                             <td>{{ optional($empleado->cargo)->nombre_cargo ?? 'N/A' }}</td>
-                            <td>{{ optional($empleado->supervisor)->nombre_supervisor ?? 'N/A' }}</td>
+                            <td>
+                                @if ($empleado->es_supervisor)
+                                    <!-- Si el empleado es supervisor, mostrar "Supervisor" -->
+                                    Supervisor
+                                @elseif ($empleado->supervisor_id)
+                                    <!-- Si el empleado tiene un supervisor asignado, mostrar el nombre del supervisor -->
+                                    {{ $empleado->supervisor->nombre1 . ' ' . $empleado->supervisor->apellido1 }}
+                                @else
+                                    <!-- Si no tiene supervisor asignado, mostrar N/A -->
+                                    N/A
+                                @endif
+                            </td>
+
 
                             <td>{{ $empleado->fecha_contratacion ? \Carbon\Carbon::parse($empleado->fecha_contratacion)->format('d/m/Y') : 'N/A' }}
                             </td>
                             <td>{{ $empleado->jornada_laboral }}</td>
-                            
-                        
+
+
                             <td>
                                 @if ($empleado->curriculum)
                                     <a href="{{ asset('storage/' . $empleado->curriculum) }}" class="btn btn-info btn-sm"
