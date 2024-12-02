@@ -27,7 +27,8 @@ class AddSupervisorToDepartamentosTable extends Migration
     public function down()
     {
         Schema::table('departamentos', function (Blueprint $table) {
-            //
+            $table->dropForeign(['supervisor_id']); // Elimina la clave foránea
+            $table->dropColumn('supervisor_id'); // Elimina la columna supervisor_id
         });
     }
 }

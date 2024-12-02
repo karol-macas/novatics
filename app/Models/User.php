@@ -29,16 +29,15 @@ class User extends Authenticatable
     ];
 
     // Método para verificar si el usuario es admin
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
-    }
-    
+   
+
     // Método para verificar si el usuario es empleado
     public function isEmpleado(): bool
     {
         return $this->role === 'empleado';
     }
+
+
 
     // Método para verificar un rol específico
     public function isRole(string $role): bool
@@ -52,9 +51,24 @@ class User extends Authenticatable
         return $this->role !== $role;
     }
 
+   
+
+    public function isSupervisor()
+    {
+        return $this->empleado && $this->empleado->es_supervisor;
+    }
+
     // Relación con el modelo Empleado
     public function empleado()
     {
         return $this->hasOne(Empleados::class, 'user_id');
+    }
+
+    public function isAdmin()
+
+    {
+
+        return $this->role === 'admin';
+
     }
 }

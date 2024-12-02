@@ -28,19 +28,10 @@ class EmpleadosController extends Controller
     {
         $empleado = new Empleados();
         $departamentos = Departamento::all();
-        $departamento_id = old('departamento_id', null);
+        $supervisores = Supervisor::all();
         $supervisores = Empleados::where('es_supervisor', true)->get();
         $cargos = Cargos::all();
         $rubros = Rubro::all();
-
-        // Inicializamos una colección vacía para los supervisores
-        $supervisores = collect();
-
-        // Si se ha seleccionado un departamento, obtenemos los supervisores de ese departamento
-        if ($departamento_id) {
-            // Obtener los supervisores del departamento seleccionado
-            $supervisores = Supervisor::where('departamento_id', $departamento_id)->get();
-        }
 
 
 
@@ -122,6 +113,11 @@ class EmpleadosController extends Controller
                 'departamento_id' => $empleados->departamento_id,  // Asignar el departamento del empleado
             ]);
             $supervisor->save(); // Guardamos el supervisor
+
+            // Asignamos este supervisor a todos los departamentos correspondientes
+            Departamento::where('id', $empleados->departamento_id)->update([
+                'supervisor_id' => $empleados->id
+            ]);
         }
 
         if ($request->has('supervisor_id') && $request->input('supervisor_id') != '') {
@@ -267,6 +263,21 @@ class EmpleadosController extends Controller
         }
 
         $empleados->save();
+
+        // Si el empleado se convierte en supervisor, registrar en la tabla 'supervisores'
+        if ($empleados->es_supervisor && !$empleados->supervisor) {
+            $supervisor = new Supervisor([
+                'empleado_id' => $empleados->id,
+                'nombre_supervisor' => $empleados->nombre1 . ' ' . $empleados->apellido1,
+                'departamento_id' => $empleados->departamento_id,
+            ]);
+            $supervisor->save();
+
+            // Asignar el supervisor automáticamente a su departamento
+            Departamento::where('id', $empleados->departamento_id)->update([
+                'supervisor_id' => $empleados->id,
+            ]);
+        }
 
         // Asignar rubros con sus montos
         if ($request->filled('rubros') && $request->filled('monto_rubro')) {

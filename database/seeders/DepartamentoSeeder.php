@@ -15,6 +15,7 @@ class DepartamentoSeeder extends Seeder
             'nombre' => 'ÁREA INFRAESTRUCTURA TI',
             'descripcion' => 'Encargada de gestionar y mantener la infraestructura tecnológica de la organización para asegurar su funcionamiento óptimo.',
             
+            
         ]);
 
         Departamento::create([

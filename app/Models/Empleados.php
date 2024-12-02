@@ -89,17 +89,11 @@ class Empleados extends Model
     {
         return $this->supervisor !== null; // Si tiene un registro en la tabla de supervisores, es supervisor
     }
-    
-   // Relación para obtener los supervisores
-   public function supervisores()
-   {
-       return $this->hasMany(Supervisor::class, 'empleado_id');
-   }
 
-   // Relación para obtener un supervisor específico
-   public function supervisor()
-   {
-       return $this->belongsTo(Supervisor::class, 'empleado_id');
-   }
 
+
+    public function supervisor()
+    {
+        return $this->belongsTo(Supervisor::class, 'supervisor_id');
+    }
 }

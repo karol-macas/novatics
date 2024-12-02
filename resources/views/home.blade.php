@@ -69,10 +69,8 @@
                                         </div>
                                     </div>
                                 </div>
-                            @elseif (Auth::user()->isEmpleado() &&
-                                    Auth::user()->empleado->supervisor &&
-                                    trim(Auth::user()->empleado->supervisor->nombre_supervisor) ==
-                                        trim(Auth::user()->nombre1 . ' ' . Auth::user()->apellido1))
+                            @endif
+                            @if (Auth::user()->isEmpleado() && Auth::user()->empleado->es_supervisor)
                                 <div class="col-md-4 mb-4">
                                     <div class="card h-100 shadow">
                                         <div class="card-body d-flex flex-column align-items-center">
@@ -85,11 +83,6 @@
                                     </div>
                                 </div>
                             @endif
-                            {{-- @if (auth()->check() && auth()->user()->empleado->esSupervisor())
-                                <li>
-                                    <a href="{{ route('matriz_cumplimientos.index') }}">Módulo Supervisor</a>
-                                </li>
-                            @endif --}}
                         </div>
                     </div>
                 </div>

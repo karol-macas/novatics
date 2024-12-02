@@ -105,6 +105,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/departamentos/{id}/supervisor', [DepartamentoController::class, 'getSupervisores']);
         Route::get('/supervisores/{departamento_id}', [EmpleadosController::class, 'getSupervisoresPorDepartamento']);
+        Route::get('/asignar-supervisor', [DepartamentoController::class, 'asignarSupervisor']);
+
+        Route::get('/supervisores/departamento/{departamento_id}', [SupervisorController::class, 'getSupervisoresPorDepartamento']);
 
 
         Route::resource('cargos', CargosController::class)->names([
@@ -183,6 +186,19 @@ Route::middleware(['auth'])->group(function () {
             'destroy' => 'daily.destroy',
         ]);
 
+        Route::resource('matriz_cumplimientos', MatrizCumplimientoController::class)->names([
+            'index' => 'matriz_cumplimientos.index',
+            'create' => 'matriz_cumplimientos.create',
+            'store' => 'matriz_cumplimientos.store',
+            'show' => 'matriz_cumplimientos.show',
+            'edit' => 'matriz_cumplimientos.edit',
+            'update' => 'matriz_cumplimientos.update',
+            'destroy' => 'matriz:cumplimientos.destroy',
+        ]);
+
+
+        
+
          Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');
     //    //Ruta de update de estado 
          Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
@@ -193,10 +209,10 @@ Route::middleware(['auth'])->group(function () {
 
     });
 
-    Route::group(['middleware' => 'isSupervisor'], function () {
-        Route::get('/modulo-supervisores', [SupervisorController::class, 'index'])->name('supervisores.index');
+    // Rutas que solo puede acceder un supervisor
+    Route::middleware(['auth', 'supervisor'])->group(function () {
+        Route::get('matriz_cumplimientos', [MatrizCumplimientoController::class, 'index'])->name('matriz_cumplimientos.index');
     });
-    
 
 });
 

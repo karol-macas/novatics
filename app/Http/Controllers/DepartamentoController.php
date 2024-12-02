@@ -9,11 +9,15 @@ use App\Models\Supervisor;
 
 class DepartamentoController extends Controller
 {
+
+
+
     public function index()
     {
-        $departamentos = Departamento::all();
+        $departamentos = Departamento::with('supervisor')->get();
         return view('departamentos.index', compact('departamentos'));
     }
+
 
 
     public function create()
@@ -22,13 +26,31 @@ class DepartamentoController extends Controller
         return view('departamentos.create', compact('supervisores'));
     }
 
+    public function asignarSupervisor()
+    {
+        // Obtener el ID del supervisor
+        $supervisorId = Supervisor::where('nombre_supervisor', 'Empleado1 Empleado1')->value('id');
+
+        if ($supervisorId) {
+            // Actualizar el supervisor_id en el departamento
+            Departamento::where('id', 1) // Asegúrate de que sea el ID correcto del departamento
+                ->update([
+                    'supervisor_id' => $supervisorId,
+                ]);
+
+            return response()->json(['message' => 'Supervisor asignado correctamente']);
+        } else {
+            return response()->json(['message' => 'No se encontró el supervisor'], 404);
+        }
+    }
+
     public function getSupervisor($id)
-{
-    $departamento = Departamento::with('supervisor')->find($id);
-    return response()->json([
-        'supervisor' => $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin asignar'
-    ]);
-}
+    {
+        $departamento = Departamento::with('supervisor')->find($id);
+        return response()->json([
+            'supervisor' => $departamento->supervisor ? $departamento->supervisor->nombre_supervisor : 'Sin asignar'
+        ]);
+    }
 
 
     public function store(Request $request)

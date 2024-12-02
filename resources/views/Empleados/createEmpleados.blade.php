@@ -118,34 +118,46 @@
                             <button type="button" class="btn btn-primary" onclick="nextStep(1)">Siguiente</button>
                         </div>
 
+
                         <div class="step d-none" id="step2">
                             <h4>Detalles del Contrato</h4>
-                            <div class="row mb-3">
 
+
+                            <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="departamento" class="form-label">Departamento<span
+
+                                    <label for="departamento" class="form-label">Departamento <span
                                             class="text-danger">*</span></label>
                                     <select name="departamento_id" id="departamento" class="form-select" required
                                         onchange="filterSupervisores()">
                                         <option value="">Selecciona un Departamento</option>
                                         @foreach ($departamentos as $departamento)
-                                            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                            <option value="{{ $departamento->id }}"
+                                                data-supervisor-id="{{ $departamento->supervisor_id }}"
+                                                {{ old('departamento_id', $empleado->departamento_id) == $departamento->id ? 'selected' : '' }}>
+                                                {{ $departamento->nombre }}
+                                            </option>
                                         @endforeach
                                     </select>
+
                                 </div>
 
+
                                 <div class="col-md-6">
-                                    <label for="supervisor" class="form-label">Supervisor<span
+                                    <label for="supervisor" class="form-label">Supervisor <span
                                             class="text-danger">*</span></label>
                                     <select name="supervisor_id" id="supervisor" class="form-select">
                                         <option value="">Selecciona un Supervisor</option>
                                         @foreach ($supervisores as $supervisor)
                                             <option value="{{ $supervisor->empleado_id }}"
-                                                data-departamento-id="{{ $supervisor->departamento_id }}">
+                                                {{ old('supervisor_id', $empleado->supervisor_id) == $supervisor->empleado_id ? 'selected' : '' }}>
                                                 {{ $supervisor->nombre_supervisor }}
                                             </option>
                                         @endforeach
                                     </select>
+
+
+
 
                                     <div>
                                         <label for="es_supervisor">¿Es Supervisor?</label>
@@ -155,13 +167,7 @@
 
 
                                 </div>
-
-
-
                             </div>
-
-
-
 
 
                             <div class ="row mb-3">
@@ -233,7 +239,9 @@
 
                             <button type="button" class="btn btn-secondary" onclick="prevStep(1)">Anterior</button>
                             <button type="button" class="btn btn-primary" onclick="nextStep(2)">Siguiente</button>
+
                         </div>
+
                         <!-- Step 3: Documentos Requeridos -->
                         <div class="step d-none" id="step3">
                             <h4>Documentos Requeridos</h4>
@@ -265,7 +273,8 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-8">
-                                    <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento de
+                                    <label for="contrato_consentimiento" class="form-label">Contrato de Consentimiento
+                                        de
                                         Datos<span class="text-danger">*</span></label>
                                     <input type="file" name="contrato_consentimiento" class="form-control">
                                 </div>
@@ -297,7 +306,8 @@
                             </div>
 
 
-                            <div id="montos-container"></div> <!-- Aquí se agregarán dinámicamente los campos de monto -->
+                            <div id="montos-container"></div>
+                            <!-- Aquí se agregarán dinámicamente los campos de monto -->
 
                             <button type="button" class="btn btn-secondary" onclick="prevStep(3)">Anterior</button>
                             <button type="submit" class="btn btn-success">Guardar</button>
@@ -310,61 +320,30 @@
 
         <script>
             function filterSupervisores() {
-                // Obtén el select de departamentos
-                const departamentoSelect = document.getElementById('departamento');
-                const departamentoId = departamentoSelect.value; // ID del departamento seleccionado
+                var departamentoId = document.getElementById('departamento').value;
 
-                // Obtén el select de supervisores
-                const supervisorSelect = document.getElementById('supervisor');
+                if (departamentoId) {
+                    // Realizar la solicitud AJAX
+                    fetch(`/supervisores/departamento/${departamentoId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            // Limpiar el select de supervisores
+                            var supervisorSelect = document.getElementById('supervisor');
+                            supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
 
-                // Limpia las opciones actuales de supervisores
-                supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
-
-                // Obtén todas las opciones de supervisores
-                const allSupervisores = Array.from(document.querySelectorAll('#supervisor option[data-departamento-id]'));
-
-                // Filtra las opciones que coinciden con el departamento seleccionado
-                const filteredSupervisores = allSupervisores.filter(option =>
-                    option.getAttribute('data-departamento-id') === departamentoId
-                );
-
-                // Si hay supervisores para el departamento, agrégalos al select
-                if (filteredSupervisores.length > 0) {
-                    filteredSupervisores.forEach(option => supervisorSelect.appendChild(option));
+                            // Rellenar el select con los supervisores
+                            data.supervisores.forEach(supervisor => {
+                                var option = document.createElement('option');
+                                option.value = supervisor.empleado_id;
+                                option.textContent = supervisor.nombre_supervisor;
+                                supervisorSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error:', error));
                 } else {
-                    // Si no hay supervisores, muestra una opción predeterminada
-                    const noSupervisorOption = document.createElement('option');
-                    noSupervisorOption.value = '';
-                    noSupervisorOption.textContent = 'No hay supervisores para este departamento';
-                    supervisorSelect.appendChild(noSupervisorOption);
-                }
-            }
-
-            function filterSupervisores() {
-                // Obtén el select de departamentos y el valor seleccionado
-                const departamentoSelect = document.getElementById('departamento');
-                const departamentoId = departamentoSelect.value;
-
-                // Obtén el select de supervisores
-                const supervisorSelect = document.getElementById('supervisor');
-
-                // Limpia las opciones actuales de supervisores
-                supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
-
-                // Filtra supervisores que pertenezcan al departamento seleccionado
-                const allSupervisores = Array.from(supervisorSelect.querySelectorAll('option[data-departamento-id]'));
-                allSupervisores.forEach(option => {
-                    if (option.getAttribute('data-departamento-id') === departamentoId) {
-                        supervisorSelect.appendChild(option);
-                    }
-                });
-
-                // Si no hay supervisores, muestra una opción predeterminada
-                if (supervisorSelect.options.length === 1) {
-                    const noSupervisorOption = document.createElement('option');
-                    noSupervisorOption.value = '';
-                    noSupervisorOption.textContent = 'No hay supervisores para este departamento';
-                    supervisorSelect.appendChild(noSupervisorOption);
+                    // Limpiar el select si no hay departamento seleccionado
+                    var supervisorSelect = document.getElementById('supervisor');
+                    supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
                 }
             }
 
@@ -402,7 +381,7 @@
                     // Agregar el div al contenedor principal
                     montosContainer.appendChild(montoDiv);
 
-                    // donde se guarda el monto 
+                    // donde se guarda el monto
                     input.addEventListener('input', function(event) {
                         const monto = event.target.value;
                         console.log(`Monto para ${rubroNombre}: ${monto}`);
@@ -414,34 +393,34 @@
             });
 
 
-            function updateSupervisor() {
-                // Obtén el select de departamentos
-                const departamentoSelect = document.getElementById('departamento');
-                const selectedOption = departamentoSelect.options[departamentoSelect.selectedIndex];
+            // function updateSupervisor() {
+            //     // Obtén el select de departamentos
+            //     const departamentoSelect = document.getElementById('departamento');
+            //     const selectedOption = departamentoSelect.options[departamentoSelect.selectedIndex];
 
-                // Obtén el supervisor asociado al departamento seleccionado
-                const supervisorId = selectedOption.getAttribute('data-supervisor-id');
-                const supervisorNombre = selectedOption.getAttribute('data-supervisor-nombre');
+            //     // Obtén el supervisor asociado al departamento seleccionado
+            //     const supervisorId = selectedOption.getAttribute('data-supervisor-id');
+            //     const supervisorNombre = selectedOption.getAttribute('data-supervisor-nombre');
 
-                // Actualiza el select de supervisores
-                const supervisorSelect = document.getElementById('supervisor');
-                supervisorSelect.innerHTML = ''; // Limpia las opciones actuales
+            //     // Actualiza el select de supervisores
+            //     const supervisorSelect = document.getElementById('supervisor');
+            //     supervisorSelect.innerHTML = ''; // Limpia las opciones actuales
 
-                // Si hay un supervisor válido, agrega una nueva opción
-                if (supervisorId) {
-                    const option = document.createElement('option');
-                    option.value = supervisorId;
-                    option.textContent = supervisorNombre;
-                    option.selected = true; // Marca esta opción como seleccionada
-                    supervisorSelect.appendChild(option);
-                } else {
-                    // Si no hay supervisor, agrega una opción predeterminada
-                    const option = document.createElement('option');
-                    option.value = '';
-                    option.textContent = 'No Supervisor';
-                    supervisorSelect.appendChild(option);
-                }
-            }
+            //     // Si hay un supervisor válido, agrega una nueva opción
+            //     if (supervisorId) {
+            //         const option = document.createElement('option');
+            //         option.value = supervisorId;
+            //         option.textContent = supervisorNombre;
+            //         option.selected = true; // Marca esta opción como seleccionada
+            //         supervisorSelect.appendChild(option);
+            //     } else {
+            //         // Si no hay supervisor, agrega una opción predeterminada
+            //         const option = document.createElement('option');
+            //         option.value = '';
+            //         option.textContent = 'No Supervisor';
+            //         supervisorSelect.appendChild(option);
+            //     }
+            // }
 
             function showStep(step) {
                 document.querySelectorAll('.step').forEach(s => s.classList.add('d-none'));

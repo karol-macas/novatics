@@ -15,12 +15,20 @@ class SupervisorController extends Controller
         return view('supervisores.index', compact('supervisores'));
     }
 
+    public function getSupervisoresPorDepartamento($departamentoId)
+    {
+        // Obtener los supervisores del departamento seleccionado
+        $supervisores = Supervisor::where('departamento_id', $departamentoId)->get();
+
+        // Devolver los supervisores en formato JSON
+        return response()->json(['supervisores' => $supervisores]);
+    }
+
     public function create()
     {
         $empleados = Empleados::all();
         $departamentos = Departamento::all();
         return view('supervisores.create', compact('empleados', 'departamentos'));
-        
     }
 
     public function store(Request $request)

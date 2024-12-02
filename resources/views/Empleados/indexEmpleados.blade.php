@@ -56,7 +56,7 @@
                                     Supervisor
                                 @elseif ($empleado->supervisor_id)
                                     <!-- Si el empleado tiene un supervisor asignado, mostrar el nombre del supervisor -->
-                                    {{ $empleado->supervisor->nombre1 . ' ' . $empleado->supervisor->apellido1 }}
+                                    {{ $empleado->supervisor->nombre_supervisor ?? 'N/A' }}
                                 @else
                                     <!-- Si no tiene supervisor asignado, mostrar N/A -->
                                     N/A

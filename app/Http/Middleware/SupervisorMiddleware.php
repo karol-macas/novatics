@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SupervisorMiddleware
 {
@@ -17,10 +18,17 @@ class SupervisorMiddleware
 
     public function handle($request, Closure $next)
     {
-        // Verifica si el usuario es supervisor
-        if (auth()->check() && auth()->user()->empleado->esSupervisor()) {
+        // Verifica si el usuario es supervisor y permite el acceso pero tambien al administrador
+        if (Auth::user() && Auth::user()->role === 'admin') {
             return $next($request);
         }
+
+        
+        if (Auth::user() && Auth::user()->empleado && Auth::user()->empleado->es_supervisor) {
+            return $next($request);
+        }
+
+     
 
         abort(403, 'Acceso denegado.');
     }

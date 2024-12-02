@@ -14,13 +14,15 @@ class Supervisor extends Model
 
     protected $fillable = ['empleado_id', 'nombre_supervisor', 'departamento_id'];
 
-    public function empleados()
-    {
-        return $this->hasMany(Empleados::class, 'supervisor_id');
-    }
+    
 
     public function departamento()
+{
+    return $this->belongsTo(Departamento::class);
+}
+
+    public function empleados()
     {
-        return $this->belongsTo(Departamento::class, 'departamento_id');
+        return $this->belongsTo(Empleados::class, 'empleado_id');
     }
 }
