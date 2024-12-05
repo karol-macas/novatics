@@ -10,7 +10,10 @@ class CreateParametrosTable extends Migration
     {
         Schema::create('parametros', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre'); // Nombre del parámetro
+            $table->string('nombre');
+             // Nombre del parámetro
+
+             //relacion de parametro con departamento
             $table->timestamps();
         });
     }

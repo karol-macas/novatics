@@ -24,19 +24,19 @@
             <tbody>
                 @foreach($cumplimientos as $cumplimiento)
                     <tr>
-                        <td>{{ $cumplimiento->id }}</td>
-                        <td>{{ $cumplimiento->parametro }}</td>
+                        <td>{{ $cumplimiento->id  }}</td>
+                        <td>{{ $cumplimiento->parametro->nombre }}</td>
                         <td>{{ $cumplimiento->puntos }}</td>
-                        <td>{{ $cumplimiento->empleado->nombre }}</td>
-                        <td>{{ $cumplimiento->cargo->nombre }}</td>
+                        <td>{{ $cumplimiento->empleado->nombre1 }}</td>
+                        <td>{{ $cumplimiento->cargo->nombre_cargo}}</td>
                         <td>{{ $cumplimiento->supervisor->nombre_supervisor }}</td>
                         <td>
                             <a href="{{ route('matriz_cumplimientos.edit', $cumplimiento) }}" class="btn btn-warning">Editar</a>
-                            <form action="{{ route('matriz_cumplimientos.destroy', $cumplimiento) }}" method="POST" style="display:inline-block;">
+                            
+                            <form action="{{ route('matriz_cumplimientos.destroy', $cumplimiento) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger">Eliminar</button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach

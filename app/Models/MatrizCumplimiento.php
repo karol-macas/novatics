@@ -9,7 +9,7 @@ class MatrizCumplimiento extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['parametro', 'puntos', 'empleado_id', 'cargo_id', 'supervisor_id'];
+    protected $fillable = ['parametro_id', 'puntos', 'empleado_id', 'cargo_id', 'supervisor_id'];
 
     public function empleado()
     {

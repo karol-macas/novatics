@@ -29,7 +29,7 @@ Auth::routes(['register' => false]);  // Desactiva el registro si no lo necesita
 
 // Redirigir a la vista de bienvenida si alguien intenta acceder al login
 Route::get('/login', function () {
-    return redirect()->route('welcome'); 
+    return redirect()->route('welcome');
 })->name('login');
 
 // Ruta de cerrar sesion
@@ -37,7 +37,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Redirigir a la vista de bienvenida si alguien intenta acceder al registro
 Route::get('/register', function () {
-    return redirect()->route('welcome'); 
+    return redirect()->route('welcome');
 })->name('register');
 
 // Ruta de cierre de sesión
@@ -45,7 +45,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rutas que requieren autenticación
 Route::middleware(['auth'])->group(function () {
-    
+
     // Rutas comunes para administradores
     Route::middleware(['role:admin'])->group(function () {
         Route::resource('empleados', EmpleadosController::class)->names([
@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'empleados.update',
             'destroy' => 'empleados.destroy',
         ]);
-    
+
         Route::resource('actividades', ActividadesController::class)->names([
             'index' => 'actividades.indexActividades',
             'store' => 'actividades.store',
@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'actividades.update',
             'destroy' => 'actividades.destroy',
         ]);
-    
+
         Route::resource('productos', ProductoController::class)->names([
             'index' => 'productos.index',
             'store' => 'productos.store',
@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'productos.update',
             'destroy' => 'productos.destroy',
         ]);
-    
+
         Route::resource('clientes', ClienteController::class)->names([
             'index' => 'clientes.index',
             'store' => 'clientes.store',
@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'clientes.update',
             'destroy' => 'clientes.destroy',
         ]);
-    
+
         Route::resource('departamentos', DepartamentoController::class)->names([
             'index' => 'departamentos.index',
             'store' => 'departamentos.store',
@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
             'edit' => 'departamentos.edit',
             'update' => 'departamentos.update',
             'destroy' => 'departamentos.destroy',
-            
+
         ]);
 
         Route::resource('supervisores', SupervisorController::class)->names([
@@ -158,7 +158,6 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         Route::resource('parametros', ParametroController::class);
-
     });
 
     // Rutas que solo puede acceder un empleado
@@ -193,29 +192,24 @@ Route::middleware(['auth'])->group(function () {
             'show' => 'matriz_cumplimientos.show',
             'edit' => 'matriz_cumplimientos.edit',
             'update' => 'matriz_cumplimientos.update',
-            'destroy' => 'matriz:cumplimientos.destroy',
+            'destroy' => 'matriz_cumplimientos.destroy',
+
         ]);
 
 
-        
 
-         Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');
-    //    //Ruta de update de estado 
-         Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
+
+        Route::put('actividades/{id}/avance', [ActividadesController::class, 'updateAvance'])->name('actividades.updateAvance');
+        //    //Ruta de update de estado 
+        Route::put('actividades/{id}/estado', [ActividadesController::class, 'updateEstado'])->name('actividades.updateEstado');
 
         Route::post('/actividades/{id}/start-counter', [ActividadesController::class, 'startCounter'])->name('actividades.startCounter');
-        
-        Route::get('/empleado/{id}/details', [EmpleadosController::class, 'getEmployeeDetails'])->name('empleado.details');
 
+        Route::get('/empleado/{id}/details', [EmpleadosController::class, 'getEmployeeDetails'])->name('empleado.details');
     });
 
     // Rutas que solo puede acceder un supervisor
     Route::middleware(['auth', 'supervisor'])->group(function () {
         Route::get('matriz_cumplimientos', [MatrizCumplimientoController::class, 'index'])->name('matriz_cumplimientos.index');
     });
-
 });
-
-
-
-

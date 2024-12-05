@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Empleados;
 use App\Models\MatrizCumplimiento;
 use App\Models\Parametro;
+use App\Models\Departamento;
+use App\Models\Cargos;
+use App\Models\Supervisor;
 use Illuminate\Http\Request;
 
 class MatrizCumplimientoController extends Controller
@@ -22,7 +25,9 @@ class MatrizCumplimientoController extends Controller
     {
         $parametros = Parametro::all();
         $empleados = Empleados::all();
-        return view('matriz_cumplimientos.create', compact('parametros', 'empleados'));
+        $cargos = Cargos::all();
+        $supervisores = Supervisor::all();
+        return view('matriz_cumplimientos.create', compact('parametros', 'empleados', 'cargos', 'supervisores'));
     }
 
     public function store(Request $request)
@@ -35,11 +40,6 @@ class MatrizCumplimientoController extends Controller
             'supervisor_id' => 'required|exists:supervisores,id',
         ]);
 
-        // Verificar que el supervisor asignado sea el correcto
-        $empleado = Empleados::findOrFail($request->empleado_id);
-        if ($empleado->id_supervisor != $request->supervisor_id) {
-            return back()->withErrors(['supervisor_id' => 'El supervisor asignado no coincide con el empleado.']);
-        }
 
         MatrizCumplimiento::create($request->all());
 
@@ -60,7 +60,7 @@ class MatrizCumplimientoController extends Controller
     public function destroy(MatrizCumplimiento $cumplimiento)
     {
         $cumplimiento->delete();
-
+    
         return redirect()->route('matriz_cumplimientos.index')->with('success', 'Registro eliminado.');
     }
 }
