@@ -36,4 +36,9 @@ class Departamento extends Model
         return $this->hasMany(Cargos::class);
     }
 
+    public function parametros()
+    {
+        return $this->hasMany(Parametro::class);
+    }
+
 }

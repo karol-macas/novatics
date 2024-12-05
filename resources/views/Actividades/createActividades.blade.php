@@ -45,6 +45,7 @@
                                 <div class="form-group row mb-3">
                                     <label for="empleado_id" class="col-md-4 col-form-label text-md-right">Empleado</label>
                                     <div class="col-md-6">
+                                        <label for="empleado_id">Seleccione un empleado</label>
                                         <select name="empleado_id" class="form-select" id="empleado_id" required
                                             onchange="updateEmployeeInfo()">
                                             <option value="">Seleccione un empleado</option>
@@ -55,7 +56,7 @@
                                                     data-cargo="{{ $empleado->cargo->nombre_cargo }}"
                                                     data-cargo-id="{{ $empleado->cargo->id }}"
                                                     data-supervisor="{{ $empleado->supervisor->nombre_supervisor }}"
-                                                    data-supervisor-id="{{ $empleado->supervisor->id }}"
+                                                    data-supervisor-id="{{ $empleado->supervisores->id }}"
                                                     {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
                                                     {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
                                                 </option>
@@ -203,6 +204,11 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-6 mt-3">
+                                <label for="supervisor_name">Supervisor</label>
+                                <input type="text" id="supervisor_name" class="form-control" readonly>
+                            </div>
+
                             @if (Auth::user()->isAdmin())
                                 <!-- Información del Departamento, Cargo y Supervisor (solo para mostrar) -->
                                 <div class="form-group row mb-2">
@@ -226,12 +232,11 @@
                                     <div class="col-md-6">
                                         <input type="text" id="supervisor" class="form-control" readonly>
                                     </div>
-                                </div>
 
-                                <!-- Inputs ocultos para enviar los IDs reales al servidor -->
-                                <input type="hidden" name="departamento_id" id="departamento_id">
-                                <input type="hidden" name="cargo_id" id="cargo_id">
-                                <input type="hidden" name="supervisor_id" id="supervisor_id">
+                                    <!-- Inputs ocultos para enviar los IDs reales al servidor -->
+                                    <input type="hidden" name="departamento_id" id="departamento_id">
+                                    <input type="hidden" name="cargo_id" id="cargo_id">
+                                    <input type="hidden" name="supervisor_id" id="supervisor_id">
                             @endif
 
                             <!-- Se llene automatico el campo de de departamento al que corresponde al empleado -->
@@ -263,21 +268,6 @@
                                             value="{{ Auth::user()->empleado->cargo->nombre_cargo }}" readonly>
                                     </div>
                                 </div>
-
-                                <!-- Se llene automatico el campo del supervisor al que corresponde al empleado -->
-
-                                <div class="form-group row mb-2">
-                                    <label for="supervisor_id"
-                                        class="col-md-4 col-form-label text-md-right">Supervisor</label>
-                                    <div class="col-md-6">
-                                        <!-- Campo oculto para enviar el ID del supervisor -->
-                                        <input type="hidden" name="supervisor_id"
-                                            value="{{ Auth::user()->empleado->supervisor->id }}">
-                                        <!-- Campo visible que muestra el nombre del supervisor solo como lectura -->
-                                        <input type="text" class="form-control"
-                                            value="{{ Auth::user()->empleado->supervisor->nombre_supervisor }}" readonly>
-                                    </div>
-                                </div>
                             @endif
 
 
@@ -307,6 +297,7 @@
                                 </div>
                             </div>
 
+
                             <!-- Botones -->
                             <div class="form-group row">
                                 <div class="col-md-6 offset-md-4">
@@ -334,12 +325,19 @@
             // Mostrar nombres en los campos informativos
             document.getElementById('departamento').value = selectedOption.getAttribute('data-departamento');
             document.getElementById('cargo').value = selectedOption.getAttribute('data-cargo');
-            document.getElementById('supervisor').value = selectedOption.getAttribute('data-supervisor');
 
             // Guardar los IDs en los inputs ocultos
             document.getElementById('departamento_id').value = selectedOption.getAttribute('data-departamento-id');
             document.getElementById('cargo_id').value = selectedOption.getAttribute('data-cargo-id');
-            document.getElementById('supervisor_id').value = selectedOption.getAttribute('data-supervisor-id');
+
+
+    
+
+            // Obtener los datos del supervisor del empleado seleccionado
+            const supervisor = selectedOption.getAttribute('data-supervisor') || 'Sin supervisor';
+
+            // Actualizar el campo de texto con el nombre del supervisor
+            document.getElementById('supervisor_name').value = supervisor;
         }
     </script>
 @endsection

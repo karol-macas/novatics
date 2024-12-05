@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parametro;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 
 class ParametroController extends Controller
@@ -10,18 +11,21 @@ class ParametroController extends Controller
     public function index()
     {
         $parametros = Parametro::all();
+        $departamentos = Departamento::all();
         return view('parametros.index', compact('parametros'));
     }
 
     public function create()
     {
-        return view('parametros.create');
+        $departamentos = Departamento::all();
+        return view('parametros.create ', compact('departamentos'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'nombre' => 'required|string|max:255|unique:parametros,nombre',
+            'departamento_id' => 'required|exists:departamentos,id',
         ]);
 
         $parametro = new Parametro($request->all());
@@ -32,13 +36,15 @@ class ParametroController extends Controller
 
     public function edit(Parametro $parametro)
     {
-        return view('parametros.edit', compact('parametro'));
+        $departamentos = Departamento::all();
+        return view('parametros.edit', compact('parametro', 'departamentos'));
     }
 
     public function update(Request $request, Parametro $parametro)
     {
         $request->validate([
             'nombre' => 'required|string|max:255|unique:parametros,nombre,' . $parametro->id,
+            'departamento_id' => 'required|exists:departamentos,id',
         ]);
 
         $parametro->update($request->all());

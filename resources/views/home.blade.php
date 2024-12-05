@@ -30,6 +30,7 @@
             ['route' => 'rubros.index', 'img' => 'cobros.png', 'title' => 'Rubros'],
             ['route' => 'roles_pago.index', 'img' => 'rol-de-pagos.png', 'title' => 'Roles de Pago'],
             ['route' => 'daily.index', 'img' => 'scrum.png', 'title' => 'Daily Scrum'],
+            ['route' => 'parametros.index', 'img' => '', 'title' => 'Parámetros'],
             ['route' => 'matriz_cumplimientos.index', 'img' => 'ventas.png', 'title' => 'Matriz de Cumplimientos'],
         ] as $item)
                                     <div class="col-md-3 mb-4">

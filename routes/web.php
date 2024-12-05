@@ -157,7 +157,14 @@ Route::middleware(['auth'])->group(function () {
             'destroy' => 'matriz:cumplimientos.destroy',
         ]);
 
-        Route::resource('parametros', ParametroController::class);
+        Route::resource('parametros', ParametroController::class)->names([
+            'index' => 'parametros.index',
+            'store' => 'parametros.store',
+            'show' => 'parametros.show',
+            'edit' => 'parametros.edit',
+            'update' => 'parametros.update',
+            'destroy' => 'parametros.destroy',
+        ]);
     });
 
     // Rutas que solo puede acceder un empleado

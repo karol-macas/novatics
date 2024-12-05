@@ -64,9 +64,9 @@ class ActividadesController extends Controller
         $departamentos = Departamento::all();
         $clientes = Cliente::all();
         $cargos = Cargos::all();
-        $supervisor = Supervisor::all();
+        $supervisores = Supervisor::all();
 
-        return view('Actividades.createActividades', compact('empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));
+        return view('Actividades.createActividades', compact('empleados', 'departamentos', 'clientes', 'cargos', 'supervisores'));
     }
 
     public function store(Request $request)
@@ -130,7 +130,7 @@ class ActividadesController extends Controller
         $departamentos = Departamento::all();
         $clientes = Cliente::all();
         $cargos = Cargos::all();
-        $supervisor = Supervisor::all();
+        $supervisores = Supervisor::all();
         return view('Actividades.editActividades', compact('actividades', 'empleados', 'departamentos', 'clientes', 'cargos', 'supervisor'));
     }
 
