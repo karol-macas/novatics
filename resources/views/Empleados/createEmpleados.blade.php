@@ -178,7 +178,10 @@
                                     <select name="cargo_id" id="cargo" class="form-select" required>
                                         <option value="">Selecciona un Cargo</option>
                                         @foreach ($cargos as $cargo)
-                                            <option value="{{ $cargo->id }}">{{ $cargo->nombre_cargo }}</option>
+                                            <option value="{{ $cargo->id }}"
+                                                data-departamento-id="{{ $cargo->departamento_id }}">
+                                                {{ $cargo->nombre_cargo }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -322,16 +325,14 @@
             function filterSupervisores() {
                 var departamentoId = document.getElementById('departamento').value;
 
+                // Filtrar supervisores
                 if (departamentoId) {
-                    // Realizar la solicitud AJAX
                     fetch(`/supervisores/departamento/${departamentoId}`)
                         .then(response => response.json())
                         .then(data => {
-                            // Limpiar el select de supervisores
                             var supervisorSelect = document.getElementById('supervisor');
                             supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
 
-                            // Rellenar el select con los supervisores
                             data.supervisores.forEach(supervisor => {
                                 var option = document.createElement('option');
                                 option.value = supervisor.empleado_id;
@@ -341,11 +342,52 @@
                         })
                         .catch(error => console.error('Error:', error));
                 } else {
-                    // Limpiar el select si no hay departamento seleccionado
                     var supervisorSelect = document.getElementById('supervisor');
                     supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
                 }
+
+                // Filtrar cargos
+                if (departamentoId) {
+                    var cargoSelect = document.getElementById('cargo');
+                    var options = cargoSelect.getElementsByTagName('option');
+                    var cargosDisponibles = false; // Variable para verificar si hay cargos
+
+                    // Mostrar solo los cargos que pertenecen al departamento seleccionado
+                    Array.from(options).forEach(option => {
+                        var cargoDepartamentoId = option.getAttribute('data-departamento-id');
+                        if (cargoDepartamentoId === departamentoId) {
+                            option.style.display = 'block'; // Mostrar cargo
+                            cargosDisponibles = true; // Marcar que hay cargos disponibles
+                        } else {
+                            option.style.display = 'none'; // Ocultar cargo
+                        }
+                    });
+
+                    // Si no hay cargos disponibles, mostrar mensaje
+                    if (!cargosDisponibles) {
+                        var noCargosOption = document.createElement('option');
+                        noCargosOption.disabled = true;
+                        noCargosOption.selected = true;
+                        noCargosOption.textContent = 'No hay cargos disponibles para este departamento';
+                        cargoSelect.appendChild(noCargosOption);
+                    }
+                } else {
+                    var cargoSelect = document.getElementById('cargo');
+                    var options = cargoSelect.getElementsByTagName('option');
+
+                    // Mostrar todos los cargos cuando no se selecciona un departamento
+                    Array.from(options).forEach(option => {
+                        option.style.display = 'block';
+                    });
+
+                    // Eliminar el mensaje de "No hay cargos disponibles"
+                    var noCargosOption = cargoSelect.querySelector('option[disabled]');
+                    if (noCargosOption) {
+                        noCargosOption.remove();
+                    }
+                }
             }
+
 
             document.getElementById('rubros').addEventListener('change', function(event) {
                 const montosContainer = document.getElementById('montos-container');
@@ -393,34 +435,6 @@
             });
 
 
-            // function updateSupervisor() {
-            //     // Obtén el select de departamentos
-            //     const departamentoSelect = document.getElementById('departamento');
-            //     const selectedOption = departamentoSelect.options[departamentoSelect.selectedIndex];
-
-            //     // Obtén el supervisor asociado al departamento seleccionado
-            //     const supervisorId = selectedOption.getAttribute('data-supervisor-id');
-            //     const supervisorNombre = selectedOption.getAttribute('data-supervisor-nombre');
-
-            //     // Actualiza el select de supervisores
-            //     const supervisorSelect = document.getElementById('supervisor');
-            //     supervisorSelect.innerHTML = ''; // Limpia las opciones actuales
-
-            //     // Si hay un supervisor válido, agrega una nueva opción
-            //     if (supervisorId) {
-            //         const option = document.createElement('option');
-            //         option.value = supervisorId;
-            //         option.textContent = supervisorNombre;
-            //         option.selected = true; // Marca esta opción como seleccionada
-            //         supervisorSelect.appendChild(option);
-            //     } else {
-            //         // Si no hay supervisor, agrega una opción predeterminada
-            //         const option = document.createElement('option');
-            //         option.value = '';
-            //         option.textContent = 'No Supervisor';
-            //         supervisorSelect.appendChild(option);
-            //     }
-            // }
 
             function showStep(step) {
                 document.querySelectorAll('.step').forEach(s => s.classList.add('d-none'));

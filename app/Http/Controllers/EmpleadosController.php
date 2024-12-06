@@ -167,13 +167,15 @@ class EmpleadosController extends Controller
     {
         $empleados = Empleados::find($id);
         $empleados = Empleados::with('departamento')->findOrFail($id);
-        $empleado = Empleados::with('rubros')->findOrFail($id);
+        $empleados = Empleados::with('rubros')->findOrFail($id);
+        $empleados = Empleados::with('cargo')->findOrFail($id);
+        $empleados = Empleados::with('supervisor')->findOrFail($id);
 
         // Calcular los totales de ingresos y egresos
         $totalIngreso = 0;
         $totalEgreso = 0;
 
-        foreach ($empleado->rubros as $rubro) {
+        foreach ($empleados->rubros as $rubro) {
             if ($rubro->tipo_rubro == 'ingreso') {
                 $totalIngreso += $rubro->pivot->monto;  // Acceder al monto a través del campo 'pivot'
             } elseif ($rubro->tipo_rubro == 'egreso') {
@@ -181,7 +183,7 @@ class EmpleadosController extends Controller
             }
         }
 
-        return view('Empleados.show',  compact('empleado', 'totalIngreso', 'totalEgreso'));
+        return view('Empleados.show',  compact('empleados', 'totalIngreso', 'totalEgreso'));
     }
 
     public function edit($id)
@@ -208,7 +210,7 @@ class EmpleadosController extends Controller
                 Rule::unique('empleados')->ignore($id),
             ],
             'fecha_nacimiento' => 'required|date',
-            'telefono' => 'required|string|max:15',
+            'telefono' => 'nullable|string|max:15',
             'celular' => 'required|string|max:15',
             'correo_institucional' => 'required|string|email|max:255|unique:empleados,correo_institucional,' . $id,
             'departamento_id' => 'required|exists:departamentos,id',

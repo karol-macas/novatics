@@ -24,6 +24,9 @@
                                     <td>{{ $empleados->apellido1 . ' ' . $empleados->apellido2 }}</td>
                                 </tr>
                                 <tr>
+                                    <th><i class="fas fa-id-card"></i> DUI</th>
+                                    <td>{{ $empleados->cedula }}</td>
+                                <tr>
                                     <th><i class="fa-solid fa-cake-candles"></i> Fecha de Nacimiento</th>
                                     <td>{{ $empleados->fecha_nacimiento }}</td>
                                 </tr>
@@ -43,12 +46,47 @@
                                     <th><i class="fas fa-building"></i> Departamento</th>
                                     <td>{{ $empleados->departamento->nombre }}</td>
                                 </tr>
-
                                 <tr>
+                                    <th><i class="fas fa-user-tie"></i> Cargo</th>
+                                    <td>{{ $empleados->cargo->nombre_cargo }}</td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-user-tie"></i> Supervisor</th>
+                                    <td>
+                                        @if ($empleados->supervisor)
+                                            {{ $empleados->supervisor->nombre_supervisor }}
+                                        @else
+                                            Es Supervisor
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><i class="fas fa-calendar-alt"></i> Tipo de Jornada</th>
+                                    <td>{{ $empleados->jornada_laboral }}</td>
+                                </tr>
+                                <tr>
+
                                     <th><i class="fas fa-calendar-alt"></i> Fecha de Ingreso</th>
                                     <td>{{ $empleados->fecha_ingreso ? \Carbon\Carbon::parse($empleados->fecha_ingreso)->format('d/m/Y') : 'N/A' }}
                                     </td>
                                 </tr>
+                                <tr>
+
+                                    <th><i class="fas fa-calendar-alt"></i> Fecha de Contratacion</th>
+                                    <td>{{ $empleados->fecha_contratacion ? \Carbon\Carbon::parse($empleados->fecha_contratacion)->format('d/m/Y') : 'N/A' }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                    <th><i class="fas fa-calendar-alt"></i> Fecha de Conclusion</th>
+                                    <td>{{ $empleados->fecha_conclusion_contrato ? \Carbon\Carbon::parse($empleados->fecha_conclusion_contrato)->format('d/m/Y') : 'N/A' }}
+                                    </td>
+                                </tr>
+
+                              
+
+
 
                                 @if ($empleados->curriculum)
                                     <tr>
@@ -98,6 +136,20 @@
                                         <td>N/A</td>
                                     </tr>
                                 @endif
+
+                                <tr>
+                                    <th><i class="fas fa-list-ul"></i> Rubros Seleccionados</th>
+                                    <td>
+                                        <ul>
+                                            @foreach ($empleados->rubros as $rubro)
+                                                <li>
+                                                    {{ $rubro->nombre }} - Monto: {{ $rubro->pivot->monto }}  
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <th><i class="fas fa-calendar-plus"></i> Creación del Empleado</th>
                                     <td>
@@ -118,6 +170,7 @@
                                         @endif
                                     </td>
                                 </tr>
+                                
                             </tbody>
                         </table>
                         <div class="mt-3 text-center">

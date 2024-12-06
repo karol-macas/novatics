@@ -96,9 +96,6 @@
             transition: transform 0.3s;
         }
 
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
+       
     </style>
 @endsection

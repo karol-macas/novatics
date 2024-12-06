@@ -51,12 +51,13 @@
                                             <option value="">Seleccione un empleado</option>
                                             @foreach ($empleados as $empleado)
                                                 <option value="{{ $empleado->id }}"
-                                                    data-departamento="{{ $empleado->departamento->nombre }}"
-                                                    data-departamento-id="{{ $empleado->departamento->id }}"
-                                                    data-cargo="{{ $empleado->cargo->nombre_cargo }}"
-                                                    data-cargo-id="{{ $empleado->cargo->id }}"
-                                                    data-supervisor="{{ $empleado->supervisor->nombre_supervisor }}"
-                                                    data-supervisor-id="{{ $empleado->supervisores->id }}"
+                                                    data-departamento="{{ $empleado->departamento->nombre ?? 'Sin departamento' }}"
+                                                    data-departamento-id="{{ $empleado->departamento->id ?? '' }}"
+                                                    data-cargo="{{ $empleado->cargo->nombre_cargo ?? 'Sin cargo' }}"
+                                                    data-cargo-id="{{ $empleado->cargo->id ?? '' }}"
+                                                    data-is-supervisor="{{ $empleado->es_supervisor ? 'true' : 'false' }}"
+                                                    data-supervisor="{{ $empleado->supervisor->nombre_supervisor ?? 'Sin supervisor' }}"
+                                                    data-supervisor-id="{{ $empleado->supervisor->id ?? '' }}"
                                                     {{ old('empleado_id') == $empleado->id ? 'selected' : '' }}>
                                                     {{ $empleado->nombre1 }} {{ $empleado->apellido1 }}
                                                 </option>
@@ -204,11 +205,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 mt-3">
-                                <label for="supervisor_name">Supervisor</label>
-                                <input type="text" id="supervisor_name" class="form-control" readonly>
-                            </div>
-
                             @if (Auth::user()->isAdmin())
                                 <!-- Información del Departamento, Cargo y Supervisor (solo para mostrar) -->
                                 <div class="form-group row mb-2">
@@ -237,6 +233,7 @@
                                     <input type="hidden" name="departamento_id" id="departamento_id">
                                     <input type="hidden" name="cargo_id" id="cargo_id">
                                     <input type="hidden" name="supervisor_id" id="supervisor_id">
+                                </div>
                             @endif
 
                             <!-- Se llene automatico el campo de de departamento al que corresponde al empleado -->
@@ -319,25 +316,29 @@
 
     <script>
         function updateEmployeeInfo() {
-            var empleadoSelect = document.getElementById('empleado_id');
-            var selectedOption = empleadoSelect.options[empleadoSelect.selectedIndex];
+            const empleadoSelect = document.getElementById('empleado_id');
+            const selectedOption = empleadoSelect.options[empleadoSelect.selectedIndex];
 
-            // Mostrar nombres en los campos informativos
-            document.getElementById('departamento').value = selectedOption.getAttribute('data-departamento');
-            document.getElementById('cargo').value = selectedOption.getAttribute('data-cargo');
+            // Actualizar datos generales
+            document.getElementById('departamento').value = selectedOption.getAttribute('data-departamento') || '';
+            document.getElementById('departamento_id').value = selectedOption.getAttribute('data-departamento-id') || '';
+            document.getElementById('cargo').value = selectedOption.getAttribute('data-cargo') || '';
+            document.getElementById('cargo_id').value = selectedOption.getAttribute('data-cargo-id') || '';
 
-            // Guardar los IDs en los inputs ocultos
-            document.getElementById('departamento_id').value = selectedOption.getAttribute('data-departamento-id');
-            document.getElementById('cargo_id').value = selectedOption.getAttribute('data-cargo-id');
+            // Verificar si es un supervisor
+            const isSupervisor = selectedOption.getAttribute('data-is-supervisor') === 'true';
+            const supervisorName = selectedOption.getAttribute('data-supervisor') ||
+            'N/A'; // Valor por defecto si no hay supervisor
 
-
-    
-
-            // Obtener los datos del supervisor del empleado seleccionado
-            const supervisor = selectedOption.getAttribute('data-supervisor') || 'Sin supervisor';
-
-            // Actualizar el campo de texto con el nombre del supervisor
-            document.getElementById('supervisor_name').value = supervisor;
+            if (isSupervisor) {
+                // El empleado es supervisor
+                document.getElementById('supervisor').value = 'Es Supervisor';
+                document.getElementById('supervisor_id').value = ''; // No hay supervisor ID
+            } else {
+                // El empleado tiene un supervisor asignado
+                document.getElementById('supervisor').value = supervisorName;
+                document.getElementById('supervisor_id').value = selectedOption.getAttribute('data-supervisor-id') || '';
+            }
         }
     </script>
 @endsection

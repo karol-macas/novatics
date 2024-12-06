@@ -15,7 +15,7 @@ use App\Http\Controllers\RolPagoController;
 use App\Http\Controllers\DailyController;
 use App\Http\Controllers\MatrizCumplimientoController;
 use App\Http\Controllers\ParametroController;
-
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -45,9 +45,10 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rutas que requieren autenticación
 Route::middleware(['auth'])->group(function () {
-
+    
     // Rutas comunes para administradores
     Route::middleware(['role:admin'])->group(function () {
+        
         Route::resource('empleados', EmpleadosController::class)->names([
             'index' => 'empleados.indexEmpleados',
             'store' => 'empleados.store',

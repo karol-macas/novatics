@@ -116,11 +116,14 @@
 
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
-                                            <label for="departamento_id">Departamento</label>
-                                            <select class="form-control" id="departamento_id" name="departamento_id"
-                                                required>
+                                            <label for="departamento" class="form-label">Departamento <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="departamento_id" id="departamento" class="form-select" required
+                                                onchange="filterSupervisores()">
+                                                <option value="">Selecciona un Departamento</option>
                                                 @foreach ($departamentos as $departamento)
                                                     <option value="{{ $departamento->id }}"
+                                                        data-supervisor-id="{{ $departamento->supervisor_id }}"
                                                         {{ old('departamento_id', $empleados->departamento_id) == $departamento->id ? 'selected' : '' }}>
                                                         {{ $departamento->nombre }}
                                                     </option>
@@ -133,25 +136,35 @@
                                 <div class="row">
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
-                                            <label for="supervisor_id">Supervisor</label>
-                                            <select class="form-control" id="supervisor_id" name="supervisor_id"
-                                                required>
+                                            <label for="supervisor" class="form-label">Supervisor <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="supervisor_id" id="supervisor" class="form-select">
+                                                <option value="">Selecciona un Supervisor</option>
                                                 @foreach ($supervisores as $supervisor)
-                                                    <option value="{{ $supervisor->id }}"
-                                                        {{ old('supervisor_id', $empleados->supervisor_id) == $supervisor->id ? 'selected' : '' }}>
+                                                    <option value="{{ $supervisor->empleado_id }}"
+                                                        {{ old('supervisor_id', $empleados->supervisor_id) == $supervisor->empleado_id ? 'selected' : '' }}>
                                                         {{ $supervisor->nombre_supervisor }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div>
+                                            <label for="es_supervisor">¿Es Supervisor?</label>
+                                            <input type="checkbox" id="es_supervisor" name="es_supervisor"
+                                                value="1"
+                                                {{ old('es_supervisor', $empleados->esSupervisor() ? 'checked' : '') }}>
+                                        </div>
                                     </div>
 
                                     <div class="col-md-6 mt-3">
                                         <div class="form-group">
-                                            <label for="cargo_id">Cargo</label>
-                                            <select class="form-control" id="cargo_id" name="cargo_id" required>
+                                            <label for="cargo" class="form-label">Cargo <span
+                                                    class="text-danger">*</span></label>
+                                            <select name="cargo_id" id="cargo" class="form-select" required>
+                                                <option value="">Selecciona un Cargo</option>
                                                 @foreach ($cargos as $cargo)
                                                     <option value="{{ $cargo->id }}"
+                                                        data-departamento-id="{{ $cargo->departamento_id }}"
                                                         {{ old('cargo_id', $empleados->cargo_id) == $cargo->id ? 'selected' : '' }}>
                                                         {{ $cargo->nombre_cargo }}
                                                     </option>
@@ -254,7 +267,6 @@
 
                                     </div>
                                     <div class="form-group col-md-6">
-
                                         <label for="contrato">Contrato</label>
                                         <input type="file" class="form-control" id="contrato" name="contrato">
                                         @if ($empleados->contrato)
@@ -318,9 +330,8 @@
                                                 <div class="mt-2">
                                                     <input type="number" class="form-control"
                                                         name="monto_rubro[{{ $rubro->id }}]"
-                                                        value="{{ $empleados->rubros->contains('id', $rubro->id) ? $empleados->rubros->where('id', $rubro->id)->first()->pivot->monto : '' }}"
+                                                        value="{{ $empleados->rubros->contains('id', $rubro->id) ? $empleados->rubros->where('id', $rubro->id)->first()->pivot->monto : 0 }}"
                                                         placeholder="Monto" step="0.01">
-
                                                 </div>
                                             </div>
                                         @endforeach
@@ -344,12 +355,101 @@
     </div>
 
     <script>
+        function filterSupervisores() {
+            var departamentoId = document.getElementById('departamento').value;
+
+            // Filtrar supervisores
+            if (departamentoId) {
+                fetch(`/supervisores/departamento/${departamentoId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var supervisorSelect = document.getElementById('supervisor');
+                        supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
+
+                        data.supervisores.forEach(supervisor => {
+                            var option = document.createElement('option');
+                            option.value = supervisor.empleado_id;
+                            option.textContent = supervisor.nombre_supervisor;
+                            supervisorSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            } else {
+                var supervisorSelect = document.getElementById('supervisor');
+                supervisorSelect.innerHTML = '<option value="">Selecciona un Supervisor</option>';
+            }
+
+            // Filtrar cargos
+            if (departamentoId) {
+                var cargoSelect = document.getElementById('cargo');
+                var options = cargoSelect.getElementsByTagName('option');
+                var cargosDisponibles = false; // Variable para verificar si hay cargos
+
+                // Mostrar solo los cargos que pertenecen al departamento seleccionado
+                Array.from(options).forEach(option => {
+                    var cargoDepartamentoId = option.getAttribute('data-departamento-id');
+                    if (cargoDepartamentoId === departamentoId) {
+                        option.style.display = 'block'; // Mostrar cargo
+                        cargosDisponibles = true; // Marcar que hay cargos disponibles
+                    } else {
+                        option.style.display = 'none'; // Ocultar cargo
+                    }
+                });
+
+                // Si no hay cargos disponibles, mostrar mensaje
+                if (!cargosDisponibles) {
+                    var noCargosOption = document.createElement('option');
+                    noCargosOption.disabled = true;
+                    noCargosOption.selected = true;
+                    noCargosOption.textContent = 'No hay cargos disponibles para este departamento';
+                    cargoSelect.appendChild(noCargosOption);
+                }
+            } else {
+                var cargoSelect = document.getElementById('cargo');
+                var options = cargoSelect.getElementsByTagName('option');
+
+                // Mostrar todos los cargos cuando no se selecciona un departamento
+                Array.from(options).forEach(option => {
+                    option.style.display = 'block';
+                });
+
+                // Eliminar el mensaje de "No hay cargos disponibles"
+                var noCargosOption = cargoSelect.querySelector('option[disabled]');
+                if (noCargosOption) {
+                    noCargosOption.remove();
+                }
+            }
+        }
+
         document.getElementById('rubros').addEventListener('change', function(event) {
             const montosContainer = document.getElementById('montos-container');
             montosContainer.innerHTML = '';
 
             // Obtener todos los checkboxes seleccionados
             const checkboxes = document.querySelectorAll('#rubros input[type="checkbox"]:checked');
+            if (checkboxes.length === 0) {
+                // Si no hay rubros seleccionados, asignar valor 0 por defecto
+                const montoDiv = document.createElement('div');
+                montoDiv.className = 'form-group mb-3';
+
+                const label = document.createElement('label');
+                label.textContent = 'Monto para Rubros';
+                label.htmlFor = 'montoGeneral';
+
+                const montoGeneral = document.createElement('input');
+                montoGeneral.type = 'number';
+                montoGeneral.className = 'form-control';
+                montoGeneral.id = 'montoGeneral';
+                montoGeneral.name = 'montos[general]';
+                montoGeneral.value = 0;
+                montoGeneral.placeholder = 'Monto';
+
+                montoDiv.appendChild(label);
+                montoDiv.appendChild(montoGeneral);
+                montosContainer.appendChild(montoDiv);
+            }
+
+            // Crear inputs para montos de rubros seleccionados
             checkboxes.forEach(function(checkbox) {
                 const rubroId = checkbox.value;
                 const rubroNombre = checkbox.nextElementSibling.textContent;
@@ -363,31 +463,21 @@
                 label.textContent = `Monto para ${rubroNombre}`;
                 label.htmlFor = `monto${rubroId}`;
 
-                // ver los montos actuales
-                const montoActual = document.createElement('input');
-                montoActual.type = 'number';
-                montoActual.className = 'form-control';
-                montoActual.id = `monto${rubroId}`;
-                montoActual.name = `montos[${rubroId}]`;
-                montoActual.value = 0;
-
                 // Campo de entrada para el monto
-                const input = document.createElement('input');
-                input.type = 'number';
-                input.name = `montos[${rubroId}]`;
-                input.id = `monto${rubroId}`;
-                input.className = 'form-control';
-                input.placeholder = 'Ingrese el monto';
+                const montoInput = document.createElement('input');
+                montoInput.type = 'number';
+                montoInput.className = 'form-control';
+                montoInput.id = `monto${rubroId}`;
+                montoInput.name = `montos[${rubroId}]`;
+                montoInput.value = 0; // Set value to 0 by default
+                montoInput.placeholder = 'Ingrese el monto';
 
                 // Agregar los elementos al div
                 montoDiv.appendChild(label);
-                montoDiv.appendChild(montoActual);
+                montoDiv.appendChild(montoInput);
 
                 // Agregar el div al contenedor
                 montosContainer.appendChild(montoDiv);
-
-
-
             });
         });
     </script>
